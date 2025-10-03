@@ -1,0 +1,9 @@
+{
+  "model": "claude-2.1",
+  "context": {
+    "files": [".specify/memory/constitution.md"]
+  },
+  "commands": {
+    "prefix": "/"
+  }
+}

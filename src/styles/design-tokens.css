@@ -1,0 +1,308 @@
+/**
+ * Design Tokens - VirtuQuest Design System
+ * 
+ * Sistema completo de design tokens conforme especificado em SPECS.md
+ * seções 11.2 - Design Tokens
+ */
+
+@layer base {
+  :root {
+    /* ===========================================
+       CORES SEMÂNTICAS - BASE
+       =========================================== */
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
+
+    --primary: 217 91% 60%; /* Azul institucional */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 142 76% 36%; /* Verde educacional */
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 94%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 217 91% 60%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
+
+    /* ===========================================
+       CORES EDUCACIONAIS - BNCC
+       =========================================== */
+    --bncc-competencia: 271 91% 65%; /* Roxo para competências */
+    --bncc-habilidade: 199 89% 48%; /* Azul para habilidades */
+    --bncc-objeto-conhecimento: 142 43% 39%; /* Verde para objetos */
+
+    /* ===========================================
+       TAXONOMIA DE BLOOM
+       =========================================== */
+    --bloom-lembrar: 39 100% 50%; /* Laranja */
+    --bloom-compreender: 45 100% 51%; /* Amarelo */
+    --bloom-aplicar: 142 71% 45%; /* Verde */
+    --bloom-analisar: 199 89% 48%; /* Azul */
+    --bloom-avaliar: 271 76% 53%; /* Roxo */
+    --bloom-criar: 333 71% 51%; /* Rosa */
+
+    /* ===========================================
+       VIRTUDES INTELECTUAIS
+       =========================================== */
+    --virtude-curiosidade: 199 95% 74%;
+    --virtude-humildade: 142 43% 39%;
+    --virtude-coragem: 25 95% 53%;
+    --virtude-autonomia: 262 83% 58%;
+
+    /* ===========================================
+       STATUS DE PLANOS
+       =========================================== */
+    --status-rascunho: 215.4 16.3% 46.9%;
+    --status-em-revisao: 38 92% 50%;
+    --status-pendente-aprovacao: 38 92% 50%;
+    --status-aprovado: 142 71% 45%;
+    --status-bloqueado: 0 72% 51%;
+    --status-publicado: 217 91% 60%;
+
+    /* ===========================================
+       NÍVEIS DE ENSINO
+       =========================================== */
+    --nivel-infantil-bg: 45 100% 96%;
+    --nivel-infantil-border: 45 100% 51%;
+    --nivel-infantil-text: 45 100% 25%;
+
+    --nivel-fundamental1-bg: 142 43% 95%;
+    --nivel-fundamental1-border: 142 76% 36%;
+    --nivel-fundamental1-text: 142 76% 20%;
+
+    --nivel-fundamental2-bg: 199 89% 95%;
+    --nivel-fundamental2-border: 199 89% 48%;
+    --nivel-fundamental2-text: 199 89% 25%;
+
+    --nivel-medio-bg: 271 76% 95%;
+    --nivel-medio-border: 271 76% 53%;
+    --nivel-medio-text: 271 76% 30%;
+
+    /* ===========================================
+       PRIORIDADES
+       =========================================== */
+    --prioridade-baixa: 215.4 16.3% 46.9%;
+    --prioridade-media: 38 92% 50%;
+    --prioridade-alta: 0 72% 51%;
+    --prioridade-urgente: 0 72% 51%;
+
+    /* ===========================================
+       ESPACAMENTO
+       =========================================== */
+    --spacing-xs: 0.25rem; /* 4px */
+    --spacing-sm: 0.5rem; /* 8px */
+    --spacing-md: 1rem; /* 16px */
+    --spacing-lg: 1.5rem; /* 24px */
+    --spacing-xl: 2rem; /* 32px */
+    --spacing-2xl: 3rem; /* 48px */
+    --spacing-3xl: 4rem; /* 64px */
+    --spacing-4xl: 5rem; /* 80px */
+
+    /* ===========================================
+       TIPOGRAFIA
+       =========================================== */
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-educational: 'Lexend', sans-serif; /* Otimizada para leitura */
+
+    /* Tamanhos de Fonte */
+    --text-xs: 0.75rem; /* 12px */
+    --text-sm: 0.875rem; /* 14px */
+    --text-base: 1rem; /* 16px */
+    --text-lg: 1.125rem; /* 18px */
+    --text-xl: 1.25rem; /* 20px */
+    --text-2xl: 1.5rem; /* 24px */
+    --text-3xl: 1.875rem; /* 30px */
+    --text-4xl: 2.25rem; /* 36px */
+    --text-5xl: 3rem; /* 48px */
+
+    /* Line Heights */
+    --leading-none: 1;
+    --leading-tight: 1.25;
+    --leading-snug: 1.375;
+    --leading-normal: 1.5;
+    --leading-relaxed: 1.625;
+    --leading-loose: 2;
+
+    /* ===========================================
+       BORDAS E RAIOS
+       =========================================== */
+    --radius-none: 0;
+    --radius-sm: 0.25rem; /* 4px */
+    --radius-md: 0.5rem; /* 8px */
+    --radius-lg: 0.75rem; /* 12px */
+    --radius-xl: 1rem; /* 16px */
+    --radius-2xl: 1.5rem; /* 24px */
+    --radius-full: 9999px;
+
+    /* ===========================================
+       SOMBRAS
+       =========================================== */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+    --shadow-educational: 0 0 0 3px hsl(var(--primary) / 0.1);
+
+    /* ===========================================
+       ANIMAÇÕES
+       =========================================== */
+    --animation-fast: 150ms;
+    --animation-base: 250ms;
+    --animation-slow: 350ms;
+    --animation-slower: 500ms;
+
+    /* Easing */
+    --ease-linear: linear;
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ===========================================
+     TEMA ESCURO
+     =========================================== */
+  .dark {
+    --background: 222.2 47.4% 11.2%;
+    --foreground: 213 31% 91%;
+
+    --primary: 217 91% 70%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 142 76% 46%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 223 47% 16%;
+    --muted-foreground: 215.4 16.3% 56.9%;
+
+    --accent: 216 34% 17%;
+    --accent-foreground: 213 31% 91%;
+
+    --destructive: 0 62% 61%;
+    --destructive-foreground: 213 31% 91%;
+
+    --warning: 38 92% 60%;
+    --warning-foreground: 222.2 47.4% 11.2%;
+
+    --success: 142 71% 55%;
+    --success-foreground: 222.2 47.4% 11.2%;
+
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+    --ring: 217 91% 70%;
+
+    --popover: 224 71% 4%;
+    --popover-foreground: 213 31% 91%;
+
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
+
+    /* Cores educacionais adaptadas para modo escuro */
+    --bncc-competencia: 271 91% 75%;
+    --bncc-habilidade: 199 89% 58%;
+    --bncc-objeto-conhecimento: 142 43% 49%;
+
+    --bloom-lembrar: 39 100% 60%;
+    --bloom-compreender: 45 100% 61%;
+    --bloom-aplicar: 142 71% 55%;
+    --bloom-analisar: 199 89% 58%;
+    --bloom-avaliar: 271 76% 63%;
+    --bloom-criar: 333 71% 61%;
+
+    --virtude-curiosidade: 199 95% 84%;
+    --virtude-humildade: 142 43% 49%;
+    --virtude-coragem: 25 95% 63%;
+    --virtude-autonomia: 262 83% 68%;
+
+    /* Status adaptados */
+    --status-rascunho: 215.4 16.3% 56.9%;
+    --status-em-revisao: 38 92% 60%;
+    --status-pendente-aprovacao: 38 92% 60%;
+    --status-aprovado: 142 71% 55%;
+    --status-bloqueado: 0 62% 61%;
+    --status-publicado: 217 91% 70%;
+  }
+
+  /* ===========================================
+     ESQUEMAS DE CORES PARA ACESSIBILIDADE
+     =========================================== */
+  [data-color-scheme='high-contrast'] {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    --primary: 240 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --border: 0 0% 0%;
+    --input: 0 0% 0%;
+    /* ... outros tokens de alto contraste */
+  }
+
+  .dark[data-color-scheme='high-contrast'] {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --primary: 60 100% 50%;
+    --primary-foreground: 0 0% 0%;
+    --border: 0 0% 100%;
+    --input: 0 0% 100%;
+  }
+
+  [data-color-scheme='daltonism'] {
+    /* Esquema adaptado para daltonismo - usando azuis e amarelos */
+    --primary: 240 100% 50%;
+    --secondary: 45 100% 50%;
+    --success: 240 100% 25%;
+    --warning: 45 100% 35%;
+    --destructive: 0 0% 25%;
+
+    --bloom-lembrar: 45 100% 40%;
+    --bloom-compreender: 45 100% 50%;
+    --bloom-aplicar: 240 100% 25%;
+    --bloom-analisar: 240 100% 35%;
+    --bloom-avaliar: 240 100% 45%;
+    --bloom-criar: 240 100% 55%;
+  }
+
+  /* ===========================================
+     TAMANHOS DE FONTE PARA ACESSIBILIDADE
+     =========================================== */
+  [data-font-size='large'] {
+    --text-xs: 0.875rem; /* 14px */
+    --text-sm: 1rem; /* 16px */
+    --text-base: 1.125rem; /* 18px */
+    --text-lg: 1.25rem; /* 20px */
+    --text-xl: 1.375rem; /* 22px */
+    --text-2xl: 1.625rem; /* 26px */
+    --text-3xl: 2rem; /* 32px */
+  }
+
+  [data-font-size='extra-large'] {
+    --text-xs: 1rem; /* 16px */
+    --text-sm: 1.125rem; /* 18px */
+    --text-base: 1.25rem; /* 20px */
+    --text-lg: 1.375rem; /* 22px */
+    --text-xl: 1.5rem; /* 24px */
+    --text-2xl: 1.75rem; /* 28px */
+    --text-3xl: 2.25rem; /* 36px */
+  }
+}

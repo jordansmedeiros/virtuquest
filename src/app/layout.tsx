@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, Lexend } from 'next/font/google';
 import '@/styles/globals.css';
+import { ThemeProvider } from '@/providers/theme-provider';
 
 // Font configurations
 const inter = Inter({
@@ -51,21 +52,11 @@ export const metadata: Metadata = {
 };
 
 // Root layout component
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}): Promise<JSX.Element> {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <body className={`${inter.variable} ${lexend.variable} font-sans antialiased`}>
-        {children}
-        {/* Future providers will be added here:
-            - ThemeProvider (Phase 1)
-            - AuthProvider (Phase 1)
-            - ToastProvider (Phase 1)
-            - QueryProvider (Phase 2)
-        */}
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );
