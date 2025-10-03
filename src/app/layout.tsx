@@ -34,21 +34,23 @@ export const metadata: Metadata = {
     'habilidades',
   ],
   authors: [{ name: 'Equipe VirtuQuest' }],
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-  },
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'hsl(222.2 47.4% 11.2%)' },
-    { media: '(prefers-color-scheme: dark)', color: 'hsl(210 40% 98%)' },
-  ],
   manifest: '/manifest.json',
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',
     apple: '/apple-touch-icon.png',
   },
+};
+
+// Viewport configuration (separate export as per Next.js 15 requirements)
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: 'hsl(222.2 47.4% 11.2%)' },
+    { media: '(prefers-color-scheme: dark)', color: 'hsl(210 40% 98%)' },
+  ],
 };
 
 // Root layout component

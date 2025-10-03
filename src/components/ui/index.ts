@@ -49,3 +49,4 @@ export * from './shadcn-io/theme-switcher';
 // ========================================
 export * from './toast';
 export * from './tooltip';
+export * from './like-button';

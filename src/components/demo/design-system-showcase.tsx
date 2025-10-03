@@ -38,6 +38,7 @@ import {
 } from '@/components/ui/table';
 import { Spinner } from '@/components/ui/spinner';
 import { Rating } from '@/components/ui/rating';
+import { LikeButton } from '@/components/ui/like-button';
 import { BNCCBadge } from '@/components/educational/bncc-badge';
 import { BloomIndicator } from '@/components/educational/bloom-indicator';
 import { StatusPill } from '@/components/educational/status-pill';
@@ -73,6 +74,7 @@ export function DesignSystemShowcase() {
   const [selectedTab, setSelectedTab] = useState('componentes-base');
   const [isLoading, setIsLoading] = useState(false);
   const [rating, setRating] = useState(4);
+  const [isLiked, setIsLiked] = useState(false);
 
   const handleLoadingDemo = () => {
     setIsLoading(true);
@@ -135,6 +137,10 @@ export function DesignSystemShowcase() {
                   <div className="space-y-2">
                     <p className="text-sm">Rating:</p>
                     <Rating value={rating} onRatingChange={setRating} />
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-sm">Like Button:</p>
+                    <LikeButton isLiked={isLiked} onLikeChange={setIsLiked} />
                   </div>
                   <div className="space-y-2">
                     <p className="text-sm">Loading Demo:</p>
