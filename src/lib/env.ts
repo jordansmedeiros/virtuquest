@@ -10,7 +10,7 @@ const serverSchema = z.object({
   JWT_EXPIRES_IN: z.string().default('15m'),
   JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
   DATABASE_URL: z.string().url().optional(),
-  LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default('info'),
+  LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error', 'silent']).default('info'),
   CACHE_TTL_BNCC: z.string().transform(Number).default('86400'),
   CACHE_TTL_BLOOM: z.string().transform(Number).default('86400'),
   CACHE_TTL_VIRTUDES: z.string().transform(Number).default('86400'),
@@ -65,7 +65,7 @@ function validateEnv(): z.infer<typeof envSchema> {
       const missingVars = error.errors
         .map((err) => `${err.path.join('.')}: ${err.message}`)
         .join('\n');
-      
+
       console.error('❌ Invalid environment variables:\n', missingVars);
       throw new Error('Environment validation failed');
     }

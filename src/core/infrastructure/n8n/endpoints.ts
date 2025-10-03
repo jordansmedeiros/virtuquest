@@ -214,7 +214,9 @@ export function buildEndpointURL(baseURL: string, endpoint: string): string {
  * @param path - Path a ser verificado
  * @returns true se o endpoint existe
  */
-export function isValidEndpoint(path: string): boolean {
-  const allEndpoints = Object.values(N8N_ENDPOINTS).flatMap((group) => Object.values(group));
+export function isValidEndpoint(path: string): path is keyof EndpointTypeMap {
+  const allEndpoints: string[] = Object.values(N8N_ENDPOINTS).flatMap((group) =>
+    Object.values(group)
+  );
   return allEndpoints.includes(path);
 }
