@@ -20,6 +20,7 @@
 - [design-system-showcase.tsx](file://src/components/demo/design-system-showcase.tsx) - *Atualizado no commit d28f3e7*
 - [bncc-badge.tsx](file://src/components/educational/bncc-badge.tsx) - *Atualizado no commit e43cae2*
 - [demo/page.tsx](file://src/app/demo/page.tsx) - *Atualizado no commit e43cae2*
+- [tsconfig.json](file://tsconfig.json) - *Atualizado no commit 25569a2*
 </cite>
 
 ## Atualização de Documentação
@@ -35,6 +36,8 @@
 - Atualização das fontes do documento para incluir os arquivos modificados
 - **Atualização da seção "Componentes Educacionais" para refletir a estrutura
   correta das props do BNCCBadge**
+- Atualização da seção de configuração do TypeScript com base na remoção do
+  `baseUrl` em `tsconfig.json`
 
 ## Sumário
 

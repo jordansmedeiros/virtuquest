@@ -2,7 +2,7 @@
 
 <cite>
 **Arquivos Referenciados neste Documento**   
-- [README.md](file://src/core/domain/README.md)
+- [README.md](file://README.md)
 - [CONTINUUM_PEDAGOGICO.md](file://docs/fundamentos/CONTINUUM_PEDAGOGICO.md)
 - [COMPETENCIA_BNCC.md](file://docs/fundamentos/COMPETENCIA_BNCC.md)
 - [TAXONOMIA_BLOOM_BNCC.md](file://docs/fundamentos/TAXONOMIA_BLOOM_BNCC.md)
@@ -13,7 +13,25 @@
 - [types.ts](file://src/core/domain/perrenoud/types.ts)
 - [types.ts](file://src/core/domain/virtudes/types.ts)
 - [types.ts](file://src/core/domain/shared/types.ts)
+- [validators.ts](file://src/core/domain/shared/validators.ts) - *Atualizado no commit 25569a24*
+- [mappers.ts](file://src/core/domain/shared/mappers.ts) - *Atualizado no commit 25569a24*
+- [repository.ts](file://src/core/domain/perrenoud/repository.ts) - *Implementado no commit 25569a24*
 </cite>
+
+## Atualização de Documentação
+
+**Alterações Realizadas**
+
+- Atualização da seção de Regras de Transformação com base nos validadores e
+  mapeadores implementados
+- Adição de detalhes sobre validação de progressão pedagógica e coerência entre
+  modelos
+- Atualização da seção de Aplicação Prática com exemplos baseados na
+  implementação real
+- Inclusão de novos diagramas que refletem a arquitetura de validação e
+  mapeamento
+- Atualização das fontes de seção e diagrama para refletir os arquivos
+  modificados
 
 ## Sumário
 
@@ -50,7 +68,7 @@ contextualizada de recursos cognitivos em situações-problema autênticas. A
 integração dessas teorias é possível porque cada uma preenche lacunas deixadas
 pelas outras, criando um sistema dinâmico de transformações inter-relacionadas.
 
-**Section sources**
+**Fontes da seção**
 
 - [CONTINUUM_PEDAGOGICO.md](file://docs/fundamentos/CONTINUUM_PEDAGOGICO.md#L0-L201)
 - [COMPETENCIA_BNCC.md](file://docs/fundamentos/COMPETENCIA_BNCC.md#L0-L320)
@@ -102,7 +120,7 @@ desenvolvimento propostos por cada teoria (apropriação de competências,
 progressão cognitiva, mobilização de recursos) são mutuamente reforçadores, não
 contraditórios.
 
-**Section sources**
+**Fontes da seção**
 
 - [CONTINUUM_PEDAGOGICO.md](file://docs/fundamentos/CONTINUUM_PEDAGOGICO.md#L0-L201)
 - [COMPETENCIAS_BLOOM_TAXONOMIA.md](file://docs/fundamentos/COMPETENCIAS_BLOOM_TAXONOMIA.md#L0-L888)
@@ -131,11 +149,21 @@ célula principal B2 (Conhecimento Conceitual × Compreender), pois o produto
 cognitivo esperado é a compreensão de relações causais, não a mera recordação de
 terminologias.
 
-**Section sources**
+A implementação do `MapeadorBNCCBloom` valida esta transformação, utilizando o
+verbo nuclear da descrição da habilidade para identificar o processo cognitivo e
+inferindo o tipo de conhecimento com base em palavras-chave. O mapeamento inclui
+confiança (0.85 para mapeamentos diretos, 0.5 para fallbacks) e identifica
+células secundárias quando múltiplos verbos estão presentes.
+
+**Fontes da seção**
 
 - [TAXONOMIA_BLOOM_BNCC.md](file://docs/fundamentos/TAXONOMIA_BLOOM_BNCC.md#L41-L522)
 - [types.ts](file://src/core/domain/bloom/types.ts#L0-L257)
 - [types.ts](file://src/core/domain/bncc/types.ts#L0-L224)
+- [mappers.ts](file://src/core/domain/shared/mappers.ts#L53-L192) -
+  _Implementação do MapeadorBNCCBloom_
+- [validators.ts](file://src/core/domain/shared/validators.ts#L99-L198) -
+  _Validação BNCC ↔ Bloom_
 
 ### Segunda Transformação: Bloom → Situações (Perrenoud)
 
@@ -162,10 +190,20 @@ mobilizar recursos autonomamente. O Momento 4 (Criação) transcende a competên
 inicial, desenvolvendo metacompetências, a capacidade de adaptar esquemas de
 ação a famílias de situações inéditas.
 
-**Section sources**
+O `ValidadorProgressaoPerrenoud` implementa esta transformação, validando a
+sequência esperada dos momentos didáticos e a progressão crescente de
+complexidade cognitiva. O `catalogoPerrenoud` fornece estruturas de competência,
+situações-problema e esquemas de mobilização que mapeiam diretamente para os
+momentos didáticos.
+
+**Fontes da seção**
 
 - [CONTINUUM_PEDAGOGICO.md](file://docs/fundamentos/CONTINUUM_PEDAGOGICO.md#L0-L201)
 - [types.ts](file://src/core/domain/perrenoud/types.ts#L0-L232)
+- [validators.ts](file://src/core/domain/shared/validators.ts#L281-L404) -
+  _Validação de Progressão Perrenoud_
+- [repository.ts](file://src/core/domain/perrenoud/repository.ts) - _Catálogo
+  Perrenoud_
 
 ### Terceira Transformação: A Emergência das Virtudes Intelectuais
 
@@ -190,11 +228,21 @@ processo de Criar está associado às virtudes de Curiosidade Intelectual, Corag
 Intelectual e Autonomia Intelectual, enquanto o processo de Avaliar está ligado
 à Humildade Intelectual e ao Rigor Intelectual.
 
-**Section sources**
+O `MapeadorBloomVirtudes` implementa esta transformação, sugerindo virtudes
+intelectuais com base nos processos cognitivos envolvidos. O
+`ValidadorBloomVirtudes` valida o alinhamento entre processos cognitivos e
+virtudes, garantindo que todos os processos estejam cobertos por virtudes
+apropriadas.
+
+**Fontes da seção**
 
 - [CONTINUUM_PEDAGOGICO.md](file://docs/fundamentos/CONTINUUM_PEDAGOGICO.md#L0-L201)
 - [VIRTUDES_INTELECTUAIS.md](file://docs/fundamentos/VIRTUDES_INTELECTUAIS.md#L0-L232)
 - [types.ts](file://src/core/domain/virtudes/types.ts#L0-L178)
+- [mappers.ts](file://src/core/domain/shared/mappers.ts#L199-L263) -
+  _Implementação do MapeadorBloomVirtudes_
+- [validators.ts](file://src/core/domain/shared/validators.ts#L203-L276) -
+  _Validação Bloom ↔ Virtudes_
 
 ## Progressão em Quatro Momentos Didáticos
 
@@ -245,10 +293,17 @@ foco está na produção original e na transferência criativa de conhecimentos.
 exemplo, o aluno pode desenvolver uma campanha de conscientização ambiental,
 integrando conhecimentos de Ciências, Geografia e Artes.
 
-**Section sources**
+O `ValidadorProgressaoPerrenoud` valida a sequência dos momentos didáticos,
+garantindo que sigam a ordem esperada: Apropriação → Aplicação Guiada →
+Análise/Avaliação → Criação. O validador também verifica se há progressão
+crescente de complexidade cognitiva e se a complexidade média é adequada.
+
+**Fontes da seção**
 
 - [types.ts](file://src/core/domain/perrenoud/types.ts#L0-L232)
 - [types.ts](file://src/core/domain/bloom/types.ts#L0-L257)
+- [validators.ts](file://src/core/domain/shared/validators.ts#L281-L404) -
+  _Validação de Progressão Perrenoud_
 
 ## Emergência das Virtudes Intelectuais
 
@@ -291,10 +346,19 @@ crescimento contínuo. O desenvolvimento é modelado em quatro estágios:
 sensibilização, emulação guiada, prática autônoma e habituação virtuosa, onde a
 virtude se torna uma disposição natural.
 
-**Section sources**
+O `MapeadorBloomVirtudes` implementa a ativação por processo cognitivo,
+sugerindo virtudes com base nos processos envolvidos. O `ValidadorBloomVirtudes`
+valida a cobertura de processos, garantindo que todos os processos cognitivos
+estejam associados a virtudes intelectuais apropriadas.
+
+**Fontes da seção**
 
 - [VIRTUDES_INTELECTUAIS.md](file://docs/fundamentos/VIRTUDES_INTELECTUAIS.md#L0-L232)
 - [types.ts](file://src/core/domain/virtudes/types.ts#L0-L178)
+- [mappers.ts](file://src/core/domain/shared/mappers.ts#L199-L263) -
+  _Implementação do MapeadorBloomVirtudes_
+- [validators.ts](file://src/core/domain/shared/validators.ts#L203-L276) -
+  _Validação Bloom ↔ Virtudes_
 
 ## Aplicação Prática e Exemplos
 
@@ -318,6 +382,11 @@ produção de sentido. As virtudes intelectuais mobilizadas incluem curiosidade
 intelectual para explorar diferentes gêneros textuais e rigor intelectual para
 ser sistemático na análise.
 
+O `MapeadorBNCCBloom` realiza automaticamente esta transformação, identificando
+o verbo "identificar" e mapeando para o processo de Entender (nível 2). O
+`ValidadorBNCCBloom` valida que o nível máximo de complexidade cognitiva está
+alinhado com a habilidade.
+
 ### Exemplo 2: Habilidade de Matemática (EF07MA17)
 
 A habilidade EF07MA17 ("Resolver e elaborar problemas que envolvam variação de
@@ -337,12 +406,21 @@ intelectual para aventurar-se em territórios desconhecidos, autonomia
 intelectual para gerar soluções originais e perseverança para superar
 dificuldades cognitivas.
 
-**Section sources**
+O `ConstrutorAlinhamento` integra todas as transformações, sugerindo virtudes
+intelectuais com base nos processos cognitivos envolvidos. Para esta habilidade,
+o construtor sugeriria Coragem Intelectual, Autonomia Intelectual e Perseverança
+como virtudes principais.
+
+**Fontes da seção**
 
 - [TAXONOMIA_BLOOM_BNCC.md](file://docs/fundamentos/TAXONOMIA_BLOOM_BNCC.md#L41-L522)
 - [types.ts](file://src/core/domain/bloom/types.ts#L0-L257)
 - [types.ts](file://src/core/domain/perrenoud/types.ts#L0-L232)
 - [types.ts](file://src/core/domain/virtudes/types.ts#L0-L178)
+- [mappers.ts](file://src/core/domain/shared/mappers.ts#L417-L471) - _Geração de
+  recomendações_
+- [validators.ts](file://src/core/domain/shared/validators.ts#L383-L431) -
+  _Validação de complexidade_
 
 ## Diagramas do Sistema
 
@@ -358,7 +436,7 @@ style C fill:#f96,stroke:#333,stroke-width:2px
 style D fill:#6f9,stroke:#333,stroke-width:2px
 ```
 
-**Diagramas de fontes**
+**Fontes do diagrama**
 
 - [CONTINUUM_PEDAGOGICO.md](file://docs/fundamentos/CONTINUUM_PEDAGOGICO.md#L0-L201)
 
@@ -377,10 +455,12 @@ style M3 fill:#f96,stroke:#333,stroke-width:2px
 style M4 fill:#6f9,stroke:#333,stroke-width:2px
 ```
 
-**Diagramas de fontes**
+**Fontes do diagrama**
 
 - [types.ts](file://src/core/domain/perrenoud/types.ts#L0-L232)
 - [types.ts](file://src/core/domain/bloom/types.ts#L0-L257)
+- [validators.ts](file://src/core/domain/shared/validators.ts#L281-L404) -
+  _Validação de Progressão_
 
 ```mermaid
 classDiagram
@@ -422,11 +502,36 @@ HumildadeIntelectual --|> VirtudeIntelectual
 CoragemIntelectual --|> VirtudeIntelectual
 ```
 
-**Diagramas de fontes**
+**Fontes do diagrama**
 
 - [types.ts](file://src/core/domain/virtudes/types.ts#L0-L178)
 - [types.ts](file://src/core/domain/bloom/types.ts#L0-L257)
 - [types.ts](file://src/core/domain/bncc/types.ts#L0-L224)
+- [mappers.ts](file://src/core/domain/shared/mappers.ts#L199-L263) - _Mapeamento
+  Bloom → Virtudes_
+
+```mermaid
+graph TD
+A[ValidadorBNCCBloom] --> |Valida| B[Alinhamento BNCC ↔ Bloom]
+C[ValidadorBloomVirtudes] --> |Valida| D[Alinhamento Bloom ↔ Virtudes]
+E[ValidadorProgressaoPerrenoud] --> |Valida| F[Progressão Perrenoud]
+B --> G[ValidadorAlinhamentoPedagogico]
+D --> G
+F --> G
+G --> H[Score de Qualidade Pedagógica]
+style A fill:#f9f,stroke:#333,stroke-width:2px
+style C fill:#f9f,stroke:#333,stroke-width:2px
+style E fill:#f9f,stroke:#333,stroke-width:2px
+style G fill:#6f9,stroke:#333,stroke-width:2px
+style H fill:#0f0,stroke:#333,stroke-width:2px
+```
+
+**Fontes do diagrama**
+
+- [validators.ts](file://src/core/domain/shared/validators.ts#L99-L431) -
+  _Implementação dos validadores_
+- [types.ts](file://src/core/domain/shared/types.ts#L52-L108) - _Tipos de
+  validação_
 
 ## Conclusão
 

@@ -19,7 +19,8 @@
       "Bash(pnpm run dev:*)",
       "Bash(pnpm add:*)",
       "Bash(pnpm type-check:*)",
-      "Bash(if not exist \"src\\lib\\schemas\" mkdir \"src\\lib\\schemas\")"
+      "Bash(if not exist \"src\\lib\\schemas\" mkdir \"src\\lib\\schemas\")",
+      "Bash(git log:*)"
     ],
     "deny": [],
     "ask": []

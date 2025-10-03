@@ -256,7 +256,7 @@ Verifique se:
 
 ```tsx
 // Verificação de debug
-<div className="bg-primary text-primary-foreground p-4">Teste de tema</div>
+<div className="bg-primary p-4 text-primary-foreground">Teste de tema</div>
 ```
 
 ## Monitoramento de Atualizações

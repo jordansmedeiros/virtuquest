@@ -11,6 +11,8 @@
 - [timeout.ts](file://src/core/infrastructure/resilience/timeout.ts) - *Atualizado no commit recente*
 - [catalog-cache.ts](file://src/core/infrastructure/cache/catalog-cache.ts) - *Adicionado no commit recente*
 - [use-n8n-workflow.ts](file://src/hooks/use-n8n-workflow.ts) - *Atualizado no commit recente*
+- [repository.ts](file://src/core/domain/perrenoud/repository.ts) - *Implementado no commit recente*
+- [types.ts](file://src/core/domain/perrenoud/types.ts) - *Adicionado no commit recente*
 </cite>
 
 ## Resumo das Atualizações
@@ -24,6 +26,8 @@
 - Revisão das estratégias de cache para incluir a hidratação paralela dos
   catálogos
 - Atualização dos exemplos de uso com base nas mudanças na camada de integração
+- Adição da nova implementação do repositório Perrenoud e sua integração com o
+  sistema de cache
 
 ## Sumário
 

@@ -8,6 +8,7 @@
 - [src/core/domain/bloom/types.ts](file://src/core/domain/bloom/types.ts)
 - [src/core/domain/bloom/repository.ts](file://src/core/domain/bloom/repository.ts)
 - [src/core/domain/perrenoud/types.ts](file://src/core/domain/perrenoud/types.ts)
+- [src/core/domain/perrenoud/repository.ts](file://src/core/domain/perrenoud/repository.ts)
 - [src/core/domain/virtudes/types.ts](file://src/core/domain/virtudes/types.ts)
 - [src/core/domain/virtudes/repository.ts](file://src/core/domain/virtudes/repository.ts)
 - [src/core/domain/shared/types.ts](file://src/core/domain/shared/types.ts)
@@ -369,8 +370,8 @@ console.log(valida); // false
 
 ## Agregado Perrenoud
 
-O agregado Perrenoud modela a teoria das competências de Philippe Perrenoud, que
-define competência como a capacidade de mobilizar recursos cognitivos em
+O agregado Perrenoud implementa a teoria das competências de Philippe Perrenoud,
+que define competência como a capacidade de mobilizar recursos cognitivos em
 situações-problema autênticas. Este agregado estrutura a progressão pedagógica
 em torno de situações desafiadoras.
 
@@ -407,9 +408,56 @@ Os tipos principais são definidos em `types.ts`:
 - `ProgressaoPerrenoud`: Representa uma sequência de momentos didáticos com
   situações-problema.
 
-Este agregado está em fase de MVP, com os tipos definidos mas o repositório
-ainda não implementado com dados completos. A integração com os outros agregados
-é feita principalmente através da mapeamento com a taxonomia de Bloom.
+O repositório `repository.ts` foi implementado com dados seed completos,
+fornecendo acesso a um catálogo de competências, situações-problema, esquemas de
+mobilização e recursos cognitivos exemplares. O repositório é um singleton
+imutável que permite consultas eficientes.
+
+**Section sources**
+
+- [src/core/domain/perrenoud/types.ts](file://src/core/domain/perrenoud/types.ts#L1-L232)
+- [src/core/domain/perrenoud/repository.ts](file://src/core/domain/perrenoud/repository.ts#L28-L571)
+
+### Repositório e Funcionalidades
+
+O repositório `CatalogoPerrenoudRepository` fornece acesso a uma base de dados
+rica e estruturada, com métodos para consulta e análise:
+
+- `getCompetencia(id)`: Busca uma competência pelo seu ID.
+- `listarCompetencias()`: Retorna todas as competências disponíveis.
+- `buscarCompetenciasPorTransferibilidade(transferibilidade)`: Filtra
+  competências por nível de transferibilidade.
+- `buscarCompetenciasPorComplexidade(min, max)`: Filtra competências por faixa
+  de complexidade cognitiva.
+- `getSituacaoProblema(id)`: Busca uma situação-problema pelo seu ID.
+- `listarSituacoesProblema()`: Retorna todas as situações-problema disponíveis.
+- `buscarSituacoesPorCompetencia(competenciaId)`: Encontra todas as
+  situações-problema associadas a uma competência.
+- `buscarSituacoesPorMomento(momento)`: Filtra situações-problema por momento
+  didático.
+- `getEsquemaMobilizacao(id)`: Busca um esquema de mobilização pelo seu ID.
+- `listarEsquemasMobilizacao()`: Retorna todos os esquemas de mobilização
+  disponíveis.
+- `getRecursoCognitivo(id)`: Busca um recurso cognitivo pelo seu ID.
+- `listarRecursosCognitivos()`: Retorna todos os recursos cognitivos
+  disponíveis.
+- `getRecursosNecessarios(competenciaId)`: Identifica os recursos cognitivos
+  necessários para uma competência.
+- `getEsquemasAplicaveis(contexto)`: Encontra esquemas de mobilização aplicáveis
+  a um contexto específico.
+
+O catálogo inclui três competências exemplares:
+
+- **Competência de Leitura Crítica**: Mobiliza recursos para compreender,
+  analisar criticamente e avaliar textos.
+- **Competência de Investigação Científica**: Mobiliza o método científico para
+  investigar fenômenos e validar hipóteses.
+- **Competência de Colaboração Efetiva**: Mobiliza habilidades sociais e
+  cognitivas para trabalhar em equipe na resolução de problemas.
+
+Cada competência está associada a situações-problema exemplares, esquemas de
+mobilização e recursos cognitivos específicos, formando um ecossistema rico para
+o planejamento pedagógico.
 
 ```mermaid
 classDiagram
@@ -430,6 +478,7 @@ class RecursoCognitivo {
 +categoria : TipoConhecimento
 +descricao : string
 +mobilizavel : boolean
++dominio : string
 }
 class SituacaoProblema {
 +id : string
@@ -444,6 +493,7 @@ class SituacaoProblema {
 class EsquemaMobilizacao {
 +id : string
 +nome : string
++descricao : string
 +passos : PassoCognitivo[]
 +gatilhos : string[]
 +contextoAplicacao : string[]
@@ -456,34 +506,34 @@ Competencia "1" --> "n" EsquemaMobilizacao
 **Diagram sources**
 
 - [src/core/domain/perrenoud/types.ts](file://src/core/domain/perrenoud/types.ts#L1-L232)
-
-**Section sources**
-
-- [src/core/domain/perrenoud/types.ts](file://src/core/domain/perrenoud/types.ts#L1-L232)
-- [docs/fundamentos/COMPETENCIA_BNCC.md](file://docs/fundamentos/COMPETENCIA_BNCC.md#L37-L128)
+- [src/core/domain/perrenoud/repository.ts](file://src/core/domain/perrenoud/repository.ts#L28-L571)
 
 ### Exemplo de Uso
 
 ```typescript
-import {
-  MomentoDidatico,
-  type SituacaoProblema,
-} from '@/core/domain/perrenoud';
+import { catalogoPerrenoud, MomentoDidatico } from '@/core/domain/perrenoud';
 
-// Definir situação-problema
-const situacao: SituacaoProblema = {
-  id: 'sit-001',
-  competenciaId: 'comp-001',
-  contexto: 'Comunidade escolar com problemas ambientais',
-  enunciado: 'Desenvolver campanha de conscientização sobre reciclagem...',
-  complexidade: 'complexa',
-  autenticidade: true,
-  abertura: 'aberta',
-  multiplasSolucoes: true,
-  recursosNecessarios: ['conhecimento-ecologia', 'habilidade-comunicacao'],
-  processosRequeridos: [ProcessoCognitivo.CRIAR, ProcessoCognitivo.AVALIAR],
-  momento: 'criacao',
-};
+// Buscar competência
+const competencia = catalogoPerrenoud.getCompetencia('comp-leitura-critica');
+console.log(competencia?.nome); // "Competência de Leitura Crítica"
+
+// Listar todas as situações-problema
+const situacoes = catalogoPerrenoud.listarSituacoesProblema();
+console.log(situacoes.length); // 5
+
+// Buscar situações por momento didático
+const situacoesCriacao = catalogoPerrenoud.buscarSituacoesPorMomento('criacao');
+console.log(situacoesCriacao.length); // 3
+
+// Buscar recursos necessários para uma competência
+const recursos = catalogoPerrenoud.getRecursosNecessarios(
+  'comp-investigacao-cientifica'
+);
+console.log(recursos.map((r) => r.descricao)); // ['Conceitos fundamentais de matemática', 'Método científico de investigação', ...]
+
+// Buscar esquemas aplicáveis a um contexto
+const esquemas = catalogoPerrenoud.getEsquemasAplicaveis('leitura acadêmica');
+console.log(esquemas.map((e) => e.nome)); // ['Esquema de Leitura Analítica']
 ```
 
 ## Agregado Virtudes
@@ -787,7 +837,12 @@ O editor de planos utiliza os catálogos para fornecer uma experiência de sele�
 rica:
 
 ```typescript
-import { catalogoBNCC, catalogoBloom, catalogoVirtudes } from '@/core/domain';
+import {
+  catalogoBNCC,
+  catalogoBloom,
+  catalogoPerrenoud,
+  catalogoVirtudes,
+} from '@/core/domain';
 
 // Buscar habilidades para seleção
 const habilidades = catalogoBNCC.buscarHabilidades({
@@ -802,6 +857,9 @@ const processo = catalogoBloom.identificarProcessoPorVerbo(
 
 // Identificar virtudes mobilizadas
 const virtudes = catalogoVirtudes.listarVirtudesPorProcessoBloom(processo);
+
+// Buscar situações-problema para o momento de criação
+const situacoes = catalogoPerrenoud.buscarSituacoesPorMomento('criacao');
 ```
 
 ### Motor de Análise
@@ -830,11 +888,16 @@ function analisarPlano(plano: Plano): AlinhamentoPedagogico {
 A store do Zustand armazena referências aos objetos do domínio:
 
 ```typescript
-import type { Habilidade, VirtudeIntelectual } from '@/core/domain';
+import type {
+  Habilidade,
+  VirtudeIntelectual,
+  SituacaoProblema,
+} from '@/core/domain';
 
 interface PlannerState {
   habilidadesSelecionadas: Habilidade[];
   virtudesDesenvolver: VirtudeIntelectual[];
+  situacoesProblema: SituacaoProblema[];
   // ...
 }
 ```

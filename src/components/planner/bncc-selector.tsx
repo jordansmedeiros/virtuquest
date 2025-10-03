@@ -9,16 +9,7 @@
 
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
-import {
-  Command,
-  CommandInput,
-  CommandList,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-} from '@/components/ui/command';
-import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
+import { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -26,9 +17,10 @@ import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { BNCCBadge } from '@/components/educational/bncc-badge';
 import { catalogoBNCC } from '@/core/domain/bncc';
+import { decomposeCodigoHabilidade } from '@/core/domain/bncc/decomposer';
 import type { Habilidade } from '@/core/domain/bncc/types';
 import type { BNCCSelectorProps } from '@/types/planner';
-import { Search, Check, X, ChevronDown, AlertCircle } from 'lucide-react';
+import { Search, Check, X, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
@@ -61,12 +53,10 @@ export function BNCCSelector({
   // Estado local
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTab, setSelectedTab] = useState<'competencias' | 'habilidades'>('habilidades');
-  const [expandedCompetencias, setExpandedCompetencias] = useState<Set<string>>(new Set());
-  const [isOpen, setIsOpen] = useState(false);
 
   // Obter todas as habilidades do catálogo
   const todasHabilidades = useMemo(() => {
-    return catalogoBNCC.listarTodasHabilidades();
+    return catalogoBNCC.buscarHabilidades({});
   }, []);
 
   // Filtrar habilidades baseado em busca e filtros
@@ -78,9 +68,12 @@ export function BNCCSelector({
       filtered = filtered.filter((h) => h.componenteCurricular === filterByComponente);
     }
 
-    // Filtro por ano
+    // Filtro por ano (usando decomposição do código BNCC)
     if (filterByAno) {
-      filtered = filtered.filter((h) => h.ano === filterByAno);
+      filtered = filtered.filter((h) => {
+        const decomp = decomposeCodigoHabilidade(h.codigo);
+        return decomp.anos.includes(filterByAno);
+      });
     }
 
     // Busca textual
@@ -108,7 +101,7 @@ export function BNCCSelector({
   // Habilidades selecionadas (objetos completos)
   const habilidadesSelecionadas = useMemo(() => {
     return value
-      .map((codigo) => catalogoBNCC.buscarHabilidadePorCodigo(codigo))
+      .map((codigo) => catalogoBNCC.getHabilidade(codigo))
       .filter((h): h is Habilidade => h !== null);
   }, [value]);
 
