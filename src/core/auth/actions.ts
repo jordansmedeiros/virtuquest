@@ -8,8 +8,9 @@
 import { redirect } from 'next/navigation';
 import { n8nClient } from '@/core/infrastructure/n8n';
 import { setAuthCookies, clearAuthCookies, getRefreshToken } from './cookies';
-import { verifyToken } from './jwt';
+import { verifyToken, generateToken } from './jwt';
 import { getCurrentUser as getSessionUser } from './session';
+import { isDevModeEnabled, isDevUserCredentials, getDevUser } from './dev-user';
 import type { AuthUserRequest, SessionUser, EventType } from '@/core/infrastructure/n8n/types';
 
 // ============================================================================
@@ -39,6 +40,28 @@ export async function loginAction(credentials: AuthUserRequest): Promise<ActionR
         error: 'Email e senha são obrigatórios',
       };
     }
+
+    // ========================================================================
+    // MODO DESENVOLVIMENTO - Usuário Hardcoded
+    // ========================================================================
+    if (isDevModeEnabled() && isDevUserCredentials(credentials.email, credentials.senha)) {
+      console.log('[DEV] Using hardcoded dev user in server action');
+
+      const devUser = getDevUser();
+
+      // Gerar tokens localmente
+      const token = await generateToken(devUser, 'access', 15 * 60); // 15 minutos
+      const refreshToken = await generateToken(devUser, 'refresh', 7 * 24 * 60 * 60); // 7 dias
+
+      // Gravar cookies
+      await setAuthCookies(token, refreshToken, devUser.id);
+
+      return { success: true };
+    }
+
+    // ========================================================================
+    // MODO PRODUÇÃO - Autenticação via N8N
+    // ========================================================================
 
     // Chamar N8N para autenticar
     const authResponse = await n8nClient.authenticateUser(credentials);

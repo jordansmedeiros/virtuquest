@@ -19,9 +19,8 @@ export const DEV_USER: SessionUser = {
   nome: 'Usuário Desenvolvimento',
   email: DEV_USER_CREDENTIALS.email,
   tipo: UserType.PROFESSOR,
-  instituicaoId: 'dev-instituicao-001',
-  instituicaoNome: 'Instituição de Desenvolvimento',
-  ativo: true,
+  escola: 'Escola de Desenvolvimento',
+  disciplinas: ['Matemática', 'Português'],
   permissoes: ['planejar', 'visualizar', 'editar'],
 };
 

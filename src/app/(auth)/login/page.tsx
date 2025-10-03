@@ -75,6 +75,12 @@ export default function LoginPage() {
     }
   };
 
+  // Verificar se modo dev está ativo
+  const isDevMode =
+    process.env.NODE_ENV === 'development' &&
+    process.env.NEXT_PUBLIC_DEBUG_MODE === 'true' &&
+    process.env.NEXT_PUBLIC_MOCK_N8N === 'true';
+
   return (
     <Card>
       <CardHeader>
@@ -84,6 +90,18 @@ export default function LoginPage() {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <CardContent className="space-y-4">
+          {isDevMode && (
+            <div className="rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+              <p className="mb-1 font-semibold">🔧 Modo Desenvolvimento</p>
+              <p className="text-xs">
+                Email: <code className="font-mono">dev@virtuquest.local</code>
+              </p>
+              <p className="text-xs">
+                Senha: <code className="font-mono">dev123</code>
+              </p>
+            </div>
+          )}
+
           {error && (
             <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">{error}</div>
           )}
