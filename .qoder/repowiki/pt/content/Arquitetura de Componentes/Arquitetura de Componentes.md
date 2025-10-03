@@ -21,6 +21,16 @@
 - [bncc-badge.tsx](file://src/components/educational/bncc-badge.tsx) - *Atualizado no commit e43cae2*
 - [demo/page.tsx](file://src/app/demo/page.tsx) - *Atualizado no commit e43cae2*
 - [tsconfig.json](file://tsconfig.json) - *Atualizado no commit 25569a2*
+- [bncc-selector.tsx](file://src/components/planner/bncc-selector.tsx) - *Implementado no commit dce3601e*
+- [bloom-mapper.tsx](file://src/components/planner/bloom-mapper.tsx) - *Implementado no commit dce3601e*
+- [virtues-tracker.tsx](file://src/components/planner/virtues-tracker.tsx) - *Implementado no commit dce3601e*
+- [situations-timeline.tsx](file://src/components/planner/situations-timeline.tsx) - *Implementado no commit dce3601e*
+- [moments-manager.tsx](file://src/components/planner/moments-manager.tsx) - *Implementado no commit dce3601e*
+- [bncc-tab.tsx](file://src/components/planner/bncc-tab.tsx) - *Integrado com React Hook Form no commit 4926e7c6*
+- [bloom-tab.tsx](file://src/components/planner/bloom-tab.tsx) - *Integrado com React Hook Form no commit 4926e7c6*
+- [virtues-tab.tsx](file://src/components/planner/virtues-tab.tsx) - *Integrado com React Hook Form no commit 4926e7c6*
+- [situations-tab.tsx](file://src/components/planner/situations-tab.tsx) - *Integrado com React Hook Form no commit 4926e7c6*
+- [content-tab.tsx](file://src/components/planner/content-tab.tsx) - *Integrado com React Hook Form no commit 4926e7c6*
 </cite>
 
 ## Atualização de Documentação
@@ -38,6 +48,14 @@
   correta das props do BNCCBadge**
 - Atualização da seção de configuração do TypeScript com base na remoção do
   `baseUrl` em `tsconfig.json`
+- **Adição da seção "Componentes do Editor de Planejamento" para documentar a
+  nova suíte de componentes implementada**
+- **Atualização da seção "Integração com Provider Pattern e Estado Global" para
+  incluir a integração com React Hook Form**
+- **Atualização da seção "Hierarquia de Componentes" para incluir os novos
+  componentes do plano de aula**
+- **Atualização da seção "Componentes Educacionais" para incluir os novos
+  componentes pedagógicos**
 
 ## Sumário
 
@@ -52,7 +70,8 @@
 9. [Integração com Provider Pattern e Estado Global](#integração-com-provider-pattern-e-estado-global)
 10. [Novo Componente LikeButton](#novo-componente-likebutton)
 11. [Componentes Educacionais](#componentes-educacionais)
-12. [Conclusão](#conclusão)
+12. [Componentes do Editor de Planejamento](#componentes-do-editor-de-planejamento)
+13. [Conclusão](#conclusão)
 
 ## Introdução
 
@@ -636,6 +655,209 @@ economia de espaço.
 - [demo/page.tsx](file://src/app/demo/page.tsx#L97-L100)
 - [design-system-showcase.tsx](file://src/components/demo/design-system-showcase.tsx#L212-L215)
 
+## Componentes do Editor de Planejamento
+
+A suíte de componentes do editor de planejamento foi implementada para fornecer
+uma interface completa para criação de planos de aula integrados com BNCC, Bloom
+e Virtudes.
+
+### BNCCSelector
+
+O componente `BNCCSelector` permite busca, filtro e seleção múltipla de
+habilidades da BNCC com validação pedagógica.
+
+**Interface**
+
+```typescript
+export interface BNCCSelectorProps {
+  value: string[];
+  onChange: (value: string[]) => void;
+  maxSelections?: number;
+  filterByComponente?: string;
+  filterByAno?: number;
+  showCompetencias?: boolean;
+  className?: string;
+}
+```
+
+**Funcionalidades**
+
+- Busca por código ou descrição
+- Filtros por componente curricular e ano
+- Limitação de seleções
+- Visualização de habilidades selecionadas com opção de remoção
+- Contador de seleções com alerta de limite atingido
+
+**Fontes da Seção**
+
+- [bncc-selector.tsx](file://src/components/planner/bncc-selector.tsx#L43-L258)
+
+### BloomMapper
+
+O componente `BloomMapper` fornece uma matriz visual 6×4 interativa para
+mapeamento de objetivos de aprendizagem segundo a taxonomia revisada de Bloom.
+
+**Interface**
+
+```typescript
+export interface BloomMapperProps {
+  value: {
+    principal: string;
+    secundarias: string[];
+    progressao: ProcessoCognitivo[];
+  };
+  onChange: (value: any) => void;
+  habilidadesBNCC?: string[];
+  showSuggestions?: boolean;
+  className?: string;
+}
+```
+
+**Modos de Visualização**
+
+- **Matriz**: Visualização completa da matriz 6×4 com células clicáveis
+- **Lista**: Lista de todas as células com informações detalhadas
+- **Progressão**: Visualização da progressão cognitiva com validação
+
+**Fontes da Seção**
+
+- [bloom-mapper.tsx](file://src/components/planner/bloom-mapper.tsx#L48-L385)
+
+### VirtuesTracker
+
+O componente `VirtuesTracker` gerencia a seleção de virtudes intelectuais e
+definição de estratégias pedagógicas para seu desenvolvimento.
+
+**Interface**
+
+```typescript
+export interface VirtuesTrackerProps {
+  value: {
+    virtudesFoco: string[];
+    estrategias: EstrategiaVirtude[];
+  };
+  onChange: (value: any) => void;
+  processosBloom?: ProcessoCognitivo[];
+  competenciasBNCC?: number[];
+  showSuggestions?: boolean;
+  className?: string;
+}
+```
+
+**Funcionalidades**
+
+- Seleção de virtudes com compatibilidade com processos Bloom
+- Definição de estratégias pedagógicas por virtude
+- Sugestões baseadas em habilidades BNCC e processos Bloom
+- Visualização em grade ou lista
+
+**Fontes da Seção**
+
+- [virtues-tracker.tsx](file://src/components/planner/virtues-tracker.tsx#L45-L305)
+
+### SituationsTimeline
+
+O componente `SituationsTimeline` fornece uma timeline com drag-and-drop para
+ordenação de situações-problema pelos 4 momentos didáticos de Perrenoud.
+
+**Interface**
+
+```typescript
+export interface SituationsTimelineProps {
+  value: string[];
+  onChange: (value: string[]) => void;
+  momentos: MomentoDidatico[];
+  habilidadesBNCC?: string[];
+  processosBloom?: ProcessoCognitivo[];
+  allowCustom?: boolean;
+  className?: string;
+}
+```
+
+**Funcionalidades**
+
+- Arrastar e soltar para reordenar situações
+- Agrupamento por momentos didáticos
+- Visualização em lista simples ou agrupada
+- Diálogo para adicionar novas situações
+
+**Fontes da Seção**
+
+- [situations-timeline.tsx](file://src/components/planner/situations-timeline.tsx#L117-L326)
+
+### MomentsManager
+
+O componente `MomentsManager` gerencia momentos didáticos com drag-and-drop,
+atividades e recursos.
+
+**Interface**
+
+```typescript
+export interface MomentsManagerProps {
+  value: MomentoDidaticoPlano[];
+  onChange: (value: MomentoDidaticoPlano[]) => void;
+  duracaoTotal: number;
+  situacoesDisponiveis?: any[];
+  className?: string;
+}
+```
+
+**Funcionalidades**
+
+- Reordenação com drag-and-drop
+- Expansão para visualizar detalhes
+- Validação de duração total
+- Resumo com distribuição por tipo de momento
+
+**Fontes da Seção**
+
+- [moments-manager.tsx](file://src/components/planner/moments-manager.tsx#L203-L391)
+
+### Tabs do Editor
+
+Os componentes de aba integram os componentes principais com o estado do
+formulário via React Hook Form.
+
+#### BNCCTab
+
+Integra o `BNCCSelector` com análise de alinhamento e validação.
+
+**Fontes da Seção**
+
+- [bncc-tab.tsx](file://src/components/planner/bncc-tab.tsx#L26-L135)
+
+#### BloomTab
+
+Integra o `BloomMapper` com classificação automática de habilidades BNCC.
+
+**Fontes da Seção**
+
+- [bloom-tab.tsx](file://src/components/planner/bloom-tab.tsx#L31-L204)
+
+#### VirtuesTab
+
+Integra o `VirtuesTracker` com o estado do formulário.
+
+**Fontes da Seção**
+
+- [virtues-tab.tsx](file://src/components/planner/virtues-tab.tsx#L16-L43)
+
+#### SituationsTab
+
+Integra o `SituationsTimeline` com o estado do formulário.
+
+**Fontes da Seção**
+
+- [situations-tab.tsx](file://src/components/planner/situations-tab.tsx#L17-L40)
+
+#### ContentTab
+
+Fornece campos básicos e editor rico para informações gerais do plano.
+
+**Fontes da Seção**
+
+- [content-tab.tsx](file://src/components/planner/content-tab.tsx#L49-L345)
+
 ## Conclusão
 
 A arquitetura de componentes do VirtuQuest combina as melhores práticas modernas
@@ -652,4 +874,8 @@ componente `LikeButton` exemplifica a evolução contínua do design system,
 mantendo consistência com os padrões existentes enquanto adiciona nova
 funcionalidade interativa. As atualizações no componente `BNCCBadge` refletem o
 compromisso com APIs claras e semânticamente corretas, melhorando a experiência
-do desenvolvedor e a manutenibilidade do código.
+do desenvolvedor e a manutenibilidade do código. A implementação da suíte de
+componentes do editor de planejamento demonstra a capacidade do sistema de
+suportar fluxos de trabalho complexos com integração completa entre diferentes
+domínios pedagógicos, validação em tempo real e persistência de estado através
+do React Hook Form.

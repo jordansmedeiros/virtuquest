@@ -14,6 +14,8 @@
 - [src/core/domain/shared/types.ts](file://src/core/domain/shared/types.ts)
 - [docs/fundamentos/COMPETENCIA_BNCC.md](file://docs/fundamentos/COMPETENCIA_BNCC.md)
 - [docs/development/SPECS.md](file://docs/development/SPECS.md)
+- [src/types/planner.ts](file://src/types/planner.ts) - *Atualizado no commit recente*
+- [src/lib/schemas/planner-schemas.ts](file://src/lib/schemas/planner-schemas.ts) - *Adicionado no commit recente*
 </cite>
 
 ## Sumário
@@ -56,7 +58,7 @@ separação clara de responsabilidades, garantindo que a lógica de negócio
 permaneça pura, previsível e alinhada com os fundamentos teóricos documentados
 nos arquivos de especificação.
 
-**Section sources**
+**Fontes da seção**
 
 - [src/core/domain/README.md](file://src/core/domain/README.md#L1-L435)
 
@@ -121,11 +123,11 @@ style Virtudes fill:#f9f,stroke:#333,stroke-width:2px
 style Shared fill:#bbf,stroke:#333,stroke-width:2px
 ```
 
-**Diagram sources**
+**Fontes do diagrama**
 
 - [src/core/domain/README.md](file://src/core/domain/README.md#L4-L435)
 
-**Section sources**
+**Fontes da seção**
 
 - [src/core/domain/README.md](file://src/core/domain/README.md#L4-L435)
 
@@ -214,12 +216,12 @@ CompetenciaEspecifica "1" --> "n" Habilidade
 Habilidade "n" --> "n" ObjetoConhecimento
 ```
 
-**Diagram sources**
+**Fontes do diagrama**
 
 - [src/core/domain/bncc/types.ts](file://src/core/domain/bncc/types.ts#L1-L223)
 - [src/core/domain/bncc/repository.ts](file://src/core/domain/bncc/repository.ts#L1-L410)
 
-**Section sources**
+**Fontes da seção**
 
 - [src/core/domain/bncc/types.ts](file://src/core/domain/bncc/types.ts#L1-L223)
 - [src/core/domain/bncc/repository.ts](file://src/core/domain/bncc/repository.ts#L1-L410)
@@ -328,12 +330,12 @@ ProcessoCognitivo "1" --> "n" CelulaTaxonomica
 TipoConhecimento "1" --> "n" CelulaTaxonomica
 ```
 
-**Diagram sources**
+**Fontes do diagrama**
 
 - [src/core/domain/bloom/types.ts](file://src/core/domain/bloom/types.ts#L1-L256)
 - [src/core/domain/bloom/repository.ts](file://src/core/domain/bloom/repository.ts#L1-L175)
 
-**Section sources**
+**Fontes da seção**
 
 - [src/core/domain/bloom/types.ts](file://src/core/domain/bloom/types.ts#L1-L256)
 - [src/core/domain/bloom/repository.ts](file://src/core/domain/bloom/repository.ts#L1-L175)
@@ -413,7 +415,7 @@ fornecendo acesso a um catálogo de competências, situações-problema, esquema
 mobilização e recursos cognitivos exemplares. O repositório é um singleton
 imutável que permite consultas eficientes.
 
-**Section sources**
+**Fontes da seção**
 
 - [src/core/domain/perrenoud/types.ts](file://src/core/domain/perrenoud/types.ts#L1-L232)
 - [src/core/domain/perrenoud/repository.ts](file://src/core/domain/perrenoud/repository.ts#L28-L571)
@@ -503,7 +505,7 @@ Competencia "1" --> "n" SituacaoProblema
 Competencia "1" --> "n" EsquemaMobilizacao
 ```
 
-**Diagram sources**
+**Fontes do diagrama**
 
 - [src/core/domain/perrenoud/types.ts](file://src/core/domain/perrenoud/types.ts#L1-L232)
 - [src/core/domain/perrenoud/repository.ts](file://src/core/domain/perrenoud/repository.ts#L28-L571)
@@ -614,12 +616,12 @@ VirtudeIntelectual --> CategoriaVirtude
 IndicadorVirtude --> NivelDesenvolvimento
 ```
 
-**Diagram sources**
+**Fontes do diagrama**
 
 - [src/core/domain/virtudes/types.ts](file://src/core/domain/virtudes/types.ts#L1-L178)
 - [src/core/domain/virtudes/repository.ts](file://src/core/domain/virtudes/repository.ts#L1-L317)
 
-**Section sources**
+**Fontes da seção**
 
 - [src/core/domain/virtudes/types.ts](file://src/core/domain/virtudes/types.ts#L1-L178)
 - [src/core/domain/virtudes/repository.ts](file://src/core/domain/virtudes/repository.ts#L1-L317)
@@ -724,12 +726,12 @@ style V fill:#6f9,stroke:#333
 style S fill:#96f,stroke:#333
 ```
 
-**Diagram sources**
+**Fontes do diagrama**
 
 - [src/core/domain/shared/types.ts](file://src/core/domain/shared/types.ts#L1-L175)
 - [docs/development/SPECS.md](file://docs/development/SPECS.md#L2471-L2534)
 
-**Section sources**
+**Fontes da seção**
 
 - [src/core/domain/shared/types.ts](file://src/core/domain/shared/types.ts#L1-L175)
 - [docs/development/SPECS.md](file://docs/development/SPECS.md#L2471-L2534)
@@ -786,12 +788,12 @@ Motor->>Motor : Calcula coerência
 Motor-->>Professor : AlinhamentoPedagogico (score : 92)
 ```
 
-**Diagram sources**
+**Fontes do diagrama**
 
 - [src/core/domain/README.md](file://src/core/domain/README.md#L4-L435)
 - [src/core/domain/shared/types.ts](file://src/core/domain/shared/types.ts#L1-L175)
 
-**Section sources**
+**Fontes da seção**
 
 - [src/core/domain/README.md](file://src/core/domain/README.md#L4-L435)
 - [src/core/domain/shared/types.ts](file://src/core/domain/shared/types.ts#L1-L175)
@@ -822,7 +824,7 @@ fundamentos teóricos:
 Esses princípios asseguram que a camada de domínio seja não apenas funcional,
 mas também uma representação fiel e evolutiva do conhecimento pedagógico.
 
-**Section sources**
+**Fontes da seção**
 
 - [src/core/domain/README.md](file://src/core/domain/README.md#L4-L435)
 
@@ -902,6 +904,6 @@ interface PlannerState {
 }
 ```
 
-**Section sources**
+**Fontes da seção**
 
 - [src/core/domain/README.md](file://src/core/domain/README.md#L4-L435)
