@@ -3,15 +3,16 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   // Core settings
   reactStrictMode: true,
-  swcMinify: true,
   poweredByHeader: false,
+
+  // Typed routes (moved from experimental in Next.js 15)
+  typedRoutes: true,
 
   // Experimental features (Next.js 15)
   experimental: {
     serverActions: {
       allowedOrigins: ['localhost:3000', '127.0.0.1:3000'],
     },
-    typedRoutes: true,
     optimizePackageImports: ['lucide-react', 'recharts', 'framer-motion'],
   },
 
