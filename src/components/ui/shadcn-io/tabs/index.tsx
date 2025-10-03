@@ -105,15 +105,13 @@ type TabsListProps = React.ComponentProps<'div'> & {
 };
 
 function TabsList({ children, className, activeClassName, ...props }: TabsListProps) {
-  const { activeValue } = useTabs();
-
   return (
     <div className="relative">
       <div
         role="tablist"
         data-slot="tabs-list"
         className={cn(
-          'bg-muted text-muted-foreground inline-flex h-10 w-fit items-center justify-center rounded-lg p-[4px]',
+          'inline-flex h-10 w-fit items-center justify-center rounded-lg bg-muted p-[4px] text-muted-foreground',
           className
         )}
         {...props}
@@ -121,7 +119,7 @@ function TabsList({ children, className, activeClassName, ...props }: TabsListPr
         {children}
       </div>
       <motion.div
-        className={cn('bg-background absolute rounded-sm shadow-sm', activeClassName)}
+        className={cn('absolute rounded-sm bg-background shadow-sm', activeClassName)}
         layoutId="activeTab"
         transition={{
           type: 'spring',
@@ -149,6 +147,9 @@ function TabsTrigger({ ref, value, children, className, ...props }: TabsTriggerP
     return () => registerTrigger(value, null);
   }, [value, registerTrigger]);
 
+  // Extract event handlers that conflict with framer-motion types
+  const { onDrag, onDragStart, onDragEnd, onAnimationStart, onAnimationEnd, ...restProps } = props;
+
   return (
     <motion.button
       ref={localRef}
@@ -158,10 +159,10 @@ function TabsTrigger({ ref, value, children, className, ...props }: TabsTriggerP
       onClick={() => handleValueChange(value)}
       data-state={activeValue === value ? 'active' : 'inactive'}
       className={cn(
-        'ring-offset-background focus-visible:ring-ring data-[state=active]:text-foreground z-[1] inline-flex size-full cursor-pointer items-center justify-center rounded-sm px-2 py-1 text-sm font-medium whitespace-nowrap transition-transform focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50',
+        'z-[1] inline-flex size-full cursor-pointer items-center justify-center whitespace-nowrap rounded-sm px-2 py-1 text-sm font-medium ring-offset-background transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-foreground',
         className
       )}
-      {...props}
+      {...restProps}
     >
       {children}
     </motion.button>
@@ -215,6 +216,10 @@ type TabsContentProps = React.ComponentProps<'div'> & {
 function TabsContent({ children, value, className, ...props }: TabsContentProps) {
   const { activeValue } = useTabs();
   const isActive = activeValue === value;
+
+  // Extract event handlers that conflict with framer-motion types
+  const { onDrag, onDragStart, onDragEnd, onAnimationStart, onAnimationEnd, ...restProps } = props;
+
   return (
     <motion.div
       role="tabpanel"
@@ -224,7 +229,7 @@ function TabsContent({ children, value, className, ...props }: TabsContentProps)
       animate={{ filter: isActive ? 'blur(0px)' : 'blur(4px)' }}
       exit={{ filter: 'blur(0px)' }}
       transition={{ type: 'spring', stiffness: 200, damping: 25 }}
-      {...props}
+      {...restProps}
     >
       {children}
     </motion.div>
