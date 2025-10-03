@@ -14,7 +14,6 @@
 </cite>
 
 ## Tabela de Conteúdos
-
 1. [Introdução](#introdução)
 2. [Integração Pedagógica: BNCC, Bloom e Virtudes Intelectuais](#integração-pedagógica-bncc-bloom-e-virtudes-intelectuais)
 3. [Arquitetura Técnica e Stack Tecnológica](#arquitetura-técnica-e-stack-tecnológica)
@@ -27,22 +26,11 @@
 
 ## Introdução
 
-O VirtuQuest é uma plataforma inovadora de planejamento pedagógico que integra
-harmoniosamente três pilares fundamentais da educação contemporânea: a Base
-Nacional Comum Curricular (BNCC), a Taxonomia de Bloom Revisada e o
-desenvolvimento de Virtudes Intelectuais. Esta integração é potencializada por
-assistência pedagógica com inteligência artificial, criando um ecossistema
-completo para otimização do processo educacional.
+O VirtuQuest é uma plataforma inovadora de planejamento pedagógico que integra harmoniosamente três pilares fundamentais da educação contemporânea: a Base Nacional Comum Curricular (BNCC), a Taxonomia de Bloom Revisada e o desenvolvimento de Virtudes Intelectuais. Esta integração é potencializada por assistência pedagógica com inteligência artificial, criando um ecossistema completo para otimização do processo educacional.
 
-A plataforma foi projetada como um sistema open-source que proporciona
-planejamento pedagógico multinível, abrangendo desde aula individual até
-planejamento anual, com suporte de IA para personalização e otimização. O
-VirtuQuest se posiciona como uma solução completa para educadores e gestores
-escolares, oferecendo ferramentas para planejamento de aulas, geração de
-avaliações, fluxos de aprovação e dashboard de insights pedagógicos.
+A plataforma foi projetada como um sistema open-source que proporciona planejamento pedagógico multinível, abrangendo desde aula individual até planejamento anual, com suporte de IA para personalização e otimização. O VirtuQuest se posiciona como uma solução completa para educadores e gestores escolares, oferecendo ferramentas para planejamento de aulas, geração de avaliações, fluxos de aprovação e dashboard de insights pedagógicos.
 
 **Section sources**
-
 - [README.md](file://README.md#L0-L40)
 - [SPECS.md](file://docs/development/SPECS.md#L0-L50)
 
@@ -50,67 +38,38 @@ avaliações, fluxos de aprovação e dashboard de insights pedagógicos.
 
 ### Fundamentação Teórica
 
-A integração entre a BNCC, a Taxonomia de Bloom Revisada e as Virtudes
-Intelectuais constitui uma abordagem teórico-metodológica que transcende a mera
-justaposição de frameworks, representando uma convergência estrutural entre
-políticas curriculares brasileiras e fundamentos da psicologia cognitiva
-aplicada à educação.
+A integração entre a BNCC, a Taxonomia de Bloom Revisada e as Virtudes Intelectuais constitui uma abordagem teórico-metodológica que transcende a mera justaposição de frameworks, representando uma convergência estrutural entre políticas curriculares brasileiras e fundamentos da psicologia cognitiva aplicada à educação.
 
-A BNCC organiza suas prescrições curriculares mediante competências (descrições
-amplas de aprendizagens essenciais) e habilidades (objetivos específicos
-associados a objetos de conhecimento). A Taxonomia de Bloom Revisada, por sua
-vez, apresenta uma estrutura bidimensional composta por: (a) dimensão do
-conhecimento, subdividida em conhecimento factual, conceitual, procedimental e
-metacognitivo; e (b) dimensão do processo cognitivo, organizada progressivamente
-em lembrar, compreender, aplicar, analisar, avaliar e criar.
+A BNCC organiza suas prescrições curriculares mediante competências (descrições amplas de aprendizagens essenciais) e habilidades (objetivos específicos associados a objetos de conhecimento). A Taxonomia de Bloom Revisada, por sua vez, apresenta uma estrutura bidimensional composta por: (a) dimensão do conhecimento, subdividida em conhecimento factual, conceitual, procedimental e metacognitivo; e (b) dimensão do processo cognitivo, organizada progressivamente em lembrar, compreender, aplicar, analisar, avaliar e criar.
 
 **Section sources**
-
 - [Taxonomia de Bloom e BNCC.md](file://docs/fundamentos/Taxonomia%20de%20Bloom%20e%20BNCC.md#L0-L50)
 - [Teoria das Competências e Taxonomia de Bloom.md](file://docs/fundamentos/Teoria%20das%20Competências%20e%20Taxonomia%20de%20Bloom.md#L0-L50)
 
 ### Mapeamento Taxonômico das Competências
 
-As dez competências gerais da BNCC podem ser interpretadas como objetivos
-educacionais globais, fornecendo direcionamento amplo que deve ser desdobrado em
-objetivos educacionais e instrucionais mais específicos. Na BNCC, essa
-especificidade reside nas habilidades instituídas em cada componente curricular.
+As dez competências gerais da BNCC podem ser interpretadas como objetivos educacionais globais, fornecendo direcionamento amplo que deve ser desdobrado em objetivos educacionais e instrucionais mais específicos. Na BNCC, essa especificidade reside nas habilidades instituídas em cada componente curricular.
 
-A análise taxonômica das habilidades da BNCC revela padrões significativos na
-estruturação curricular:
+A análise taxonômica das habilidades da BNCC revela padrões significativos na estruturação curricular:
 
-- **Distribuição por categoria de processo cognitivo**: Concentração pronunciada
-  nas categorias de processo cognitivo de nível intermediário-superior (Analisar
-  e Avaliar), que conjuntamente representam 66,6% das habilidades analisadas.
-- **Distribuição por tipo de conhecimento**: Predominância marcante de
-  conhecimento conceitual (77,8% das habilidades), com ausência completa de
-  conhecimento factual e metacognitivo como focos principais.
-- **Célula modal**: B4 (Conhecimento Conceitual × Analisar) emerge como célula
-  modal, sugerindo ênfase curricular em desenvolvimento de capacidades
-  analíticas fundamentadas em compreensão conceitual profunda.
+- **Distribuição por categoria de processo cognitivo**: Concentração pronunciada nas categorias de processo cognitivo de nível intermediário-superior (Analisar e Avaliar), que conjuntamente representam 66,6% das habilidades analisadas.
+- **Distribuição por tipo de conhecimento**: Predominância marcante de conhecimento conceitual (77,8% das habilidades), com ausência completa de conhecimento factual e metacognitivo como focos principais.
+- **Célula modal**: B4 (Conhecimento Conceitual × Analisar) emerge como célula modal, sugerindo ênfase curricular em desenvolvimento de capacidades analíticas fundamentadas em compreensão conceitual profunda.
 
 **Section sources**
-
 - [Taxonomia de Bloom e BNCC.md](file://docs/fundamentos/Taxonomia%20de%20Bloom%20e%20BNCC.md#L50-L100)
 - [SPECS.md](file://docs/development/SPECS.md#L50-L100)
 
 ### Virtudes Intelectuais no Contexto Educacional
 
-As Virtudes Intelectuais representam o terceiro pilar do VirtuQuest,
-complementando a dimensão cognitiva com o desenvolvimento do caráter e
-pensamento crítico. Esta dimensão reconhece que a educação efetiva não se limita
-à aquisição de conhecimentos e habilidades, mas envolve também o desenvolvimento
-de características epistemológicas e éticas do pensamento.
+As Virtudes Intelectuais representam o terceiro pilar do VirtuQuest, complementando a dimensão cognitiva com o desenvolvimento do caráter e pensamento crítico. Esta dimensão reconhece que a educação efetiva não se limita à aquisição de conhecimentos e habilidades, mas envolve também o desenvolvimento de características epistemológicas e éticas do pensamento.
 
-A integração das Virtudes Intelectuais com a BNCC e a Taxonomia de Bloom cria um
-sistema pedagógico tridimensional que aborda simultaneamente:
-
+A integração das Virtudes Intelectuais com a BNCC e a Taxonomia de Bloom cria um sistema pedagógico tridimensional que aborda simultaneamente:
 - **Domínio do conteúdo** (BNCC)
 - **Processos cognitivos** (Bloom)
 - **Desenvolvimento do caráter** (Virtudes Intelectuais)
 
 **Section sources**
-
 - [README.md](file://README.md#L40-L80)
 - [SPECS.md](file://docs/development/SPECS.md#L100-L150)
 
@@ -118,49 +77,37 @@ sistema pedagógico tridimensional que aborda simultaneamente:
 
 ### Stack Tecnológica Confirmada
 
-O VirtuQuest utiliza uma stack tecnológica moderna e robusta, cuidadosamente
-selecionada para atender às necessidades pedagógicas e técnicas da plataforma:
+O VirtuQuest utiliza uma stack tecnológica moderna e robusta, cuidadosamente selecionada para atender às necessidades pedagógicas e técnicas da plataforma:
 
-| Categoria                   | Tecnologia            | Versão          | Status         |
-| --------------------------- | --------------------- | --------------- | -------------- |
-| **Framework**               | Next.js               | 15.5.4          | ✅ Confirmado  |
-| **Linguagem**               | TypeScript            | 5.9.3           | ✅ Confirmado  |
-| **Estilização**             | Tailwind CSS          | 3.4.17          | ✅ Confirmado  |
-| **Componentes UI**          | shadcn/ui + Radix UI  | -               | ✅ Confirmado  |
-| **Gerenciamento de Estado** | Zustand               | 5.0.8           | ✅ Confirmado  |
-| **Formulários**             | React Hook Form + Zod | 7.63.0 + 4.1.11 | ✅ Confirmado  |
-| **Gráficos**                | Recharts              | 3.2.1           | ✅ Confirmado  |
-| **Animações**               | Framer Motion         | 12.23.12        | ✅ Confirmado  |
-| **Ícones**                  | Lucide React          | 0.544.0         | ✅ Confirmado  |
-| **Integração Backend**      | Webhooks N8N          | -               | ✅ Confirmado  |
-| **Gerenciador de Pacotes**  | pnpm                  | 9.x             | ✅ Recomendado |
+| Categoria | Tecnologia | Versão | Status |
+|---------|-----------|-------|-------|
+| **Framework** | Next.js | 15.5.4 | ✅ Confirmado |
+| **Linguagem** | TypeScript | 5.9.3 | ✅ Confirmado |
+| **Estilização** | Tailwind CSS | 3.4.17 | ✅ Confirmado |
+| **Componentes UI** | shadcn/ui + Radix UI | - | ✅ Confirmado |
+| **Gerenciamento de Estado** | Zustand | 5.0.8 | ✅ Confirmado |
+| **Formulários** | React Hook Form + Zod | 7.63.0 + 4.1.11 | ✅ Confirmado |
+| **Gráficos** | Recharts | 3.2.1 | ✅ Confirmado |
+| **Animações** | Framer Motion | 12.23.12 | ✅ Confirmado |
+| **Ícones** | Lucide React | 0.544.0 | ✅ Confirmado |
+| **Integração Backend** | Webhooks N8N | - | ✅ Confirmado |
+| **Gerenciador de Pacotes** | pnpm | 9.x | ✅ Recomendado |
 
 **Section sources**
-
 - [README.md](file://README.md#L95-L140)
 - [DEPENDENCY_VERSIONS.md](file://docs/development/DEPENDENCY_VERSIONS.md#L0-L50)
 
 ### Decisões Arquiteturais
 
-A arquitetura do VirtuQuest foi projetada com base em princípios de separação de
-responsabilidades e escalabilidade. A plataforma adota uma arquitetura
-frontend-backend onde o frontend (Next.js) é exclusivamente responsável pela
-interface e orquestração, enquanto toda a lógica de negócio, persistência e
-processamento de IA residem no backend (N8N).
+A arquitetura do VirtuQuest foi projetada com base em princípios de separação de responsabilidades e escalabilidade. A plataforma adota uma arquitetura frontend-backend onde o frontend (Next.js) é exclusivamente responsável pela interface e orquestração, enquanto toda a lógica de negócio, persistência e processamento de IA residem no backend (N8N).
 
 Principais decisões arquiteturais:
-
-1. **Separação de Responsabilidades**: O Next.js é exclusivamente interface e
-   orquestração. TODA lógica de negócio, persistência e IA residem no N8N.
-2. **Comunicação Assíncrona**: Todas as operações com N8N devem ser
-   não-bloqueantes, com tratamento adequado de estados de loading e erro.
-3. **Cache Inteligente**: Implementar cache no frontend para dados estáticos
-   (BNCC, Bloom, Virtudes) mas sempre validar com backend para dados dinâmicos.
-4. **Tipagem Rigorosa**: TypeScript com strict mode. Todos os contratos de API
-   devem ter interfaces correspondentes.
+1. **Separação de Responsabilidades**: O Next.js é exclusivamente interface e orquestração. TODA lógica de negócio, persistência e IA residem no N8N.
+2. **Comunicação Assíncrona**: Todas as operações com N8N devem ser não-bloqueantes, com tratamento adequado de estados de loading e erro.
+3. **Cache Inteligente**: Implementar cache no frontend para dados estáticos (BNCC, Bloom, Virtudes) mas sempre validar com backend para dados dinâmicos.
+4. **Tipagem Rigorosa**: TypeScript com strict mode. Todos os contratos de API devem ter interfaces correspondentes.
 
 **Section sources**
-
 - [SPECS.md](file://docs/development/SPECS.md#L600-L650)
 - [env.ts](file://src/lib/env.ts#L0-L30)
 
@@ -168,8 +115,7 @@ Principais decisões arquiteturais:
 
 ### Estrutura de Diretórios
 
-A estrutura de diretórios do VirtuQuest reflete a arquitetura modular da
-aplicação:
+A estrutura de diretórios do VirtuQuest reflete a arquitetura modular da aplicação:
 
 ```
 virtuquest/
@@ -204,7 +150,6 @@ virtuquest/
 ```
 
 **Section sources**
-
 - [SPECS.md](file://docs/development/SPECS.md#L190-L270)
 - [README.md](file://README.md#L140-L180)
 
@@ -238,16 +183,13 @@ interface PlanoAula {
 ```
 
 **Section sources**
-
 - [SPECS.md](file://docs/development/SPECS.md#L270-L350)
 
 ## Casos de Uso Primários
 
 ### Planejamento de Aulas
 
-O VirtuQuest permite o planejamento integrado de aulas com alinhamento
-automático à BNCC, Taxonomia de Bloom e Virtudes Intelectuais. Os professores
-podem criar planos de aula que especificam:
+O VirtuQuest permite o planejamento integrado de aulas com alinhamento automático à BNCC, Taxonomia de Bloom e Virtudes Intelectuais. Os professores podem criar planos de aula que especificam:
 
 - Competências e habilidades da BNCC
 - Objetivos cognitivos segundo a Taxonomia de Bloom
@@ -255,47 +197,38 @@ podem criar planos de aula que especificam:
 - Conteúdo pedagógico
 - Avaliações multidimensionais
 
-O sistema oferece sugestões inteligentes com base na IA, facilitando o processo
-de planejamento e garantindo coerência pedagógica.
+O sistema oferece sugestões inteligentes com base na IA, facilitando o processo de planejamento e garantindo coerência pedagógica.
 
 **Section sources**
-
 - [README.md](file://README.md#L40-L60)
 - [SPECS.md](file://docs/development/SPECS.md#L350-L400)
 
 ### Geração de Avaliações
 
-A plataforma permite a geração de avaliações multidimensionais que avaliam
-simultaneamente:
+A plataforma permite a geração de avaliações multidimensionais que avaliam simultaneamente:
 
 - Domínio do conteúdo (BNCC)
 - Processos cognitivos (Bloom)
 - Desenvolvimento de virtudes (Virtudes Intelectuais)
 
-As avaliações podem ser geradas automaticamente com base no planejamento da
-aula, ou criadas manualmente com suporte de IA para sugestões de questões e
-critérios de avaliação.
+As avaliações podem ser geradas automaticamente com base no planejamento da aula, ou criadas manualmente com suporte de IA para sugestões de questões e critérios de avaliação.
 
 **Section sources**
-
 - [README.md](file://README.md#L60-L70)
 - [SPECS.md](file://docs/development/SPECS.md#L400-L450)
 
 ### Dashboard de Insights
 
-O dashboard de insights fornece uma visão consolidada do progresso pedagógico,
-incluindo:
+O dashboard de insights fornece uma visão consolidada do progresso pedagógico, incluindo:
 
 - Cobertura da BNCC por disciplina e turma
 - Desenvolvimento das Virtudes Intelectuais
 - Progressão na Taxonomia de Bloom
 - Métricas de engajamento e desempenho
 
-Os gestores escolares podem utilizar esses insights para tomada de decisões
-estratégicas e acompanhamento do alinhamento curricular.
+Os gestores escolares podem utilizar esses insights para tomada de decisões estratégicas e acompanhamento do alinhamento curricular.
 
 **Section sources**
-
 - [README.md](file://README.md#L70-L80)
 - [SPECS.md](file://docs/development/SPECS.md#L450-L500)
 
@@ -303,9 +236,7 @@ estratégicas e acompanhamento do alinhamento curricular.
 
 ### Arquitetura de Integração
 
-O VirtuQuest utiliza uma arquitetura de integração baseada em webhooks N8N, onde
-o frontend (Next.js) se comunica com o backend (N8N) através de requisições HTTP
-assíncronas. Esta arquitetura permite:
+O VirtuQuest utiliza uma arquitetura de integração baseada em webhooks N8N, onde o frontend (Next.js) se comunica com o backend (N8N) através de requisições HTTP assíncronas. Esta arquitetura permite:
 
 - Processamento centralizado no N8N
 - Integração com múltiplas fontes de dados
@@ -319,34 +250,33 @@ const N8N_ENDPOINTS = {
     criar: '/webhook/user/create',
     autenticar: '/webhook/user/auth',
     atualizar: '/webhook/user/update',
-    listar: '/webhook/user/list',
+    listar: '/webhook/user/list'
   },
-
+  
   // Planejamento
   planejamento: {
     criarPlano: '/webhook/planning/create',
     atualizarPlano: '/webhook/planning/update',
     aprovarPlano: '/webhook/planning/approve',
-    consultarPlanos: '/webhook/planning/query',
+    consultarPlanos: '/webhook/planning/query'
   },
-
+  
   // IA
   ia: {
     sugerirConteudo: '/webhook/ai/suggest-content',
     analisarAlinhamento: '/webhook/ai/analyze-alignment',
-    gerarAvaliacao: '/webhook/ai/generate-assessment',
+    gerarAvaliacao: '/webhook/ai/generate-assessment'
   },
-
+  
   // Relatórios
   relatorios: {
     progressoBNCC: '/webhook/reports/bncc-progress',
-    desenvolvimentoVirtudes: '/webhook/reports/virtues-development',
-  },
+    desenvolvimentoVirtudes: '/webhook/reports/virtues-development'
+  }
 };
 ```
 
 **Section sources**
-
 - [SPECS.md](file://docs/development/SPECS.md#L500-L580)
 - [env.ts](file://src/lib/env.ts#L0-L30)
 
@@ -364,7 +294,6 @@ C --> |Negado| H[Erro 403]
 ```
 
 **Diagram sources**
-
 - [SPECS.md](file://docs/development/SPECS.md#L700-L720)
 
 ### Variáveis de Ambiente para Integração
@@ -384,7 +313,6 @@ N8N_WEBHOOK_SECRET=your_n8n_webhook_secret_here
 ```
 
 **Section sources**
-
 - [.env.example](file://.env.example#L10-L20)
 - [env.ts](file://src/lib/env.ts#L0-L10)
 
@@ -392,38 +320,30 @@ N8N_WEBHOOK_SECRET=your_n8n_webhook_secret_here
 
 ### Cenário 1: Planejamento de Aula de Matemática
 
-Um professor de matemática utiliza o VirtuQuest para planejar uma aula sobre
-proporcionalidade. O sistema sugere:
+Um professor de matemática utiliza o VirtuQuest para planejar uma aula sobre proporcionalidade. O sistema sugere:
 
-- **BNCC**: Habilidade EF07MA17 (Resolver e elaborar problemas que envolvem
-  variação de proporcionalidade direta e de proporcionalidade inversa)
+- **BNCC**: Habilidade EF07MA17 (Resolver e elaborar problemas que envolvem variação de proporcionalidade direta e de proporcionalidade inversa)
 - **Bloom**: Nível "Criar" (elaborar problemas originais)
 - **Virtudes Intelectuais**: Curiosidade e autonomia
 
-O professor aceita as sugestões e o sistema gera automaticamente uma avaliação
-com questões que avaliam simultaneamente o domínio do conteúdo, os processos
-cognitivos e as virtudes intelectuais.
+O professor aceita as sugestões e o sistema gera automaticamente uma avaliação com questões que avaliam simultaneamente o domínio do conteúdo, os processos cognitivos e as virtudes intelectuais.
 
 **Section sources**
-
 - [Taxonomia de Bloom e BNCC.md](file://docs/fundamentos/Taxonomia%20de%20Bloom%20e%20BNCC.md#L500-L550)
 - [SPECS.md](file://docs/development/SPECS.md#L350-L400)
 
 ### Cenário 2: Aprovação de Planejamento pela Gestão
 
-Um coordenador pedagógico recebe uma notificação sobre um plano de aula pendente
-de aprovação. No dashboard, ele visualiza:
+Um coordenador pedagógico recebe uma notificação sobre um plano de aula pendente de aprovação. No dashboard, ele visualiza:
 
 - Alinhamento com a BNCC (95% de cobertura)
 - Distribuição dos objetivos na Taxonomia de Bloom
 - Virtudes Intelectuais desenvolvidas
 - Sugestões de IA para melhorias
 
-Após análise, o coordenador aprova o plano, que passa para o status "APROVADO" e
-fica disponível para o professor.
+Após análise, o coordenador aprova o plano, que passa para o status "APROVADO" e fica disponível para o professor.
 
 **Section sources**
-
 - [README.md](file://README.md#L60-L70)
 - [SPECS.md](file://docs/development/SPECS.md#L400-L450)
 
@@ -444,7 +364,6 @@ H --> I[Tomada de Decisão]
 ```
 
 **Diagram sources**
-
 - [README.md](file://README.md#L40-L80)
 - [SPECS.md](file://docs/development/SPECS.md#L0-L100)
 
@@ -465,29 +384,13 @@ B --> A
 ```
 
 **Diagram sources**
-
 - [SPECS.md](file://docs/development/SPECS.md#L200-L250)
 - [env.ts](file://src/lib/env.ts#L0-L30)
 
 ## Conclusão
 
-O VirtuQuest representa uma inovação significativa no campo do planejamento
-pedagógico, integrando harmoniosamente os três pilares fundamentais da educação
-contemporânea: BNCC, Taxonomia de Bloom e Virtudes Intelectuais. A plataforma
-combina uma fundamentação teórica sólida com uma arquitetura técnica moderna e
-robusta, baseada em Next.js e N8N, criando um ecossistema completo para
-otimização do processo educacional.
+O VirtuQuest representa uma inovação significativa no campo do planejamento pedagógico, integrando harmoniosamente os três pilares fundamentais da educação contemporânea: BNCC, Taxonomia de Bloom e Virtudes Intelectuais. A plataforma combina uma fundamentação teórica sólida com uma arquitetura técnica moderna e robusta, baseada em Next.js e N8N, criando um ecossistema completo para otimização do processo educacional.
 
-A integração com IA através de webhooks N8N permite sugestões pedagógicas
-inteligentes, geração automática de avaliações e análise de alinhamento
-pedagógico, enquanto o dashboard de insights fornece uma visão consolidada do
-progresso educacional. Esta combinação de fundamentação pedagógica e tecnologia
-avançada posiciona o VirtuQuest como uma solução completa para educadores e
-gestores escolares que buscam elevar a qualidade do ensino.
+A integração com IA através de webhooks N8N permite sugestões pedagógicas inteligentes, geração automática de avaliações e análise de alinhamento pedagógico, enquanto o dashboard de insights fornece uma visão consolidada do progresso educacional. Esta combinação de fundamentação pedagógica e tecnologia avançada posiciona o VirtuQuest como uma solução completa para educadores e gestores escolares que buscam elevar a qualidade do ensino.
 
-A arquitetura modular e a stack tecnológica moderna garantem escalabilidade e
-manutenibilidade, enquanto a integração com N8N permite flexibilidade e
-automação de fluxos de trabalho. O VirtuQuest demonstra como a tecnologia pode
-ser utilizada para potencializar a educação, criando um sistema que vai além do
-planejamento tradicional, promovendo um ensino mais alinhado, eficiente e
-centrado no desenvolvimento integral do aluno.
+A arquitetura modular e a stack tecnológica moderna garantem escalabilidade e manutenibilidade, enquanto a integração com N8N permite flexibilidade e automação de fluxos de trabalho. O VirtuQuest demonstra como a tecnologia pode ser utilizada para potencializar a educação, criando um sistema que vai além do planejamento tradicional, promovendo um ensino mais alinhado, eficiente e centrado no desenvolvimento integral do aluno.

@@ -9,7 +9,6 @@
 </cite>
 
 ## Sumário
-
 1. [Introdução](#introdução)
 2. [Estrutura do Projeto](#estrutura-do-projeto)
 3. [Validação e Tipagem de Variáveis de Ambiente](#validação-e-tipagem-de-variáveis-de-ambiente)
@@ -24,51 +23,37 @@
 
 ## Introdução
 
-A camada de integração com API do VirtuQuest é projetada para fornecer uma
-arquitetura backend-less eficiente, utilizando webhooks N8N para automatizar
-fluxos de trabalho pedagógicos. Este documento detalha a arquitetura, segurança,
-autenticação e integrações que permitem a criação de planos de aula, geração de
-avaliações e sincronização offline, tudo integrado com plataformas externas como
-Khan Academy e Google Forms.
+A camada de integração com API do VirtuQuest é projetada para fornecer uma arquitetura backend-less eficiente, utilizando webhooks N8N para automatizar fluxos de trabalho pedagógicos. Este documento detalha a arquitetura, segurança, autenticação e integrações que permitem a criação de planos de aula, geração de avaliações e sincronização offline, tudo integrado com plataformas externas como Khan Academy e Google Forms.
 
 **Section sources**
-
 - [README.md](file://README.md#L1-L277)
 
 ## Estrutura do Projeto
 
-A estrutura do projeto é organizada para facilitar a manutenção e
-escalabilidade. Os principais diretórios incluem:
+A estrutura do projeto é organizada para facilitar a manutenção e escalabilidade. Os principais diretórios incluem:
 
 - `src/app/`: Páginas Next.js com App Router
-- `src/components/`: Componentes React, incluindo UI base (shadcn/ui) e
-  componentes educacionais
+- `src/components/`: Componentes React, incluindo UI base (shadcn/ui) e componentes educacionais
 - `src/core/`: Lógica de domínio e infraestrutura de integração com N8N
 - `src/lib/`: Utilitários e helpers, incluindo validação de ambiente
 - `src/stores/`: Gerenciamento de estado com Zustand
 - `docs/`: Documentação técnica e pedagógica
 
-A configuração do Next.js é centralizada em `next.config.ts`, enquanto as
-variáveis de ambiente são gerenciadas em `src/lib/env.ts`.
+A configuração do Next.js é centralizada em `next.config.ts`, enquanto as variáveis de ambiente são gerenciadas em `src/lib/env.ts`.
 
 **Section sources**
-
 - [README.md](file://README.md#L150-L180)
 
 ## Validação e Tipagem de Variáveis de Ambiente
 
-O arquivo `env.ts` implementa um sistema robusto de validação e tipagem de
-variáveis de ambiente utilizando Zod, garantindo segurança e consistência na
-configuração da aplicação.
+O arquivo `env.ts` implementa um sistema robusto de validação e tipagem de variáveis de ambiente utilizando Zod, garantindo segurança e consistência na configuração da aplicação.
 
 ### Separação de Configurações de Servidor e Cliente
 
 A validação é dividida em dois esquemas distintos:
 
-- **Variáveis do Servidor (Privadas)**: Acessíveis apenas no lado do servidor,
-  incluindo segredos sensíveis
-- **Variáveis do Cliente (Públicas)**: Prefixadas com `NEXT_PUBLIC_`,
-  disponíveis no navegador
+- **Variáveis do Servidor (Privadas)**: Acessíveis apenas no lado do servidor, incluindo segredos sensíveis
+- **Variáveis do Cliente (Públicas)**: Prefixadas com `NEXT_PUBLIC_`, disponíveis no navegador
 
 ```mermaid
 classDiagram
@@ -98,7 +83,6 @@ ClientEnv <|-- CombinedEnv : "merge"
 ```
 
 **Diagram sources**
-
 - [env.ts](file://src/lib/env.ts#L1-L88)
 
 ### Validação com Zod
@@ -112,14 +96,12 @@ O Zod é utilizado para validar e transformar as variáveis de ambiente:
 - **Comprimento Mínimo**: Segredos devem ter pelo menos 32 caracteres
 
 **Section sources**
-
 - [env.ts](file://src/lib/env.ts#L1-L88)
 - [.env.example](file://.env.example#L1-L106)
 
 ## Arquitetura Backend-less com Webhooks N8N
 
-A arquitetura backend-less do VirtuQuest utiliza N8N como orquestrador de fluxos
-de trabalho, eliminando a necessidade de um backend tradicional.
+A arquitetura backend-less do VirtuQuest utiliza N8N como orquestrador de fluxos de trabalho, eliminando a necessidade de um backend tradicional.
 
 ### Benefícios da Arquitetura
 
@@ -130,8 +112,7 @@ de trabalho, eliminando a necessidade de um backend tradicional.
 
 ### Configuração no Next.js
 
-O `next.config.ts` configura reescritas para rotear requisições API para a
-instância N8N:
+O `next.config.ts` configura reescritas para rotear requisições API para a instância N8N:
 
 ```typescript
 async rewrites() {
@@ -145,14 +126,12 @@ async rewrites() {
 ```
 
 **Section sources**
-
 - [next.config.ts](file://next.config.ts#L1-L112)
 - [README.md](file://README.md#L1-L277)
 
 ## Fluxo de Dados: Frontend para N8N
 
-O fluxo de dados segue um padrão consistente desde o frontend até a execução no
-N8N.
+O fluxo de dados segue um padrão consistente desde o frontend até a execução no N8N.
 
 ### Sequência de Processamento
 
@@ -172,7 +151,6 @@ API-->>Frontend : Resposta Formatada
 ```
 
 **Diagram sources**
-
 - [env.ts](file://src/lib/env.ts#L1-L88)
 - [next.config.ts](file://next.config.ts#L1-L112)
 
@@ -186,8 +164,7 @@ Os formulários no frontend utilizam Zod para validação em tempo real:
 
 ## Padrões de Segurança
 
-A segurança é implementada em múltiplas camadas para proteger dados sensíveis e
-garantir integridade.
+A segurança é implementada em múltiplas camadas para proteger dados sensíveis e garantir integridade.
 
 ### Headers de Segurança
 
@@ -203,7 +180,6 @@ A --> F["Permissions-Policy: camera=(), microphone=(), geolocation=()"]
 ```
 
 **Diagram sources**
-
 - [next.config.ts](file://next.config.ts#L44-L65)
 
 ### Rate Limiting
@@ -215,13 +191,11 @@ Implementado para prevenir abuso:
 - **Logs detalhados para monitoramento**
 
 **Section sources**
-
 - [.env.example](file://.env.example#L70-L75)
 
 ## Autenticação JWT
 
-O sistema utiliza JWT (JSON Web Tokens) para autenticação segura entre frontend
-e N8N.
+O sistema utiliza JWT (JSON Web Tokens) para autenticação segura entre frontend e N8N.
 
 ### Estrutura de Tokens
 
@@ -249,7 +223,6 @@ Auth-->>Frontend : Novo Access Token
 ```
 
 **Section sources**
-
 - [env.ts](file://src/lib/env.ts#L1-L88)
 
 ## Tratamento de Erros
@@ -258,10 +231,8 @@ O tratamento de erros é centralizado e padronizado em toda a aplicação.
 
 ### Estratégias de Tratamento
 
-- **Validação de Ambiente**: Falha na inicialização se variáveis estiverem
-  ausentes
-- **Logging Estruturado**: Níveis de log configuráveis (debug, info, warn,
-  error)
+- **Validação de Ambiente**: Falha na inicialização se variáveis estiverem ausentes
+- **Logging Estruturado**: Níveis de log configuráveis (debug, info, warn, error)
 - **Mensagens de Erro Claras**: Feedback útil para desenvolvedores
 - **Segurança de Informações**: Erros detalhados apenas em desenvolvimento
 
@@ -285,7 +256,6 @@ function validateEnv(): z.infer<typeof envSchema> {
 ```
 
 **Section sources**
-
 - [env.ts](file://src/lib/env.ts#L70-L85)
 
 ## Exemplos de Webhooks
@@ -311,7 +281,6 @@ Os webhooks N8N são utilizados para automatizar diversos fluxos pedagógicos.
 - **Ações**: Atualização de banco de dados, resolução de conflitos
 
 **Section sources**
-
 - [README.md](file://README.md#L1-L277)
 
 ## Feature Flags e Integrações Externas
@@ -320,13 +289,13 @@ O sistema utiliza feature flags para controle granular de funcionalidades.
 
 ### Feature Flags Implementadas
 
-| Flag                              | Descrição              | Valor Padrão |
-| --------------------------------- | ---------------------- | ------------ |
-| `NEXT_PUBLIC_ENABLE_AI_ASSISTANT` | Habilita assistente IA | true         |
-| `NEXT_PUBLIC_ENABLE_GAMIFICATION` | Habilita gamificação   | false        |
-| `NEXT_PUBLIC_ENABLE_TELEMETRY`    | Habilita telemetria    | true         |
-| `NEXT_PUBLIC_ENABLE_OFFLINE_MODE` | Habilita modo offline  | true         |
-| `NEXT_PUBLIC_MOCK_N8N`            | Usa mock para N8N      | false        |
+| Flag | Descrição | Valor Padrão |
+|------|-----------|------------|
+| `NEXT_PUBLIC_ENABLE_AI_ASSISTANT` | Habilita assistente IA | true |
+| `NEXT_PUBLIC_ENABLE_GAMIFICATION` | Habilita gamificação | false |
+| `NEXT_PUBLIC_ENABLE_TELEMETRY` | Habilita telemetria | true |
+| `NEXT_PUBLIC_ENABLE_OFFLINE_MODE` | Habilita modo offline | true |
+| `NEXT_PUBLIC_MOCK_N8N` | Usa mock para N8N | false |
 
 ### Integrações Externas
 
@@ -335,16 +304,9 @@ O sistema utiliza feature flags para controle granular de funcionalidades.
 - **SEduc**: Sincronização com sistemas estaduais de educação
 
 **Section sources**
-
 - [env.ts](file://src/lib/env.ts#L1-L88)
 - [.env.example](file://.env.example#L1-L106)
 
 ## Conclusão
 
-A camada de integração com API do VirtuQuest demonstra uma arquitetura moderna e
-eficiente, combinando as vantagens do backend-less com a flexibilidade dos
-webhooks N8N. A rigorosa validação de ambiente com Zod, a segurança implementada
-em múltiplas camadas e a integração com plataformas educacionais externas criam
-um sistema robusto para planejamento pedagógico. Esta abordagem permite que
-educadores se concentrem no ensino, enquanto a tecnologia cuida da automação e
-integração necessárias.
+A camada de integração com API do VirtuQuest demonstra uma arquitetura moderna e eficiente, combinando as vantagens do backend-less com a flexibilidade dos webhooks N8N. A rigorosa validação de ambiente com Zod, a segurança implementada em múltiplas camadas e a integração com plataformas educacionais externas criam um sistema robusto para planejamento pedagógico. Esta abordagem permite que educadores se concentrem no ensino, enquanto a tecnologia cuida da automação e integração necessárias.

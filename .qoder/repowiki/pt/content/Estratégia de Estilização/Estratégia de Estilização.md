@@ -11,7 +11,6 @@
 </cite>
 
 ## Sumário
-
 1. [Introdução](#introdução)
 2. [Configuração do Tailwind CSS](#configuração-do-tailwind-css)
 3. [Sistema de Cores Educacional](#sistema-de-cores-educacional)
@@ -24,28 +23,18 @@
 
 ## Introdução
 
-A estratégia de estilização do VirtuQuest é baseada no Tailwind CSS 4, com um
-sistema de design robusto que integra princípios pedagógicos e acessibilidade. O
-sistema utiliza variáveis CSS para gerenciar temas, modos claro/escuro, esquemas
-de cores alternativos e tamanhos de fonte, permitindo uma personalização
-completa da interface. A arquitetura de estilização foi projetada para suportar
-o contexto educacional do sistema, com cores semânticas alinhadas à BNCC,
-Taxonomia de Bloom e Virtudes Intelectuais.
+A estratégia de estilização do VirtuQuest é baseada no Tailwind CSS 4, com um sistema de design robusto que integra princípios pedagógicos e acessibilidade. O sistema utiliza variáveis CSS para gerenciar temas, modos claro/escuro, esquemas de cores alternativos e tamanhos de fonte, permitindo uma personalização completa da interface. A arquitetura de estilização foi projetada para suportar o contexto educacional do sistema, com cores semânticas alinhadas à BNCC, Taxonomia de Bloom e Virtudes Intelectuais.
 
 ## Configuração do Tailwind CSS
 
-A configuração do Tailwind CSS é definida no arquivo `tailwind.config.ts`, que
-estabelece as bases do sistema de design do VirtuQuest.
+A configuração do Tailwind CSS é definida no arquivo `tailwind.config.ts`, que estabelece as bases do sistema de design do VirtuQuest.
 
 **Section sources**
-
 - [tailwind.config.ts](file://tailwind.config.ts#L1-L105)
 
 ### Temas e Cores
 
-O sistema de cores é baseado em variáveis CSS que permitem a troca dinâmica de
-temas. As cores são organizadas em categorias semânticas que seguem o padrão
-shadcn/ui, com extensões específicas para o contexto educacional.
+O sistema de cores é baseado em variáveis CSS que permitem a troca dinâmica de temas. As cores são organizadas em categorias semânticas que seguem o padrão shadcn/ui, com extensões específicas para o contexto educacional.
 
 ```mermaid
 classDiagram
@@ -79,15 +68,12 @@ ThemeColors <|-- EducationalColors : "extends"
 ```
 
 **Diagram sources**
-
 - [tailwind.config.ts](file://tailwind.config.ts#L47-L86)
 - [src/styles/design-tokens.css](file://src/styles/design-tokens.css#L36-L84)
 
 ### Breakpoints e Responsividade
 
-O sistema de breakpoints é configurado para suportar dispositivos móveis,
-tablets e desktops, garantindo uma experiência responsiva em todos os
-dispositivos.
+O sistema de breakpoints é configurado para suportar dispositivos móveis, tablets e desktops, garantindo uma experiência responsiva em todos os dispositivos.
 
 ```mermaid
 flowchart TD
@@ -103,37 +89,28 @@ G --> K["Large Desktop: Grid avançado"]
 ```
 
 **Diagram sources**
-
 - [tailwind.config.ts](file://tailwind.config.ts#L1-L105)
 - [src/types/theme.ts](file://src/types/theme.ts#L93-L144)
 
 ### Plugins e Extensões
 
-O sistema não utiliza plugins externos no momento, mantendo uma configuração
-limpa e focada nas funcionalidades nativas do Tailwind CSS. Isso garante maior
-controle sobre o sistema de estilos e evita dependências desnecessárias.
+O sistema não utiliza plugins externos no momento, mantendo uma configuração limpa e focada nas funcionalidades nativas do Tailwind CSS. Isso garante maior controle sobre o sistema de estilos e evita dependências desnecessárias.
 
 ## Sistema de Cores Educacional
 
-O sistema de cores do VirtuQuest é projetado especificamente para o contexto
-educacional, com paletas que representam conceitos pedagógicos importantes.
+O sistema de cores do VirtuQuest é projetado especificamente para o contexto educacional, com paletas que representam conceitos pedagógicos importantes.
 
 ### Cores BNCC
 
-As cores da BNCC são usadas para representar competências e habilidades
-curriculares, facilitando a identificação visual de conteúdos alinhados à Base
-Nacional Comum Curricular.
+As cores da BNCC são usadas para representar competências e habilidades curriculares, facilitando a identificação visual de conteúdos alinhados à Base Nacional Comum Curricular.
 
 **Section sources**
-
 - [tailwind.config.ts](file://tailwind.config.ts#L47-L52)
 - [src/styles/design-tokens.css](file://src/styles/design-tokens.css#L36-L40)
 
 ### Taxonomia de Bloom
 
-Cada nível da Taxonomia de Bloom possui uma cor específica, criando uma escala
-visual que representa a progressão do pensamento cognitivo, desde o simples ato
-de lembrar até a criação de novos conhecimentos.
+Cada nível da Taxonomia de Bloom possui uma cor específica, criando uma escala visual que representa a progressão do pensamento cognitivo, desde o simples ato de lembrar até a criação de novos conhecimentos.
 
 ```mermaid
 flowchart LR
@@ -151,30 +128,24 @@ style F fill:#ec4899,stroke:#ec4899,color:white
 ```
 
 **Diagram sources**
-
 - [tailwind.config.ts](file://tailwind.config.ts#L53-L64)
 - [src/styles/design-tokens.css](file://src/styles/design-tokens.css#L41-L46)
 
 ### Virtudes Intelectuais
 
-As virtudes intelectuais possuem cores que representam seus valores, ajudando a
-reforçar conceitos de caráter e pensamento crítico na interface do usuário.
+As virtudes intelectuais possuem cores que representam seus valores, ajudando a reforçar conceitos de caráter e pensamento crítico na interface do usuário.
 
 **Section sources**
-
 - [tailwind.config.ts](file://tailwind.config.ts#L65-L70)
 - [src/styles/design-tokens.css](file://src/styles/design-tokens.css#L47-L52)
 
 ## Modo Escuro e Variáveis CSS
 
-O sistema de temas do VirtuQuest é baseado em variáveis CSS, permitindo uma
-transição suave entre modos claro e escuro, além de suportar esquemas de cores
-alternativos.
+O sistema de temas do VirtuQuest é baseado em variáveis CSS, permitindo uma transição suave entre modos claro e escuro, além de suportar esquemas de cores alternativos.
 
 ### Estrutura de Variáveis
 
-As variáveis CSS são definidas no arquivo `design-tokens.css`, que contém todos
-os tokens de design do sistema.
+As variáveis CSS são definidas no arquivo `design-tokens.css`, que contém todos os tokens de design do sistema.
 
 ```mermaid
 classDiagram
@@ -228,13 +199,11 @@ DesignTokens <|-- ThemeVariants : "defines"
 ```
 
 **Diagram sources**
-
 - [src/styles/design-tokens.css](file://src/styles/design-tokens.css#L1-L220)
 
 ### Implementação do ThemeProvider
 
-O `ThemeProvider` gerencia o estado do tema, esquema de cores e tamanho da
-fonte, persistindo as preferências do usuário no localStorage.
+O `ThemeProvider` gerencia o estado do tema, esquema de cores e tamanho da fonte, persistindo as preferências do usuário no localStorage.
 
 ```mermaid
 sequenceDiagram
@@ -255,19 +224,16 @@ ThemeProvider->>DOM : Atualiza tema automaticamente
 ```
 
 **Diagram sources**
-
 - [src/providers/theme-provider.tsx](file://src/providers/theme-provider.tsx#L34-L156)
 - [src/types/theme.ts](file://src/types/theme.ts#L1-L42)
 
 **Section sources**
-
 - [src/providers/theme-provider.tsx](file://src/providers/theme-provider.tsx#L1-L198)
 - [src/types/theme.ts](file://src/types/theme.ts#L1-L144)
 
 ## Organização de Classes Utilitárias
 
-O sistema utiliza uma organização clara das camadas do Tailwind CSS para manter
-a separação de responsabilidades.
+O sistema utiliza uma organização clara das camadas do Tailwind CSS para manter a separação de responsabilidades.
 
 ### Camadas do Tailwind
 
@@ -284,23 +250,19 @@ I --> K["Classes de utilidade específica"]
 ```
 
 **Diagram sources**
-
 - [src/styles/globals.css](file://src/styles/globals.css#L1-L33)
 
 ### Uso de @apply
 
-O `@apply` é utilizado para criar classes reutilizáveis e manter a consistência
-visual, especialmente em componentes personalizados.
+O `@apply` é utilizado para criar classes reutilizáveis e manter a consistência visual, especialmente em componentes personalizados.
 
 **Section sources**
-
 - [src/styles/globals.css](file://src/styles/globals.css#L1-L33)
 - [src/components/ui/button.tsx](file://src/components/ui/button.tsx#L6-L30)
 
 ## Implementação de Componentes Estilizados
 
-A implementação de novos componentes deve seguir padrões consistentes para
-garantir a integridade do design system.
+A implementação de novos componentes deve seguir padrões consistentes para garantir a integridade do design system.
 
 ### Exemplo de Componente Educacional
 
@@ -321,7 +283,6 @@ E --> F["Documentar uso"]
 ```
 
 **Section sources**
-
 - [src/components/ui/button.tsx](file://src/components/ui/button.tsx#L38-L45)
 - [src/types/theme.ts](file://src/types/theme.ts#L93-L144)
 
@@ -329,13 +290,11 @@ E --> F["Documentar uso"]
 
 ### Consistência Visual
 
-Mantenha a consistência visual utilizando os tokens de design definidos no
-sistema. Evite cores hard-coded e sempre utilize as variáveis CSS.
+Mantenha a consistência visual utilizando os tokens de design definidos no sistema. Evite cores hard-coded e sempre utilize as variáveis CSS.
 
 ### Acessibilidade de Cores
 
-O sistema inclui esquemas de cores alternativos para usuários com deficiências
-visuais, como o esquema de alto contraste e o esquema para daltonismo.
+O sistema inclui esquemas de cores alternativos para usuários com deficiências visuais, como o esquema de alto contraste e o esquema para daltonismo.
 
 ```mermaid
 graph LR
@@ -348,28 +307,23 @@ D --> G["Cores distinguíveis"]
 ```
 
 **Diagram sources**
-
 - [src/styles/design-tokens.css](file://src/styles/design-tokens.css#L134-L218)
 
 ### Responsividade
 
-Todos os componentes devem ser responsivos, adaptando-se a diferentes tamanhos
-de tela e orientações.
+Todos os componentes devem ser responsivos, adaptando-se a diferentes tamanhos de tela e orientações.
 
 **Section sources**
-
 - [tailwind.config.ts](file://tailwind.config.ts#L1-L105)
 - [src/types/theme.ts](file://src/types/theme.ts#L93-L144)
 
 ## Integração com Componentes UI
 
-Os componentes UI do sistema são construídos com base no shadcn/ui, estendendo
-seus estilos para integrar-se ao design system educacional.
+Os componentes UI do sistema são construídos com base no shadcn/ui, estendendo seus estilos para integrar-se ao design system educacional.
 
 ### Componente Button
 
-O componente Button é um exemplo de como os componentes UI são estilizados com
-base no sistema de design.
+O componente Button é um exemplo de como os componentes UI são estilizados com base no sistema de design.
 
 ```mermaid
 classDiagram
@@ -395,19 +349,11 @@ ButtonVariants --> ButtonClasses : "defines"
 ```
 
 **Diagram sources**
-
 - [src/components/ui/button.tsx](file://src/components/ui/button.tsx#L6-L30)
 
 **Section sources**
-
 - [src/components/ui/button.tsx](file://src/components/ui/button.tsx#L1-L45)
 
 ## Conclusão
 
-A estratégia de estilização do VirtuQuest combina a flexibilidade do Tailwind
-CSS com um sistema de design educacional robusto, criando uma experiência visual
-coesa e pedagogicamente significativa. O uso de variáveis CSS permite uma
-personalização completa da interface, enquanto o sistema de cores educacional
-reforça conceitos importantes para os usuários do sistema. A integração com o
-ThemeProvider garante que as preferências do usuário sejam persistentes e
-aplicadas consistentemente em toda a aplicação.
+A estratégia de estilização do VirtuQuest combina a flexibilidade do Tailwind CSS com um sistema de design educacional robusto, criando uma experiência visual coesa e pedagogicamente significativa. O uso de variáveis CSS permite uma personalização completa da interface, enquanto o sistema de cores educacional reforça conceitos importantes para os usuários do sistema. A integração com o ThemeProvider garante que as preferências do usuário sejam persistentes e aplicadas consistentemente em toda a aplicação.

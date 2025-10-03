@@ -4,36 +4,31 @@
 **Arquivos Referenciados neste Documento**  
 - [layout.tsx](file://src/app/layout.tsx)
 - [page.tsx](file://src/app/page.tsx)
-- [button.tsx](file://src/components/ui/button.tsx)
+- [main-layout.tsx](file://src/components/layouts/main-layout.tsx)
+- [header.tsx](file://src/components/layouts/header.tsx)
+- [sidebar.tsx](file://src/components/layouts/sidebar.tsx)
 - [theme-provider.tsx](file://src/providers/theme-provider.tsx)
-- [next.config.ts](file://next.config.ts)
-- [tailwind.config.ts](file://tailwind.config.ts)
+- [theme-switcher/index.tsx](file://src/components/ui/shadcn-io/theme-switcher/index.tsx)
 </cite>
 
 ## Sumário
-
 1. [Introdução](#introdução)
 2. [Estrutura do Projeto](#estrutura-do-projeto)
 3. [Componente RootLayout](#componente-rootlayout)
-4. [Página Inicial (page.tsx)](#página-inicial-pagetxsx)
-5. [Componente Button](#componente-button)
-6. [Diagrama de Árvore de Componentes](#diagrama-de-árvore-de-componentes)
-7. [Padrões de Composição](#padrões-de-composição)
-8. [Boas Práticas](#boas-práticas)
+4. [Componente MainLayout](#componente-mainlayout)
+5. [Componentes Header e Sidebar](#componentes-header-e-sidebar)
+6. [Página Inicial (page.tsx)](#página-inicial-pagetxsx)
+7. [Diagrama de Árvore de Componentes](#diagrama-de-árvore-de-componentes)
+8. [Padrões de Composição](#padrões-de-composição)
+9. [Boas Práticas](#boas-práticas)
 
 ## Introdução
 
-Este documento detalha a hierarquia de componentes do sistema VirtuQuest, uma
-plataforma de planejamento pedagógico integrado. A arquitetura é baseada no App
-Router do Next.js e utiliza padrões modernos de desenvolvimento React com
-TypeScript, Tailwind CSS e shadcn/ui. A estrutura é projetada para ser
-escalável, acessível e facilmente mantida, com foco em desacoplamento e
-reutilização de componentes.
+Este documento detalha a hierarquia de componentes do sistema VirtuQuest, uma plataforma de planejamento pedagógico integrado. A arquitetura é baseada no App Router do Next.js e utiliza padrões modernos de desenvolvimento React com TypeScript, Tailwind CSS e shadcn/ui. A estrutura foi recentemente atualizada para implementar um sistema de layout completo conforme especificado nas diretrizes do projeto, com componentes de navegação integrados e suporte a dispositivos móveis.
 
 ## Estrutura do Projeto
 
-A estrutura do projeto segue uma organização baseada em funcionalidades e
-camadas, com ênfase na separação de preocupações:
+A estrutura do projeto segue uma organização baseada em funcionalidades e camadas, com ênfase na separação de preocupações:
 
 ```
 virtuquest/
@@ -50,89 +45,148 @@ virtuquest/
 ```
 
 **Section sources**
-
 - [README.md](file://README.md#L115-L159)
 
 ## Componente RootLayout
 
-O componente `RootLayout` é o componente raiz da aplicação, definido em
-`src/app/layout.tsx`. Ele envolve todas as páginas do aplicativo e é responsável
-por definir a estrutura base do documento HTML, metadados globais, fontes e
-espaço para provedores globais.
+O componente `RootLayout` é o componente raiz da aplicação, definido em `src/app/layout.tsx`. Ele envolve todas as páginas do aplicativo e é responsável por definir a estrutura base do documento HTML, metadados globais, fontes e espaço para provedores globais.
 
 ### Funções Principais
 
-1. **Definição de Metadados Globais**: O componente exporta um objeto `metadata`
-   que define informações como título, descrição, palavras-chave, ícones e
-   configurações de viewport que são aplicadas a todas as páginas.
+1. **Definição de Metadados Globais**: O componente exporta um objeto `metadata` que define informações como título, descrição, palavras-chave, ícones e configurações de viewport que são aplicadas a todas as páginas.
 
-2. **Configuração de Fontes**: Utiliza o sistema de fontes do Next.js para
-   carregar e configurar duas fontes:
+2. **Configuração de Fontes**: Utiliza o sistema de fontes do Next.js para carregar e configurar duas fontes:
    - `Inter` como fonte principal (`--font-sans`)
    - `Lexend` como fonte educacional (`--font-educational`)
 
-3. **Estrutura HTML Base**: Define a estrutura básica do documento HTML com o
-   atributo `lang="pt-BR"` e classes que aplicam as variáveis de fonte.
+3. **Estrutura HTML Base**: Define a estrutura básica do documento HTML com o atributo `lang="pt-BR"` e classes que aplicam as variáveis de fonte.
 
-4. **Espaço para Provedores Globais**: O componente inclui comentários que
-   indicam onde futuros provedores globais serão adicionados, como
-   `ThemeProvider`, `AuthProvider`, `ToastProvider` e `QueryProvider`.
+4. **Provedor de Tema Global**: O componente envolve os `children` com o `ThemeProvider`, que gerencia o tema da aplicação (claro, escuro ou sistema) e persiste as preferências do usuário no localStorage.
 
 ### Integração com App Router
 
-O `RootLayout` integra-se com o App Router do Next.js como o layout raiz da
-aplicação. Ele recebe a propriedade `children` que representa o conteúdo da
-página atual sendo renderizada. A propagação do `children` permite que cada
-página tenha seu conteúdo específico enquanto compartilha a estrutura base
-definida no layout.
+O `RootLayout` integra-se com o App Router do Next.js como o layout raiz da aplicação. Ele recebe a propriedade `children` que representa o conteúdo da página atual sendo renderizada. A propagação do `children` permite que cada página tenha seu conteúdo específico enquanto compartilha a estrutura base definida no layout.
 
 ```mermaid
 flowchart TD
 A[RootLayout] --> B[html]
 B --> C[body]
-C --> D[children]
-D --> E[Página Atual]
+C --> D[ThemeProvider]
+D --> E[children]
+E --> F[Página Atual]
 ```
 
 **Diagram sources**
-
-- [layout.tsx](file://src/app/layout.tsx#L54-L80)
+- [layout.tsx](file://src/app/layout.tsx#L54-L62)
 
 **Section sources**
-
 - [layout.tsx](file://src/app/layout.tsx#L0-L80)
+
+## Componente MainLayout
+
+O componente `MainLayout`, definido em `src/components/layouts/main-layout.tsx`, é um novo componente introduzido para implementar um sistema de layout completo com navegação integrada. Ele substitui a estrutura anterior de layout simples, adicionando cabeçalho, barra lateral e suporte a dispositivos móveis.
+
+### Arquitetura e Funcionalidade
+
+O `MainLayout` é um componente cliente que gerencia o estado de navegação e integra vários componentes de layout:
+
+1. **Gerenciamento de Estado**: Utiliza o hook `useState` para controlar o estado do menu móvel (`isMobileMenuOpen`).
+
+2. **Integração de Componentes**: Combina três componentes principais:
+   - `Header`: Cabeçalho com navegação e controle de tema
+   - `Sidebar`: Barra lateral com menu de navegação
+   - `Sheet`: Componente modal para menu móvel
+
+3. **Comportamento Responsivo**: Implementa uma abordagem responsiva onde:
+   - Em dispositivos móveis: A barra lateral é exibida como um `Sheet` (drawer) que pode ser aberto/fechado
+   - Em dispositivos maiores: A barra lateral é exibida permanentemente no lado esquerdo
+
+4. **Propagação de Children**: O conteúdo principal da página é renderizado dentro do `main` com um container responsivo que ajusta o padding com base no tamanho da tela.
+
+### Estrutura de Layout
+
+A estrutura do `MainLayout` é organizada em três colunas principais:
+
+- **Header**: Fixo no topo da página com z-index elevado
+- **Sidebar**: Fixa no lado esquerdo em telas maiores, transformada em drawer em telas menores
+- **Main Content**: Área flexível que ocupa o espaço restante e contém o conteúdo da página
+
+```mermaid
+flowchart TD
+A[MainLayout] --> B[Header]
+A --> C[Flex Container]
+C --> D[Desktop Sidebar]
+C --> E[Mobile Sidebar Sheet]
+C --> F[Main Content]
+F --> G[Container Responsivo]
+G --> H[children]
+```
+
+**Diagram sources**
+- [main-layout.tsx](file://src/components/layouts/main-layout.tsx#L20-L59)
+
+**Section sources**
+- [main-layout.tsx](file://src/components/layouts/main-layout.tsx#L0-L60)
+
+## Componentes Header e Sidebar
+
+Os componentes `Header` e `Sidebar` são componentes de layout reutilizáveis que implementam a navegação da aplicação.
+
+### Componente Header
+
+O `Header`, localizado em `src/components/layouts/header.tsx`, é um componente de cabeçalho com as seguintes características:
+
+1. **Navegação Responsiva**: Inclui um botão de menu móvel que aparece apenas em telas menores, permitindo alternar a visibilidade da barra lateral.
+
+2. **Controle de Tema**: Integra o `ThemeSwitcher` que permite ao usuário alternar entre temas claro, escuro e automático (sistema).
+
+3. **Informações do Usuário**: Exibe o nome do usuário logado (ex: "Prof. Maria") em telas maiores.
+
+4. **Estilização Avançada**: Utiliza backdrop blur para criar um efeito de sobreposição transparente que mantém a legibilidade enquanto permite ver o conteúdo abaixo.
+
+### Componente Sidebar
+
+O `Sidebar`, definido em `src/components/layouts/sidebar.tsx`, é um componente de navegação com organização hierárquica:
+
+1. **Organização por Seções**: Os itens de navegação são agrupados em seções lógicas:
+   - Planejamento (Planos de Aula, Cronograma)
+   - Recursos (Biblioteca BNCC, Taxonomia Bloom, Virtudes)
+   - Gestão (Relatórios, Turmas)
+
+2. **Itens de Navegação Enriquecidos**: Cada item inclui:
+   - Ícone visual
+   - Título destacado
+   - Descrição secundária
+
+3. **Suporte a Mobile**: Recebe uma função `onItemClick` que é chamada quando um item é selecionado, permitindo fechar o menu em dispositivos móveis.
+
+4. **Acessibilidade**: Utiliza elementos semânticos e atributos ARIA para melhorar a acessibilidade.
+
+**Section sources**
+- [header.tsx](file://src/components/layouts/header.tsx#L0-L84)
+- [sidebar.tsx](file://src/components/layouts/sidebar.tsx#L0-L153)
 
 ## Página Inicial (page.tsx)
 
-A página inicial, definida em `src/app/page.tsx`, é um componente filho do
-`RootLayout` que renderiza o conteúdo principal da aplicação. Ela utiliza um
-layout responsivo com grid e classes do Tailwind CSS.
+A página inicial, definida em `src/app/page.tsx`, é um componente filho do `RootLayout` que renderiza o conteúdo principal da aplicação. Ela utiliza um layout responsivo com grid e classes do Tailwind CSS.
 
 ### Estrutura e Estilização
 
 A página utiliza um layout flexível com as seguintes características:
 
-- **Container Principal**: Utiliza `min-h-screen` para ocupar toda a altura da
-  tela e `flex flex-col` para organizar o conteúdo verticalmente.
-- **Gradiente de Fundo**: Aplica um gradiente suave com
-  `bg-gradient-to-br from-blue-50 to-indigo-100`.
-- **Grid Responsivo**: Utiliza `grid grid-cols-1 md:grid-cols-2` para criar uma
-  grade que se adapta a diferentes tamanhos de tela.
-- **Espaçamento**: Usa classes como `p-8`, `mb-4`, `mb-8` para controle preciso
-  de espaçamento.
+- **Container Principal**: Utiliza `min-h-screen` para ocupar toda a altura da tela e `flex flex-col` para organizar o conteúdo verticalmente.
+- **Gradiente de Fundo**: Aplica um gradiente suave com `bg-gradient-to-br from-blue-50 to-indigo-100`.
+- **Grid Responsivo**: Utiliza `grid grid-cols-1 md:grid-cols-2` para criar uma grade que se adapta a diferentes tamanhos de tela.
+- **Espaçamento**: Usa classes como `p-8`, `mb-4`, `mb-8` para controle preciso de espaçamento.
 
 ### Conteúdo e Funcionalidade
 
 A página inclui:
 
 1. **Logo e Título**: Elementos principais com tipografia destacada.
-2. **Seção de Recursos**: Quatro cards que destacam os principais recursos do
-   sistema (Alinhamento BNCC, Taxonomia de Bloom, Virtudes Intelectuais,
-   Integração com IA).
-3. **Botões de Ação**: Dois botões principais ("Entrar" e "Saber Mais") que
-   direcionam para outras partes do sistema.
-4. **Notificação de Desenvolvimento**: Um aviso destacado indicando que esta é
-   uma página temporária que será substituída na Fase 1.
+2. **Seção de Recursos**: Quatro cards que destacam os principais recursos do sistema (Alinhamento BNCC, Taxonomia de Bloom, Virtudes Intelectuais, Integração com IA).
+3. **Botões de Ação**: Dois botões principais ("Entrar" e "Saber Mais") que direcionam para outras partes do sistema.
+4. **Notificação de Desenvolvimento**: Um aviso destacado indicando que esta é uma página temporária que será substituída na Fase 1.
 
 ```mermaid
 flowchart TD
@@ -151,158 +205,89 @@ B --> M[Notificação]
 ```
 
 **Diagram sources**
-
 - [page.tsx](file://src/app/page.tsx#L3-L70)
 
 **Section sources**
-
 - [page.tsx](file://src/app/page.tsx#L0-L84)
-
-## Componente Button
-
-O componente `Button`, localizado em `src/components/ui/button.tsx`, é um
-exemplo de componente UI reutilizável que segue os princípios de design system.
-Ele é implementado com base no shadcn/ui e Radix UI.
-
-### Arquitetura e Implementação
-
-O componente utiliza várias técnicas avançadas:
-
-1. **Class Variance Authority (CVA)**: Usa a função `cva` para definir variantes
-   de estilo (default, destructive, outline, secondary, ghost, link) e tamanhos
-   (default, sm, lg, icon).
-
-2. **Composição com Slot**: Utiliza o componente `Slot` do Radix UI para
-   permitir que o botão seja renderizado como outro elemento HTML quando a
-   propriedade `asChild` é verdadeira.
-
-3. **Tipagem Avançada**: Define uma interface `ButtonProps` que estende as
-   propriedades padrão de um botão HTML e inclui variantes específicas.
-
-4. **Encaminhamento de Ref**: Usa `React.forwardRef` para encaminhar a
-   referência do DOM para o elemento subjacente, permitindo acesso direto ao nó
-   DOM quando necessário.
-
-### Variantes e Uso
-
-O componente oferece múltiplas variantes para diferentes contextos de uso:
-
-- **default**: Botão primário com fundo colorido
-- **destructive**: Para ações destrutivas (ex: deletar)
-- **outline**: Contorno sem preenchimento
-- **secondary**: Estilo secundário
-- **ghost**: Apenas hover com fundo
-- **link**: Estilo de link com sublinhado
-
-```mermaid
-classDiagram
-class Button {
-+className : string
-+variant : "default"|"destructive"|"outline"|"secondary"|"ghost"|"link"
-+size : "default"|"sm"|"lg"|"icon"
-+asChild : boolean
-+...props : any
-}
-class buttonVariants {
-+variants : object
-+defaultVariants : object
-}
-Button --> buttonVariants : "usa"
-Button --> Slot : "usa quando asChild"
-Button --> "button" : "usa quando não asChild"
-```
-
-**Diagram sources**
-
-- [button.tsx](file://src/components/ui/button.tsx#L41-L52)
-
-**Section sources**
-
-- [button.tsx](file://src/components/ui/button.tsx#L0-L56)
 
 ## Diagrama de Árvore de Componentes
 
-O diagrama abaixo representa a hierarquia completa de componentes descrita neste
-documento:
+O diagrama abaixo representa a hierarquia completa de componentes descrita neste documento:
 
 ```mermaid
 flowchart TD
 A[RootLayout] --> B[html]
 B --> C[body]
-C --> D[children]
-D --> E[HomePage]
-E --> F[Container Principal]
-F --> G[Logo/Título]
-F --> H[Subtítulo]
-F --> I[Seção de Recursos]
-I --> J[Card BNCC]
-I --> K[Card Bloom]
-I --> L[Card Virtudes]
-I --> M[Card IA]
-F --> N[Botões de Ação]
-N --> O[Button - Entrar]
-N --> P[Button - Saber Mais]
-F --> Q[Notificação]
+C --> D[ThemeProvider]
+D --> E[MainLayout]
+E --> F[Header]
+E --> G[Flex Container]
+G --> H[Desktop Sidebar]
+G --> I[Mobile Sidebar Sheet]
+G --> J[Main Content]
+J --> K[Container Responsivo]
+K --> L[HomePage]
+L --> M[Container Principal]
+M --> N[Logo/Título]
+M --> O[Subtítulo]
+M --> P[Seção de Recursos]
+P --> Q[Card BNCC]
+P --> R[Card Bloom]
+P --> S[Card Virtudes]
+P --> T[Card IA]
+M --> U[Botões de Ação]
+U --> V[Entrar]
+U --> W[Saber Mais]
+M --> X[Notificação]
 style A fill:#4f46e5,stroke:#3730a3,color:white
 style E fill:#7c3aed,stroke:#6d28d9,color:white
-style O fill:#4f46e5,stroke:#3730a3,color:white
-style P fill:#ffffff,stroke:#4f46e5,color:#4f46e5
+style L fill:#4f46e5,stroke:#3730a3,color:white
 ```
 
 **Diagram sources**
-
-- [layout.tsx](file://src/app/layout.tsx#L54-L80)
+- [layout.tsx](file://src/app/layout.tsx#L54-L62)
+- [main-layout.tsx](file://src/components/layouts/main-layout.tsx#L20-L59)
 - [page.tsx](file://src/app/page.tsx#L3-L70)
-- [button.tsx](file://src/components/ui/button.tsx#L41-L52)
 
 ## Padrões de Composição
 
-A hierarquia de componentes no VirtuQuest segue vários padrões de composição
-importantes:
+A hierarquia de componentes no VirtuQuest segue vários padrões de composição importantes:
 
 ### Propagação de Children
 
-O padrão de `children` é fundamental na arquitetura. O `RootLayout` recebe
-`children` como propriedade e os renderiza dentro da estrutura HTML base. Este
-padrão permite que cada página tenha seu conteúdo específico enquanto
-compartilha a estrutura comum.
+O padrão de `children` é fundamental na arquitetura. O `RootLayout` recebe `children` como propriedade e os renderiza dentro da estrutura HTML base. O `MainLayout` então recebe esses `children` e os posiciona na área de conteúdo principal. Este padrão permite que cada página tenha seu conteúdo específico enquanto compartilha a estrutura comum.
 
 ```tsx
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR">
-      <body>{children}</body>
+      <body>
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }
 ```
 
-### Composição de Provedores
+### Composição de Layout
 
-Embora os provedores ainda não estejam implementados, o código inclui
-comentários que indicam onde eles serão adicionados. Este padrão de "provedores
-futuros" permite planejar a arquitetura de estado global antecipadamente.
+O novo padrão de composição envolve múltiplos níveis de layout:
+1. `RootLayout`: Estrutura HTML base e provedores globais
+2. `MainLayout`: Estrutura de navegação com header, sidebar e conteúdo
+3. Páginas específicas: Conteúdo específico para cada rota
 
 ### Composição de Estilos
 
 A aplicação utiliza uma combinação de técnicas de estilização:
 
-1. **Variáveis CSS**: As fontes são definidas como variáveis CSS (`--font-sans`,
-   `--font-educational`) que são aplicadas via classes no body.
-2. **Tailwind CSS**: Classes utilitárias para layout, espaçamento, cores e
-   tipografia.
-3. **Theme UI**: O sistema de temas utiliza atributos de dados
-   (`data-color-scheme`, `data-font-size`) para controlar o estilo com base nas
-   preferências do usuário.
+1. **Variáveis CSS**: As fontes são definidas como variáveis CSS (`--font-sans`, `--font-educational`) que são aplicadas via classes no body.
+2. **Tailwind CSS**: Classes utilitárias para layout, espaçamento, cores e tipografia.
+3. **Theme UI**: O sistema de temas utiliza atributos de dados (`data-color-scheme`, `data-font-size`) para controlar o estilo com base nas preferências do usuário.
 
 **Section sources**
-
-- [layout.tsx](file://src/app/layout.tsx#L54-L80)
-- [theme-provider.tsx](file://src/providers/theme-provider.tsx#L150-L180)
+- [layout.tsx](file://src/app/layout.tsx#L54-L62)
+- [main-layout.tsx](file://src/components/layouts/main-layout.tsx#L20-L59)
+- [theme-provider.tsx](file://src/providers/theme-provider.tsx#L33-L176)
 
 ## Boas Práticas
 
@@ -311,10 +296,8 @@ A implementação segue várias boas práticas de desenvolvimento moderno:
 ### Organização
 
 - **Separação de Concerns**: Cada componente tem uma responsabilidade clara.
-- **Estrutura de Diretórios**: Organização lógica por funcionalidade e tipo de
-  componente.
-- **Nomenclatura Consistente**: Nomes de arquivos e componentes seguem
-  convenções claras.
+- **Estrutura de Diretórios**: Organização lógica por funcionalidade e tipo de componente.
+- **Nomenclatura Consistente**: Nomes de arquivos e componentes seguem convenções claras.
 
 ### Acessibilidade
 
@@ -322,26 +305,23 @@ A implementação segue várias boas práticas de desenvolvimento moderno:
 - **Contraste Adequado**: Cores com bom contraste para leitura.
 - **Elementos Semânticos**: Uso de elementos HTML semânticos quando apropriado.
 - **Controle de Foco**: Classes como `focus-visible` para indicadores de foco.
+- **Atributos ARIA**: Uso de `aria-label` e outros atributos ARIA para melhorar a acessibilidade.
 
 ### Desacoplamento
 
-- **Componentes Reutilizáveis**: O componente Button pode ser usado em qualquer
-  parte da aplicação.
-- **Prop Drilling Minimizado**: Uso planejado de Context API para estado global.
+- **Componentes Reutilizáveis**: Os componentes Header, Sidebar e MainLayout podem ser usados em qualquer parte da aplicação.
+- **Prop Drilling Minimizado**: Uso de Context API para estado global (tema).
 - **Dependências Explícitas**: Importações claras e explícitas de dependências.
 
 ### Documentação e Manutenção
 
-- **Comentários Descritivos**: Comentários explicam a intenção e funcionalidade
-  do código.
-- **TODOs Estratégicos**: Comentários TODO indicam claramente o que precisa ser
-  implementado.
-- **Metadados Centralizados**: Informações como título e descrição são definidas
-  no layout raiz.
+- **Comentários Descritivos**: Comentários explicam a intenção e funcionalidade do código.
+- **TODOs Estratégicos**: Comentários TODO indicam claramente o que precisa ser implementado.
+- **Metadados Centralizados**: Informações como título e descrição são definidas no layout raiz.
 
 **Section sources**
-
 - [layout.tsx](file://src/app/layout.tsx#L0-L80)
-- [page.tsx](file://src/app/page.tsx#L0-L84)
-- [button.tsx](file://src/components/ui/button.tsx#L0-L56)
+- [main-layout.tsx](file://src/components/layouts/main-layout.tsx#L0-L60)
+- [header.tsx](file://src/components/layouts/header.tsx#L0-L84)
+- [sidebar.tsx](file://src/components/layouts/sidebar.tsx#L0-L153)
 - [theme-provider.tsx](file://src/providers/theme-provider.tsx#L0-L230)
