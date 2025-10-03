@@ -32,8 +32,11 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { BloomIndicator } from '@/components/educational/bloom-indicator';
-import { MomentoDidatico } from '@/core/domain/perrenoud/types';
+import { MOMENTOS_DIDATICOS, MOMENTO_LABELS } from '@/lib/perrenoud-utils';
+import { processoToBloomLevel } from '@/lib/bloom-utils';
+import type { MomentoDidatico } from '@/core/domain/perrenoud/types';
 import type { MomentsManagerProps, MomentoDidaticoPlano } from '@/types/planner';
+import type { ProcessoCognitivo } from '@/core/domain/bloom/types';
 import { cn } from '@/lib/utils';
 import {
   GripVertical,
@@ -154,8 +157,8 @@ function SortableMomentItem({
               <div>
                 <h4 className="mb-2 text-sm font-semibold">Processos Bloom:</h4>
                 <div className="flex flex-wrap gap-2">
-                  {momento.processosBloom.map((processo) => (
-                    <BloomIndicator key={processo} processo={processo} />
+                  {momento.processosBloom.map((processo: ProcessoCognitivo) => (
+                    <BloomIndicator key={processo} nivel={processoToBloomLevel(processo)} />
                   ))}
                 </div>
               </div>
@@ -198,13 +201,7 @@ function SortableMomentItem({
  * Gerenciador completo de momentos didáticos com drag-and-drop,
  * validação de duração e progressão pedagógica.
  */
-export function MomentsManager({
-  value,
-  onChange,
-  duracaoTotal,
-  situacoesDisponiveis,
-  className,
-}: MomentsManagerProps) {
+export function MomentsManager({ value, onChange, duracaoTotal, className }: MomentsManagerProps) {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [editingMomento, setEditingMomento] = useState<string | null>(null);
 
@@ -336,7 +333,7 @@ export function MomentsManager({
           <div>
             <p className="mb-2 text-sm font-semibold">Distribuição por Tipo:</p>
             <div className="space-y-1">
-              {Object.values(MomentoDidatico).map((tipo) => {
+              {MOMENTOS_DIDATICOS.map((tipo: MomentoDidatico) => {
                 const momentos = value.filter((m) => m.tipo === tipo);
                 const duracao = momentos.reduce((s, m) => s + m.duracao, 0);
                 const percentual = duracaoTotal > 0 ? (duracao / duracaoTotal) * 100 : 0;
@@ -345,7 +342,7 @@ export function MomentsManager({
                   <div key={tipo} className="flex items-center gap-2">
                     <div className="flex-1">
                       <div className="flex items-center justify-between text-xs">
-                        <span>{tipo.replace(/_/g, ' ')}</span>
+                        <span>{MOMENTO_LABELS[tipo]}</span>
                         <span className="text-muted-foreground">
                           {duracao} min ({percentual.toFixed(0)}%)
                         </span>

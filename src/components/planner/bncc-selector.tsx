@@ -65,7 +65,7 @@ export function BNCCSelector({
 
     // Filtro por componente curricular
     if (filterByComponente) {
-      filtered = filtered.filter((h) => h.componenteCurricular === filterByComponente);
+      filtered = filtered.filter((h) => h.componente === filterByComponente);
     }
 
     // Filtro por ano (usando decomposição do código BNCC)
@@ -156,7 +156,7 @@ export function BNCCSelector({
           <div className="flex flex-wrap gap-2">
             {habilidadesSelecionadas.map((habilidade) => (
               <div key={habilidade.codigo} className="group relative inline-flex items-center">
-                <BNCCBadge codigo={habilidade.codigo} showTooltip />
+                <BNCCBadge habilidade={habilidade.codigo} />
                 <button
                   onClick={() => toggleHabilidade(habilidade.codigo)}
                   className="ml-1 rounded-full bg-destructive/10 p-0.5 opacity-0 transition-opacity hover:bg-destructive/20 group-hover:opacity-100"

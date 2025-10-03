@@ -10,16 +10,15 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Plus, Lightbulb, Brain } from 'lucide-react';
-import type { Control, UseFormWatch } from 'react-hook-form';
+import type { UseFormWatch } from 'react-hook-form';
 import type { PlannerFormData } from '@/types/planner';
 
 interface MetacognitionTabProps {
-  control: Control<PlannerFormData>;
   watch: UseFormWatch<PlannerFormData>;
   className?: string;
 }
 
-export function MetacognitionTab({ control, watch, className }: MetacognitionTabProps) {
+export function MetacognitionTab({ watch, className }: MetacognitionTabProps) {
   const reflexao = watch('reflexaoMetacognitiva');
   const momentos = watch('momentos') || [];
 

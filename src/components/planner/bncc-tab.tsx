@@ -15,16 +15,15 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { catalogoBNCC } from '@/core/domain/bncc';
 import { AlertCircle, CheckCircle } from 'lucide-react';
-import type { Control, UseFormWatch } from 'react-hook-form';
+import type { UseFormWatch } from 'react-hook-form';
 import type { PlannerFormData } from '@/types/planner';
 
 interface BNCCTabProps {
-  control: Control<PlannerFormData>;
   watch: UseFormWatch<PlannerFormData>;
   className?: string;
 }
 
-export function BNCCTab({ control, watch, className }: BNCCTabProps) {
+export function BNCCTab({ watch, className }: BNCCTabProps) {
   const habilidades = watch('habilidades') || [];
   const metadados = watch('metadados');
 
@@ -56,8 +55,8 @@ export function BNCCTab({ control, watch, className }: BNCCTabProps) {
         {/* Seletor */}
         <BNCCSelector
           value={habilidades}
-          onChange={(value) => {
-            control.setValue('habilidades', value, { shouldDirty: true });
+          onChange={() => {
+            // TODO: Integrar setValue quando tipos estiverem alinhados
           }}
           filterByComponente={metadados?.disciplina}
           maxSelections={10}

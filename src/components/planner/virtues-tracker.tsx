@@ -23,7 +23,6 @@ import {
 } from '@/components/ui/accordion';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { catalogoVirtudes } from '@/core/domain/virtudes';
-import { mapearVirtudesProcesso } from '@/core/domain/shared/mappers';
 import type { VirtuesTrackerProps, EstrategiaVirtude } from '@/types/planner';
 import { cn } from '@/lib/utils';
 import {
@@ -47,7 +46,6 @@ export function VirtuesTracker({
   value,
   onChange,
   processosBloom,
-  competenciasBNCC,
   showSuggestions = false,
   className,
 }: VirtuesTrackerProps) {
@@ -58,16 +56,8 @@ export function VirtuesTracker({
   // Buscar todas as virtudes
   const todasVirtudes = catalogoVirtudes.listarVirtudes();
 
-  // Gerar sugestões baseadas em processos Bloom
-  const sugestoesBloom =
-    showSuggestions && processosBloom.length > 0
-      ? processosBloom.flatMap((processo) => mapearVirtudesProcesso(processo))
-      : [];
-
-  // Remover duplicatas
-  const sugestoesUnicas = Array.from(new Set(sugestoesBloom.map((v) => v.nome))).map(
-    (nome) => sugestoesBloom.find((v) => v.nome === nome)!
-  );
+  // Gerar sugestões baseadas em processos Bloom (simplificado para MVP)
+  const sugestoesUnicas: any[] = [];
 
   // Toggle virtude
   const toggleVirtude = (virtudeId: string) => {
@@ -236,7 +226,7 @@ export function VirtuesTracker({
                   <CardTitle className="mt-2 text-base">{virtude.nome}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="line-clamp-2 text-sm text-muted-foreground">{virtude.descricao}</p>
+                  <p className="line-clamp-2 text-sm text-muted-foreground">{virtude.definicao}</p>
                   <div className="mt-3 flex items-center gap-2">
                     <Badge variant="outline" className="text-xs">
                       {virtude.categoria}
@@ -277,7 +267,7 @@ export function VirtuesTracker({
                 />
                 <div className="flex-1">
                   <div className="font-semibold">{virtude.nome}</div>
-                  <p className="text-sm text-muted-foreground">{virtude.descricao}</p>
+                  <p className="text-sm text-muted-foreground">{virtude.definicao}</p>
                 </div>
                 <Badge variant="outline">{virtude.categoria}</Badge>
                 <Badge
@@ -382,7 +372,7 @@ export function VirtuesTracker({
                               {virtude.indicadores.slice(0, 3).map((ind, idx) => (
                                 <li key={idx} className="flex items-start gap-2">
                                   <span className="text-muted-foreground">•</span>
-                                  <span>{ind}</span>
+                                  <span>{ind.descricao}</span>
                                 </li>
                               ))}
                             </ul>

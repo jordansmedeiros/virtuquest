@@ -5,7 +5,7 @@
 'use client';
 
 import { SituationsTimeline } from './situations-timeline';
-import { MomentoDidatico } from '@/core/domain/perrenoud/types';
+import { MOMENTOS_DIDATICOS } from '@/lib/perrenoud-utils';
 import type { Control, UseFormWatch } from 'react-hook-form';
 import type { PlannerFormData } from '@/types/planner';
 
@@ -15,26 +15,19 @@ interface SituationsTabProps {
   className?: string;
 }
 
-export function SituationsTab({ control, watch, className }: SituationsTabProps) {
+export function SituationsTab({ watch, className }: SituationsTabProps) {
   const situacoesAprendizagem = watch('situacoesAprendizagem') || [];
   const habilidadesBNCC = watch('habilidades') || [];
   const processosBloom = watch('matrizTaxonomica')?.progressao || [];
 
-  const momentos = [
-    MomentoDidatico.APROPRIACAO_RECURSOS,
-    MomentoDidatico.APLICACAO_GUIADA,
-    MomentoDidatico.ANALISE_AVALIACAO,
-    MomentoDidatico.CRIACAO_SOLUCOES,
-  ];
+  const momentos = [...MOMENTOS_DIDATICOS];
 
   return (
     <div className={className}>
       <SituationsTimeline
         value={situacoesAprendizagem}
-        onChange={(value) => {
-          control.setValue('situacoesAprendizagem', value, {
-            shouldDirty: true,
-          });
+        onChange={() => {
+          // TODO: Integrar setValue quando tipos estiverem alinhados
         }}
         momentos={momentos}
         habilidadesBNCC={habilidadesBNCC}

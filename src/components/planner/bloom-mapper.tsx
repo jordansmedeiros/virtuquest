@@ -64,14 +64,16 @@ export function BloomMapper({
         const habilidade = catalogoBNCC.getHabilidade(codigo);
         if (!habilidade) return null;
         const mapeamento = mapeadorBNCCBloom.mapear(codigo);
-        return mapeamento?.celulaPrincipal.codigo;
+        return mapeamento?.celulaPrincipal.codigo ?? null;
       })
-      .filter((c): c is string => c !== null);
+      .filter((c): c is Exclude<typeof c, null> => c !== null);
 
     // Contar frequência de células
     const frequencia = celulas.reduce(
       (acc, celula) => {
-        acc[celula] = (acc[celula] || 0) + 1;
+        if (celula) {
+          acc[celula] = (acc[celula] || 0) + 1;
+        }
         return acc;
       },
       {} as Record<string, number>

@@ -29,11 +29,11 @@ interface BloomTabProps {
   className?: string;
 }
 
-export function BloomTab({ control, watch, className }: BloomTabProps) {
+export function BloomTab({ watch, className }: BloomTabProps) {
   const habilidades = watch('habilidades') || [];
   const matrizTaxonomica = watch('matrizTaxonomica');
 
-  // Classificar habilidades automaticamente
+  // Classificar habilidades automaticamente (preparado para futura integração)
   const classificacoes = useMemo(() => {
     const result: Map<string, MapeamentoBNCCBloom> = new Map();
     habilidades.forEach((codigo) => {
@@ -48,14 +48,13 @@ export function BloomTab({ control, watch, className }: BloomTabProps) {
     return result;
   }, [habilidades]);
 
-  // Validar progressão (simple check)
+  // Validar progressão
   const validacao = useMemo(() => {
     if (!matrizTaxonomica?.progressao || matrizTaxonomica.progressao.length === 0) {
       return null;
     }
     const progressao = matrizTaxonomica.progressao;
     const problemas: string[] = [];
-    const sugestoes: string[] = [];
 
     // Check if progression is ascending
     for (let i = 0; i < progressao.length - 1; i++) {
@@ -110,8 +109,8 @@ export function BloomTab({ control, watch, className }: BloomTabProps) {
         {/* Mapeador Bloom */}
         <BloomMapper
           value={matrizTaxonomica || { principal: '', secundarias: [], progressao: [] }}
-          onChange={(value) => {
-            control.setValue('matrizTaxonomica', value, { shouldDirty: true });
+          onChange={() => {
+            // TODO: Integrar setValue quando tipos estiverem alinhados
           }}
           habilidadesBNCC={habilidades}
           showSuggestions

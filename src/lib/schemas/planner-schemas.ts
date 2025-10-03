@@ -7,14 +7,9 @@
  */
 
 import { z } from 'zod';
-import {
-  HierarquiaPlanejamento,
-  TipoErroCoerencia,
-  SeveridadeErro,
-} from '@/core/domain/shared/types';
+import { HierarquiaPlanejamento } from '@/core/domain/shared/types';
 import { PlanStatus } from '@/core/infrastructure/n8n/types';
-import { ProcessoCognitivo, TipoConhecimento } from '@/core/domain/bloom/types';
-import { MomentoDidatico } from '@/core/domain/perrenoud/types';
+import { ProcessoCognitivo } from '@/core/domain/bloom/types';
 
 // ============================================================================
 // Schemas Base
@@ -102,7 +97,7 @@ export const momentoDidaticoPlanoSchema = z
     id: z.string().uuid(),
     ordem: z.number().int().min(0),
     nome: z.string().min(1, 'Nome do momento é obrigatório').max(200),
-    tipo: z.nativeEnum(MomentoDidatico),
+    tipo: z.enum(['apropriacao', 'aplicacao_guiada', 'analise_avaliacao', 'criacao']),
     duracao: z.number().int().positive('Duração deve ser positiva'),
     atividades: z.array(atividadeSchema).min(1, 'Pelo menos uma atividade é obrigatória'),
     processosBloom: z.array(z.nativeEnum(ProcessoCognitivo)),
@@ -340,14 +335,7 @@ export const planoAulaIntegradoSchema = z
   )
   .refine(
     (data) => {
-      // Valida progressão de momentos didáticos (ordem de Perrenoud)
-      const ordemPerrenoud = [
-        MomentoDidatico.APROPRIACAO_RECURSOS,
-        MomentoDidatico.APLICACAO_GUIADA,
-        MomentoDidatico.ANALISE_AVALIACAO,
-        MomentoDidatico.CRIACAO_SOLUCOES,
-      ];
-
+      // Valida progressão de momentos didáticos (ordem crescente)
       const ordensMomentos = data.momentos.map((m) => m.ordem);
       const ordenadas = [...ordensMomentos].sort((a, b) => a - b);
 
@@ -375,7 +363,7 @@ export const planoAulaIntegradoSchema = z
 
       // Verifica se não há regressão (índices devem ser não-decrescentes)
       for (let i = 1; i < indices.length; i++) {
-        if (indices[i] < indices[i - 1]) {
+        if (indices[i]! < indices[i - 1]!) {
           return false;
         }
       }

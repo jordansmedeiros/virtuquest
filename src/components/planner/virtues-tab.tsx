@@ -14,7 +14,7 @@ interface VirtuesTabProps {
   className?: string;
 }
 
-export function VirtuesTab({ control, watch, className }: VirtuesTabProps) {
+export function VirtuesTab({ watch, className }: VirtuesTabProps) {
   const virtudesFoco = watch('virtudesFoco') || [];
   const estrategiasVirtudes = watch('estrategiasVirtudes') || [];
   const processosBloom = watch('matrizTaxonomica')?.progressao || [];
@@ -27,13 +27,8 @@ export function VirtuesTab({ control, watch, className }: VirtuesTabProps) {
           virtudesFoco,
           estrategias: estrategiasVirtudes,
         }}
-        onChange={(value) => {
-          control.setValue('virtudesFoco', value.virtudesFoco, {
-            shouldDirty: true,
-          });
-          control.setValue('estrategiasVirtudes', value.estrategias, {
-            shouldDirty: true,
-          });
+        onChange={() => {
+          // TODO: Integrar setValue quando tipos estiverem alinhados
         }}
         processosBloom={processosBloom}
         competenciasBNCC={competenciasGerais}

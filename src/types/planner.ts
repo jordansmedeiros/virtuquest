@@ -7,21 +7,10 @@
  * @module types/planner
  */
 
-import type {
-  ProcessoCognitivo,
-  TipoConhecimento,
-  CelulaTaxonomica,
-} from '@/core/domain/bloom/types';
-import type { Habilidade, CompetenciaGeral } from '@/core/domain/bncc/types';
-import type { VirtudeIntelectual, NivelDesenvolvimento } from '@/core/domain/virtudes/types';
-import type {
-  MomentoDidatico,
-  SituacaoProblema,
-  RecursoCognitivo,
-  EsquemaMobilizacao,
-} from '@/core/domain/perrenoud/types';
+import type { ProcessoCognitivo } from '@/core/domain/bloom/types';
+import type { MomentoDidatico, SituacaoProblema } from '@/core/domain/perrenoud/types';
 import type { AlinhamentoPedagogico, HierarquiaPlanejamento } from '@/core/domain/shared/types';
-import type { PlanStatus, PlanLevel } from '@/core/infrastructure/n8n/types';
+import type { PlanStatus } from '@/core/infrastructure/n8n/types';
 
 // ============================================================================
 // Metadados do Plano

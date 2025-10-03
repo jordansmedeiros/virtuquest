@@ -32,7 +32,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { catalogoPerrenoud } from '@/core/domain/perrenoud';
-import { MomentoDidatico } from '@/core/domain/perrenoud/types';
 import type { SituationsTimelineProps } from '@/types/planner';
 import { cn } from '@/lib/utils';
 import { GripVertical, Plus, Trash2, AlertCircle, Lightbulb } from 'lucide-react';
@@ -114,15 +113,7 @@ function SortableSituationItem({ situacao, onRemove }: { situacao: any; onRemove
  * Timeline interativa com drag-and-drop para ordenação de
  * situações-problema segundo momentos de Perrenoud.
  */
-export function SituationsTimeline({
-  value,
-  onChange,
-  momentos,
-  habilidadesBNCC,
-  processosBloom,
-  allowCustom = false,
-  className,
-}: SituationsTimelineProps) {
+export function SituationsTimeline({ value, onChange, className }: SituationsTimelineProps) {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [groupByMomento, setGroupByMomento] = useState(true);
 
@@ -135,24 +126,16 @@ export function SituationsTimeline({
 
   // Hidratar situações do catálogo
   const situacoes = value
-    .map((id) => catalogoPerrenoud.buscarSituacao(id))
+    .map((id) => catalogoPerrenoud.getSituacaoProblema(id))
     .filter((s) => s !== null);
 
   // Agrupar por momento
   const situacoesPorMomento = groupByMomento
     ? {
-        [MomentoDidatico.APROPRIACAO_RECURSOS]: situacoes.filter(
-          (s) => s.momento === MomentoDidatico.APROPRIACAO_RECURSOS
-        ),
-        [MomentoDidatico.APLICACAO_GUIADA]: situacoes.filter(
-          (s) => s.momento === MomentoDidatico.APLICACAO_GUIADA
-        ),
-        [MomentoDidatico.ANALISE_AVALIACAO]: situacoes.filter(
-          (s) => s.momento === MomentoDidatico.ANALISE_AVALIACAO
-        ),
-        [MomentoDidatico.CRIACAO_SOLUCOES]: situacoes.filter(
-          (s) => s.momento === MomentoDidatico.CRIACAO_SOLUCOES
-        ),
+        apropriacao: situacoes.filter((s) => s?.momento === 'apropriacao'),
+        aplicacao_guiada: situacoes.filter((s) => s?.momento === 'aplicacao_guiada'),
+        analise_avaliacao: situacoes.filter((s) => s?.momento === 'analise_avaliacao'),
+        criacao: situacoes.filter((s) => s?.momento === 'criacao'),
       }
     : null;
 
@@ -175,7 +158,7 @@ export function SituationsTimeline({
   };
 
   // Sugestões (mock - seria integrado com catálogo)
-  const sugestoes = habilidadesBNCC.length > 0 ? [] : [];
+  const sugestoes: any[] = [];
 
   return (
     <div className={cn('space-y-6', className)}>
