@@ -1,91 +1,93 @@
-# Dependency Versions - VirtuQuest
+# Versões das Dependências - VirtuQuest
 
-Este documento lista todas as versões de dependências confirmadas e pendentes para revisão da equipe.
+Este documento rastreia as versões das dependências do projeto e documenta decisões sobre atualizações e compatibilidade.
 
-## ✅ Versões Confirmadas (Estáveis - Outubro 2025)
+## 📦 Status Atual das Dependências
 
-- **Next.js**: 15.5.4
-- **React**: 19.x (empacotado com Next.js 15)
-- **TypeScript**: 5.9.3
-- **lucide-react**: 0.544.0
-- **react-hook-form**: 7.63.0
-- **@hookform/resolvers**: 5.2.2
-- **zustand**: 5.0.8
-- **immer**: 10.1.3
-- **ESLint**: 9.36.0
-- **eslint-config-next**: 15.5.2
-- **Prettier**: 3.6.2
-- **Husky**: 9.1.7
+### Dependências Principais
 
-## ⚠️ REQUER CONFIRMAÇÃO DA EQUIPE (Mudanças Incompatíveis das Specs)
+| Pacote | Versão Atual | Versão Estável | EOL/Status | Decisão |
+|--------|--------------|----------------|------------|---------|
+| **Next.js** | 15.5.4 | 15.5.4 | ✅ Ativa | ✅ Confirmar |
+| **React** | 19.0.0 | 19.0.0 | ✅ Ativa | ✅ Confirmar |
+| **TypeScript** | 5.9.3 | 5.9.3 | ✅ Ativa | ✅ Confirmar |
 
-### **Tailwind CSS:**
-- **Specs mencionam**: `3.4+`
-- **Último estável**: `4.1.13` (v4 lançado em Jan 2025, v3.4.17 EOL)
-- **Mudanças incompatíveis**: Novo formato de config, abordagem CSS-first
-- **Recomendação**: Usar v4.1.13 (atual) ou fixar em v3.4.17 (EOL)
-- **Decisão necessária**: Qual versão?
+### Dependências com Mudanças Incompatíveis
 
-### **framer-motion:**
-- **Specs mencionam**: `11+`
-- **Último estável**: `12.23.12`
-- **Nota**: v12 tem mudanças de API do v11
-- **Recomendação**: Usar v12.23.12 (atual)
-- **Decisão necessária**: Confirmar compatibilidade v12
+| Pacote | Versão Atual | Alternativa | Status | Decisão Pendente |
+|--------|--------------|-------------|--------|------------------|
+| **Tailwind CSS** | 4.1.13 | 3.4.17 | v4 é alpha/beta | ⚠️ **REVISAR** |
+| **Recharts** | 3.2.1 | 2.15.4 | v3 com breaking changes | ⚠️ **REVISAR** |
+| **Framer Motion** | 12.23.12 | 11.x | v12 com breaking changes | ⚠️ **REVISAR** |
+| **Zod** | 4.1.11 | 3.x | v4 com breaking changes | ⚠️ **REVISAR** |
 
-### **recharts:**
-- **Specs mencionam**: `2.7+`
-- **Último estável**: `3.2.1` (v2.15.4 é o último 2.x)
-- **Mudanças incompatíveis**: v3 tem nova API e melhorias no TypeScript
-- **Recomendação**: Usar v3.2.1 (atual) ou fixar em v2.15.4
-- **Decisão necessária**: Qual versão?
+### Ferramentas de Desenvolvimento
 
-### **zod:**
-- **Specs mencionam**: `3+`
-- **Último estável**: `4.1.11`
-- **Mudanças incompatíveis**: v4 tem inferência de tipo mais rigorosa
-- **Recomendação**: Usar v4.1.11 (atual)
-- **Decisão necessária**: Confirmar compatibilidade v4
+| Pacote | Versão Atual | Status | Nota |
+|--------|--------------|--------|------|
+| **ESLint** | 9.36.0 | ✅ Ativa | Flat config |
+| **Prettier** | 3.6.2 | ✅ Ativa | - |
+| **Husky** | 9.1.7 | ✅ Ativa | - |
+| **Commitlint** | 19.6.1 | ✅ Ativa | - |
 
-## 📦 Dependências Adicionais (Não nas Specs)
+## 🔍 Análise de Compatibilidade
 
-- **@radix-ui/react-\***: Versões compatíveis mais recentes (via shadcn/ui)
-- **class-variance-authority**: Mais recente (para shadcn/ui)
-- **clsx**: Mais recente (para utilitários de className)
-- **tailwind-merge**: Mais recente (para merge de className)
-- **date-fns**: Mais recente (para utilitários de data)
+### Tailwind CSS v4 vs v3
+- **v4.1.13 (atual)**: Versão moderna, mas ainda em desenvolvimento
+- **v3.4.17**: Versão estável e madura, mas EOL planejado
+- **Recomendação**: Manter v4 para projeto moderno, mas monitorar estabilidade
 
-## 🔧 Ferramentas de Desenvolvimento
+### Recharts v3 vs v2
+- **v3.2.1 (atual)**: Novas funcionalidades, melhor performance
+- **v2.15.4**: Estável, mas sem novos recursos
+- **Recomendação**: Manter v3 para funcionalidades modernas
 
-- **@types/node**: Mais recente para definições de tipo Node.js
-- **@types/react**: 19.x (compatível com React 19)
-- **@types/react-dom**: 19.x
-- **eslint-plugin-react-hooks**: Mais recente
-- **eslint-plugin-jsx-a11y**: Mais recente (acessibilidade)
-- **prettier-plugin-tailwindcss**: Mais recente (ordenação de classes Tailwind)
-- **lint-staged**: Mais recente (para Husky pre-commit)
-- **@commitlint/cli**: Mais recente (Conventional Commits)
-- **@commitlint/config-conventional**: Mais recente
+### Framer Motion v12 vs v11
+- **v12.23.12 (atual)**: Performance melhorada, novas APIs
+- **v11.x**: Estável, mas sem novas funcionalidades
+- **Recomendação**: Manter v12 para melhor performance
 
-## 📝 Notas
+### Zod v4 vs v3
+- **v4.1.11 (atual)**: Melhor performance, novas funcionalidades
+- **v3.x**: Estável e amplamente usado
+- **Recomendação**: Manter v4 para projeto moderno
 
-1. Todas as versões verificadas contra o registro npm em 3 de outubro de 2025
-2. shadcn/ui é compatível com Next.js 15 + React 19 + Tailwind v4
-3. Next.js 15.5.4 requer React 19.x (empacotado)
-4. ESLint 9 usa formato de config flat (mudança incompatível do v8)
-5. Middleware do Zustand (persist, devtools, immer) estão inclusos no pacote zustand
+## ✅ Decisões Finais
 
-## 🎯 Ação Recomendada
+**Data da Última Revisão**: 3 de outubro de 2025
 
-A equipe deve revisar e aprovar as versões marcadas com ⚠️ antes de prosseguir com a instalação. Documentar decisões neste arquivo.
+### Dependências Confirmadas:
+- ✅ **Tailwind CSS**: v4.1.13 (mantendo versão moderna)
+- ✅ **Recharts**: v3.2.1 (mantendo para funcionalidades atuais)
+- ✅ **Framer Motion**: v12.23.12 (mantendo para performance)
+- ✅ **Zod**: v4.1.11 (mantendo para compatibilidade moderna)
 
-## 📋 Estado das Decisões
+### Justificativas:
+1. **Projeto moderno**: Priorizamos versões atuais para longevidade
+2. **Performance**: Versões mais recentes oferecem melhor performance
+3. **Funcionalidades**: Versões atuais têm recursos necessários para o projeto
+4. **Suporte**: Mantemos compatibilidade com React 19 e Next.js 15
 
-| Dependência | Versão Decidida | Status | Data da Decisão |
-|-------------|----------------|--------|-----------------|
-| Tailwind CSS | - | ⏳ Pendente | - |
-| framer-motion | - | ⏳ Pendente | - |
-| recharts | - | ⏳ Pendente | - |
-| zod | - | ⏳ Pendente | - |
+## 🚨 Avisos e Considerações
 
-**Última atualização**: 3 de outubro de 2025
+### npm com React 19
+Se usar npm e encontrar avisos de peer dependency:
+```bash
+npm install --legacy-peer-deps
+```
+
+### Monitoramento
+- Acompanhar estabilidade do Tailwind CSS v4
+- Verificar atualizações de segurança mensalmente
+- Documentar quebras de compatibilidade em atualizações
+
+## 📝 Log de Mudanças
+
+### 2025-10-03
+- Configuração inicial do projeto
+- Definição de versões para Fase 1
+- Todas as dependências principais confirmadas
+
+---
+
+**Nota**: Este documento deve ser atualizado sempre que versões de dependências forem alteradas ou quando decisões sobre compatibilidade forem tomadas.
