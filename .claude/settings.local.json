@@ -20,7 +20,9 @@
       "Bash(pnpm add:*)",
       "Bash(pnpm type-check:*)",
       "Bash(if not exist \"src\\lib\\schemas\" mkdir \"src\\lib\\schemas\")",
-      "Bash(git log:*)"
+      "Bash(git log:*)",
+      "Bash(pnpm dev:*)",
+      "Bash(openssl rand:*)"
     ],
     "deny": [],
     "ask": []
