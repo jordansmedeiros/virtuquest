@@ -40,13 +40,10 @@ export function useCurrentUser(): {
       });
 
       if (response.ok) {
-        const userData = await response.json();
-        setUser(userData as SessionUser);
-      } else if (response.status === 401) {
-        // Não autenticado
-        setUser(null);
+        const data = await response.json();
+        setUser(data.user as SessionUser | null);
       } else {
-        throw new Error('Failed to fetch user');
+        setUser(null);
       }
     } catch (error) {
       console.error('[useCurrentUser] Failed to fetch user:', error);
@@ -70,11 +67,13 @@ export function useCurrentUser(): {
           if (response.ok) {
             return response.json();
           }
-          return null;
+          return { user: null };
         })
-        .then((userData) => {
-          if (userData && userData.id !== user.id) {
-            setUser(userData as SessionUser);
+        .then((data) => {
+          if (data.user && data.user.id !== user.id) {
+            setUser(data.user as SessionUser);
+          } else if (!data.user) {
+            setUser(null);
           }
         })
         .catch((error) => {
