@@ -53,8 +53,7 @@ const DEFAULT_RETRY_CONFIG: RetryConfig = {
  * @returns Delay em milissegundos
  */
 export function calculateDelay(attempt: number, config: RetryConfig): number {
-  const exponentialDelay =
-    config.initialDelay * Math.pow(config.backoffMultiplier, attempt);
+  const exponentialDelay = config.initialDelay * Math.pow(config.backoffMultiplier, attempt);
   const cappedDelay = Math.min(exponentialDelay, config.maxDelay);
 
   // Adicionar jitter aleatório (±10%) para evitar thundering herd
@@ -222,7 +221,9 @@ export class RetryPolicy {
   /**
    * Retorna métricas de retry
    */
-  getMetrics(): RetryMetrics & { history: typeof this.attemptHistory } {
+  getMetrics(): RetryMetrics & {
+    history: Array<{ attempt: number; timestamp: string; error?: Error; delay?: number }>;
+  } {
     return {
       ...this.metrics,
       history: [...this.attemptHistory],

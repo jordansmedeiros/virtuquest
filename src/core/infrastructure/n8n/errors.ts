@@ -176,12 +176,10 @@ export class CircuitBreakerOpenError extends N8NError {
 
 export class RetryExhaustedError extends N8NError {
   constructor(attempts: number, errors: Error[]) {
-    super(
-      'RETRY_EXHAUSTED',
-      `Todas as ${attempts} tentativas de retry falharam`,
-      503,
-      { attempts, errors: errors.map((e) => e.message) }
-    );
+    super('RETRY_EXHAUSTED', `Todas as ${attempts} tentativas de retry falharam`, 503, {
+      attempts,
+      errors: errors.map((e) => e.message),
+    });
     this.name = 'RetryExhaustedError';
   }
 }
@@ -192,7 +190,7 @@ export class RetryExhaustedError extends N8NError {
 
 const ERROR_CODE_MAP: Record<
   number,
-  { errorClass: typeof N8NError; defaultMessage: string }
+  { errorClass: new (message: string, ...args: any[]) => N8NError; defaultMessage: string }
 > = {
   400: { errorClass: ValidationError, defaultMessage: 'Dados de entrada inválidos' },
   401: {
@@ -204,10 +202,10 @@ const ERROR_CODE_MAP: Record<
     defaultMessage: 'Sem permissão para esta operação',
   },
   404: {
-    errorClass: CompetencyNotFoundError,
+    errorClass: NetworkError,
     defaultMessage: 'Recurso não encontrado',
   },
-  408: { errorClass: TimeoutError, defaultMessage: 'Requisição excedeu tempo limite' },
+  408: { errorClass: NetworkError, defaultMessage: 'Requisição excedeu tempo limite' },
   422: {
     errorClass: SchemaValidationError,
     defaultMessage: 'Dados não conformes com schema',
@@ -241,18 +239,12 @@ export function translateN8NError(error: unknown): N8NError {
     }
 
     // Connection refused
-    if (
-      error.message.includes('ECONNREFUSED') ||
-      error.message.includes('fetch failed')
-    ) {
+    if (error.message.includes('ECONNREFUSED') || error.message.includes('fetch failed')) {
       return new ConnectionRefusedError();
     }
 
     // Erro genérico de rede
-    if (
-      error.message.includes('network') ||
-      error.message.includes('ENOTFOUND')
-    ) {
+    if (error.message.includes('network') || error.message.includes('ENOTFOUND')) {
       return new NetworkError(error.message);
     }
   }
@@ -278,8 +270,7 @@ export function translateN8NError(error: unknown): N8NError {
         switch (error.code) {
           case 'invalid_competency':
             return new CompetencyNotFoundError(
-              ('competencyCode' in error &&
-              typeof error.competencyCode === 'string'
+              ('competencyCode' in error && typeof error.competencyCode === 'string'
                 ? error.competencyCode
                 : 'unknown') as string
             );
@@ -287,17 +278,13 @@ export function translateN8NError(error: unknown): N8NError {
           case 'alignment_failed':
             return new PedagogicalAlignmentError(
               message,
-              'gaps' in error && Array.isArray(error.gaps)
-                ? error.gaps
-                : ([] as string[])
+              'gaps' in error && Array.isArray(error.gaps) ? error.gaps : ([] as string[])
             );
 
           case 'curriculum_gap':
             return new CurriculumGapError(
               message,
-              'gaps' in error && Array.isArray(error.gaps)
-                ? error.gaps
-                : ([] as string[])
+              'gaps' in error && Array.isArray(error.gaps) ? error.gaps : ([] as string[])
             );
 
           case 'invalid_bloom_level':
@@ -318,7 +305,8 @@ export function translateN8NError(error: unknown): N8NError {
       }
 
       // Instanciar erro mapeado
-      return new errorMapping.errorClass(message);
+      const details = typeof error === 'object' && error !== null ? { ...error } : undefined;
+      return new errorMapping.errorClass(message, details);
     }
   }
 
@@ -341,15 +329,10 @@ export function translateN8NError(error: unknown): N8NError {
  * @returns true se erro é retryable
  */
 export function isRetryableError(error: N8NError): boolean {
-  const retryableCodes = [
-    'NETWORK_ERROR',
-    'TIMEOUT_ERROR',
-    'CONNECTION_REFUSED',
-  ];
+  const retryableCodes = ['NETWORK_ERROR', 'TIMEOUT_ERROR', 'CONNECTION_REFUSED'];
   return (
     retryableCodes.includes(error.code) ||
-    (error.statusCode !== undefined &&
-      [408, 429, 500, 502, 503, 504].includes(error.statusCode))
+    (error.statusCode !== undefined && [408, 429, 500, 502, 503, 504].includes(error.statusCode))
   );
 }
 
@@ -358,31 +341,20 @@ export function isRetryableError(error: N8NError): boolean {
  * @param error - Erro a ser verificado
  * @returns Nível de severidade
  */
-export function getErrorSeverity(
-  error: N8NError
-): 'low' | 'medium' | 'high' | 'critical' {
+export function getErrorSeverity(error: N8NError): 'low' | 'medium' | 'high' | 'critical' {
   if (error instanceof ValidationError || error instanceof InvalidBloomLevelError) {
     return 'low';
   }
 
-  if (
-    error.isPedagogicalError() ||
-    error instanceof SchemaValidationError
-  ) {
+  if (error.isPedagogicalError() || error instanceof SchemaValidationError) {
     return 'medium';
   }
 
-  if (
-    error instanceof AuthenticationError ||
-    error instanceof AuthorizationError
-  ) {
+  if (error instanceof AuthenticationError || error instanceof AuthorizationError) {
     return 'high';
   }
 
-  if (
-    error instanceof CircuitBreakerOpenError ||
-    error instanceof RetryExhaustedError
-  ) {
+  if (error instanceof CircuitBreakerOpenError || error instanceof RetryExhaustedError) {
     return 'critical';
   }
 

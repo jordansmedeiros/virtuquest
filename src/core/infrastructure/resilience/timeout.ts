@@ -92,16 +92,9 @@ export class TimeoutManager {
   /**
    * Executa função com timeout
    */
-  async execute<T>(
-    fn: () => Promise<T>,
-    endpoint: string,
-    customTimeout?: number
-  ): Promise<T> {
+  async execute<T>(fn: () => Promise<T>, endpoint: string, customTimeout?: number): Promise<T> {
     // Determinar timeout (customizado > por endpoint > padrão)
-    const timeout =
-      customTimeout ||
-      this.timeoutsByEndpoint.get(endpoint) ||
-      this.defaultTimeout;
+    const timeout = customTimeout || this.timeoutsByEndpoint.get(endpoint) || this.defaultTimeout;
 
     const startTime = Date.now();
 
@@ -136,14 +129,11 @@ export class TimeoutManager {
         this.metrics.timeoutRate = this.metrics.timeouts / this.metrics.totalRequests;
 
         // Log timeout
-        console.warn(
-          `[TimeoutManager] Timeout em ${endpoint} após ${timeout}ms`,
-          {
-            endpoint,
-            timeout,
-            attempt: this.metrics.endpointMetrics[endpoint].totalRequests,
-          }
-        );
+        console.warn(`[TimeoutManager] Timeout em ${endpoint} após ${timeout}ms`, {
+          endpoint,
+          timeout,
+          attempt: this.metrics.endpointMetrics[endpoint].totalRequests,
+        });
       }
       throw error;
     }
@@ -154,17 +144,20 @@ export class TimeoutManager {
    */
   private updateResponseTime(endpoint: string, responseTime: number): void {
     const endpointMetrics = this.metrics.endpointMetrics[endpoint];
+
+    if (!endpointMetrics) {
+      return;
+    }
+
     const totalRequests = endpointMetrics.totalRequests;
 
     // Calcular nova média
     endpointMetrics.averageResponseTime =
-      (endpointMetrics.averageResponseTime * (totalRequests - 1) + responseTime) /
-      totalRequests;
+      (endpointMetrics.averageResponseTime * (totalRequests - 1) + responseTime) / totalRequests;
 
     // Atualizar média global
     this.metrics.averageResponseTime =
-      (this.metrics.averageResponseTime * (this.metrics.totalRequests - 1) +
-        responseTime) /
+      (this.metrics.averageResponseTime * (this.metrics.totalRequests - 1) + responseTime) /
       this.metrics.totalRequests;
   }
 

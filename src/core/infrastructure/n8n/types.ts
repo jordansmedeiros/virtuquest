@@ -3,6 +3,8 @@
  * @module core/infrastructure/n8n/types
  */
 
+import type { N8NError } from './errors';
+
 // ============================================================================
 // Tipos Base de Request/Response
 // ============================================================================
@@ -31,16 +33,6 @@ export interface N8NResponse<T = unknown> {
     processingTime?: number;
     timestamp?: number;
   };
-}
-
-/**
- * Estrutura de erro N8N
- */
-export interface N8NError {
-  code: string;
-  message: string;
-  details?: Record<string, unknown>;
-  statusCode?: number;
 }
 
 /**

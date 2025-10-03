@@ -11,12 +11,12 @@ const serverSchema = z.object({
   JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
   DATABASE_URL: z.string().url().optional(),
   LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error', 'silent']).default('info'),
-  CACHE_TTL_BNCC: z.string().transform(Number).default('86400'),
-  CACHE_TTL_BLOOM: z.string().transform(Number).default('86400'),
-  CACHE_TTL_VIRTUDES: z.string().transform(Number).default('86400'),
+  CACHE_TTL_BNCC: z.string().default('86400').transform(Number),
+  CACHE_TTL_BLOOM: z.string().default('86400').transform(Number),
+  CACHE_TTL_VIRTUDES: z.string().default('86400').transform(Number),
   TELEMETRY_ENDPOINT: z.string().url().optional(),
-  TELEMETRY_BATCH_SIZE: z.string().transform(Number).default('10'),
-  TELEMETRY_FLUSH_INTERVAL: z.string().transform(Number).default('30000'),
+  TELEMETRY_BATCH_SIZE: z.string().default('10').transform(Number),
+  TELEMETRY_FLUSH_INTERVAL: z.string().default('30000').transform(Number),
   KHAN_ACADEMY_API_KEY: z.string().optional(),
   GOOGLE_FORMS_CLIENT_ID: z.string().optional(),
   GOOGLE_FORMS_CLIENT_SECRET: z.string().optional(),
@@ -30,28 +30,28 @@ const clientSchema = z.object({
   NEXT_PUBLIC_APP_ENV: z.enum(['development', 'staging', 'production']).default('development'),
   NEXT_PUBLIC_ENABLE_AI_ASSISTANT: z
     .string()
-    .transform((v) => v === 'true')
-    .default('true'),
+    .default('true')
+    .transform((v) => v === 'true'),
   NEXT_PUBLIC_ENABLE_GAMIFICATION: z
     .string()
-    .transform((v) => v === 'true')
-    .default('false'),
+    .default('false')
+    .transform((v) => v === 'true'),
   NEXT_PUBLIC_ENABLE_TELEMETRY: z
     .string()
-    .transform((v) => v === 'true')
-    .default('true'),
+    .default('true')
+    .transform((v) => v === 'true'),
   NEXT_PUBLIC_ENABLE_OFFLINE_MODE: z
     .string()
-    .transform((v) => v === 'true')
-    .default('true'),
+    .default('true')
+    .transform((v) => v === 'true'),
   NEXT_PUBLIC_MOCK_N8N: z
     .string()
-    .transform((v) => v === 'true')
-    .default('false'),
+    .default('false')
+    .transform((v) => v === 'true'),
   NEXT_PUBLIC_SHOW_DEBUG_INFO: z
     .string()
-    .transform((v) => v === 'true')
-    .default('false'),
+    .default('false')
+    .transform((v) => v === 'true'),
 });
 
 // Combined schema
@@ -62,8 +62,8 @@ function validateEnv(): z.infer<typeof envSchema> {
     return envSchema.parse(process.env);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      const missingVars = error.errors
-        .map((err) => `${err.path.join('.')}: ${err.message}`)
+      const missingVars = error.issues
+        .map((err: z.ZodIssue) => `${err.path.join('.')}: ${err.message}`)
         .join('\n');
 
       console.error('❌ Invalid environment variables:\n', missingVars);

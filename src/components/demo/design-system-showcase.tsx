@@ -57,7 +57,7 @@ const exemploPlanoAula = {
   status: 'APROVADO' as const,
   competencias: ['COMP01'],
   habilidades: ['EF09MA20', 'EF09MA21'],
-  niveisBloom: ['APLICAR', 'ANALISAR'] as const,
+  niveisBloom: ['aplicar' as const, 'analisar' as const],
   professor: {
     nome: 'Prof. Maria Silva',
     avatar: '',
@@ -230,12 +230,12 @@ export function DesignSystemShowcase() {
               <div>
                 <h3 className="mb-3 text-lg font-semibold">Taxonomia de Bloom</h3>
                 <div className="flex flex-wrap gap-2">
-                  <BloomIndicator nivel="LEMBRAR" />
-                  <BloomIndicator nivel="COMPREENDER" />
-                  <BloomIndicator nivel="APLICAR" />
-                  <BloomIndicator nivel="ANALISAR" variant="compact" />
-                  <BloomIndicator nivel="AVALIAR" variant="compact" />
-                  <BloomIndicator nivel="CRIAR" variant="compact" />
+                  <BloomIndicator nivel="lembrar" />
+                  <BloomIndicator nivel="entender" />
+                  <BloomIndicator nivel="aplicar" />
+                  <BloomIndicator nivel="analisar" variant="compact" />
+                  <BloomIndicator nivel="avaliar" variant="compact" />
+                  <BloomIndicator nivel="criar" variant="compact" />
                 </div>
               </div>
 
