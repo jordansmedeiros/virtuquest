@@ -59,10 +59,11 @@ export interface PaginatedResponse<T> {
 // ============================================================================
 
 export enum UserType {
-  ADMIN = 'admin',
-  COORDENADOR = 'coordenador',
-  PROFESSOR = 'professor',
-  ALUNO = 'aluno',
+  PROFESSOR = 'PROFESSOR',
+  COORDENADOR = 'COORDENADOR',
+  SUPERVISOR = 'SUPERVISOR',
+  DIRETOR = 'DIRETOR',
+  ADMIN = 'ADMIN',
 }
 
 export enum PlanStatus {
@@ -135,6 +136,42 @@ export interface AuthUserResponse {
     email: string;
     tipo: UserType;
   };
+}
+
+export interface RefreshTokenRequest {
+  refreshToken: string;
+}
+
+export interface RefreshTokenResponse {
+  token: string;
+  refreshToken: string;
+  expiresIn: number;
+}
+
+export interface LogoutRequest {
+  userId: string;
+  refreshToken?: string;
+}
+
+export interface LogoutResponse {
+  success: boolean;
+}
+
+export interface SessionUser {
+  id: string;
+  nome: string;
+  email: string;
+  tipo: UserType;
+  escola?: string;
+  disciplinas?: string[];
+  permissoes: string[];
+}
+
+export interface SessionData {
+  user: SessionUser;
+  token: string;
+  refreshToken: string;
+  expiresAt: number;
 }
 
 export interface UpdateUserRequest {
@@ -443,4 +480,33 @@ export interface N8NClientConfig {
   timeout: number;
   retryConfig: RetryConfig;
   circuitBreakerConfig: CircuitBreakerConfig;
+}
+
+// ============================================================================
+// Tipos de Permissões RBAC
+// ============================================================================
+
+export type Permission =
+  | 'planos.criar'
+  | 'planos.editar'
+  | 'planos.visualizar'
+  | 'planos.deletar'
+  | 'planos.aprovar'
+  | 'planos.bloquear'
+  | 'planos.comentar'
+  | 'avaliacoes.criar'
+  | 'avaliacoes.editar'
+  | 'avaliacoes.visualizar'
+  | 'professores.visualizar'
+  | 'professores.atribuir_turmas'
+  | 'relatorios.gerar'
+  | 'relatorios.exportar'
+  | 'configuracoes.editar'
+  | 'calendario.definir'
+  | 'metas_bncc.estabelecer';
+
+export interface RolePermissions {
+  role: UserType;
+  permissions: Permission[];
+  restrictions?: Record<string, boolean>;
 }

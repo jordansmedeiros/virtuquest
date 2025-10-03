@@ -8,6 +8,11 @@ import type {
   CreateUserResponse,
   AuthUserRequest,
   AuthUserResponse,
+  RefreshTokenRequest,
+  RefreshTokenResponse,
+  LogoutRequest,
+  LogoutResponse,
+  SessionUser,
   UpdateUserRequest,
   Usuario,
   ListUsersRequest,
@@ -47,6 +52,9 @@ export const N8N_ENDPOINTS = {
     autenticar: '/webhook/user/auth',
     atualizar: '/webhook/user/update',
     listar: '/webhook/user/list',
+    refresh: '/webhook/auth/refresh',
+    logout: '/webhook/auth/logout',
+    me: '/webhook/auth/me',
   },
   planejamento: {
     criarPlano: '/webhook/planning/create',
@@ -124,6 +132,12 @@ export interface EndpointTypeMap {
     request: ListUsersRequest;
     response: ListUsersResponse;
   };
+  '/webhook/auth/refresh': {
+    request: RefreshTokenRequest;
+    response: RefreshTokenResponse;
+  };
+  '/webhook/auth/logout': { request: LogoutRequest; response: LogoutResponse };
+  '/webhook/auth/me': { request: void; response: SessionUser };
 
   // Planejamento
   '/webhook/planning/create': {
@@ -201,8 +215,6 @@ export function buildEndpointURL(baseURL: string, endpoint: string): string {
  * @returns true se o endpoint existe
  */
 export function isValidEndpoint(path: string): boolean {
-  const allEndpoints = Object.values(N8N_ENDPOINTS).flatMap((group) =>
-    Object.values(group)
-  );
+  const allEndpoints = Object.values(N8N_ENDPOINTS).flatMap((group) => Object.values(group));
   return allEndpoints.includes(path);
 }

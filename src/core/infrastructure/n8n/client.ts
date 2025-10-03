@@ -5,12 +5,9 @@
 
 import { env } from '@/lib/env';
 import { N8N_ENDPOINTS, buildEndpointURL } from './endpoints';
-import { translateN8NError, logError, type N8NError } from './errors';
+import { translateN8NError, logError } from './errors';
 import { RetryPolicy, withRetry, type RetryConfig } from '../resilience/retry';
-import {
-  CircuitBreakerManager,
-  type CircuitBreakerConfig,
-} from '../resilience/circuit-breaker';
+import { CircuitBreakerManager, type CircuitBreakerConfig } from '../resilience/circuit-breaker';
 import { TimeoutManager } from '../resilience/timeout';
 import { EducationalCatalogCache } from '../cache/catalog-cache';
 import type {
@@ -19,6 +16,11 @@ import type {
   CreateUserResponse,
   AuthUserRequest,
   AuthUserResponse,
+  RefreshTokenRequest,
+  RefreshTokenResponse,
+  LogoutRequest,
+  LogoutResponse,
+  SessionUser,
   UpdateUserRequest,
   Usuario,
   ListUsersRequest,
@@ -84,11 +86,9 @@ type RequestInterceptor = (
   endpoint: string,
   data: unknown,
   options?: RequestOptions
-) => Promise<{ endpoint: string; data: unknown; options?: RequestOptions }> | {
-  endpoint: string;
-  data: unknown;
-  options?: RequestOptions;
-};
+) =>
+  | Promise<{ endpoint: string; data: unknown; options: RequestOptions | undefined }>
+  | { endpoint: string; data: unknown; options: RequestOptions | undefined };
 
 type ResponseInterceptor = <T>(
   endpoint: string,
@@ -101,7 +101,7 @@ type ResponseInterceptor = <T>(
 
 const DEFAULT_CONFIG: N8NClientConfig = {
   baseURL: env.N8N_BASE_URL,
-  apiKey: env.N8N_API_KEY,
+  apiKey: env.N8N_API_KEY ?? '',
   timeout: 30000,
   retryConfig: {
     maxRetries: 3,
@@ -115,7 +115,7 @@ const DEFAULT_CONFIG: N8NClientConfig = {
     halfOpenMaxAttempts: 3,
     monitoringWindow: 60000,
   },
-  enableLogging: env.LOG_LEVEL !== 'silent',
+  enableLogging: env.LOG_LEVEL !== 'silent' && env.LOG_LEVEL !== undefined,
   enableTelemetry: true,
 };
 
@@ -144,9 +144,7 @@ export class N8NClient {
 
     // Inicializar componentes de resiliência
     this.retryPolicy = new RetryPolicy(this.config.retryConfig);
-    this.circuitBreakerManager = new CircuitBreakerManager(
-      this.config.circuitBreakerConfig
-    );
+    this.circuitBreakerManager = new CircuitBreakerManager(this.config.circuitBreakerConfig);
     this.timeoutManager = new TimeoutManager(this.config.timeout);
 
     // Inicializar cache de catálogos
@@ -187,11 +185,7 @@ export class N8NClient {
     data: TRequest,
     options?: RequestOptions
   ): Promise<TResponse> {
-    const response = await this.request<TRequest, TResponse>(
-      endpoint,
-      data,
-      options
-    );
+    const response = await this.request<TRequest, TResponse>(endpoint, data, options);
     return response.data;
   }
 
@@ -208,13 +202,26 @@ export class N8NClient {
 
     try {
       // 1. Aplicar interceptadores de request
-      let interceptedData = { endpoint, data, options };
+      let interceptedData: {
+        endpoint: string;
+        data: TRequest;
+        options: RequestOptions | undefined;
+      } = {
+        endpoint,
+        data,
+        options,
+      };
       for (const interceptor of this.requestInterceptors) {
-        interceptedData = await interceptor(
+        const result = await interceptor(
           interceptedData.endpoint,
           interceptedData.data,
           interceptedData.options
         );
+        interceptedData = {
+          endpoint: result.endpoint,
+          data: result.data as TRequest,
+          options: result.options,
+        };
       }
 
       // 2. Construir URL e headers
@@ -348,6 +355,30 @@ export class N8NClient {
     return response.data;
   }
 
+  async refreshToken(data: RefreshTokenRequest): Promise<RefreshTokenResponse> {
+    const response = await this.request<RefreshTokenRequest, RefreshTokenResponse>(
+      N8N_ENDPOINTS.usuarios.refresh,
+      data
+    );
+    return response.data;
+  }
+
+  async logout(data: LogoutRequest): Promise<LogoutResponse> {
+    const response = await this.request<LogoutRequest, LogoutResponse>(
+      N8N_ENDPOINTS.usuarios.logout,
+      data
+    );
+    return response.data;
+  }
+
+  async getCurrentUser(): Promise<SessionUser> {
+    const response = await this.request<void, SessionUser>(
+      N8N_ENDPOINTS.usuarios.me,
+      undefined as unknown as void
+    );
+    return response.data;
+  }
+
   // ========================================================================
   // Métodos Públicos - Planejamento
   // ========================================================================
@@ -393,43 +424,34 @@ export class N8NClient {
   }
 
   async deletePlan(id: string): Promise<void> {
-    await this.request<{ id: string }, void>(
-      N8N_ENDPOINTS.planejamento.deletarPlano,
-      { id }
-    );
+    await this.request<{ id: string }, void>(N8N_ENDPOINTS.planejamento.deletarPlano, { id });
   }
 
   // ========================================================================
   // Métodos Públicos - IA
   // ========================================================================
 
-  async suggestContent(
-    data: SuggestContentRequest
-  ): Promise<SuggestContentResponse> {
-    const response = await this.request<
-      SuggestContentRequest,
-      SuggestContentResponse
-    >(N8N_ENDPOINTS.ia.sugerirConteudo, data);
+  async suggestContent(data: SuggestContentRequest): Promise<SuggestContentResponse> {
+    const response = await this.request<SuggestContentRequest, SuggestContentResponse>(
+      N8N_ENDPOINTS.ia.sugerirConteudo,
+      data
+    );
     return response.data;
   }
 
-  async analyzeAlignment(
-    data: AnalyzeAlignmentRequest
-  ): Promise<AnalyzeAlignmentResponse> {
-    const response = await this.request<
-      AnalyzeAlignmentRequest,
-      AnalyzeAlignmentResponse
-    >(N8N_ENDPOINTS.ia.analisarAlinhamento, data);
+  async analyzeAlignment(data: AnalyzeAlignmentRequest): Promise<AnalyzeAlignmentResponse> {
+    const response = await this.request<AnalyzeAlignmentRequest, AnalyzeAlignmentResponse>(
+      N8N_ENDPOINTS.ia.analisarAlinhamento,
+      data
+    );
     return response.data;
   }
 
-  async generateAssessment(
-    data: GenerateAssessmentRequest
-  ): Promise<GenerateAssessmentResponse> {
-    const response = await this.request<
-      GenerateAssessmentRequest,
-      GenerateAssessmentResponse
-    >(N8N_ENDPOINTS.ia.gerarAvaliacao, data);
+  async generateAssessment(data: GenerateAssessmentRequest): Promise<GenerateAssessmentResponse> {
+    const response = await this.request<GenerateAssessmentRequest, GenerateAssessmentResponse>(
+      N8N_ENDPOINTS.ia.gerarAvaliacao,
+      data
+    );
     return response.data;
   }
 
@@ -437,23 +459,21 @@ export class N8NClient {
   // Métodos Públicos - Relatórios
   // ========================================================================
 
-  async getBNCCProgress(
-    data: BNCCProgressRequest
-  ): Promise<BNCCProgressResponse> {
-    const response = await this.request<
-      BNCCProgressRequest,
-      BNCCProgressResponse
-    >(N8N_ENDPOINTS.relatorios.progressoBNCC, data);
+  async getBNCCProgress(data: BNCCProgressRequest): Promise<BNCCProgressResponse> {
+    const response = await this.request<BNCCProgressRequest, BNCCProgressResponse>(
+      N8N_ENDPOINTS.relatorios.progressoBNCC,
+      data
+    );
     return response.data;
   }
 
   async getVirtuesDevelopment(
     data: VirtuesDevelopmentRequest
   ): Promise<VirtuesDevelopmentResponse> {
-    const response = await this.request<
-      VirtuesDevelopmentRequest,
-      VirtuesDevelopmentResponse
-    >(N8N_ENDPOINTS.relatorios.desenvolvimentoVirtudes, data);
+    const response = await this.request<VirtuesDevelopmentRequest, VirtuesDevelopmentResponse>(
+      N8N_ENDPOINTS.relatorios.desenvolvimentoVirtudes,
+      data
+    );
     return response.data;
   }
 
@@ -461,13 +481,11 @@ export class N8NClient {
   // Métodos Públicos - Telemetria
   // ========================================================================
 
-  async recordPedagogicalEvent(
-    data: PedagogicalEventRequest
-  ): Promise<PedagogicalEventResponse> {
-    const response = await this.request<
-      PedagogicalEventRequest,
-      PedagogicalEventResponse
-    >(N8N_ENDPOINTS.telemetria.registrarEvento, data);
+  async recordPedagogicalEvent(data: PedagogicalEventRequest): Promise<PedagogicalEventResponse> {
+    const response = await this.request<PedagogicalEventRequest, PedagogicalEventResponse>(
+      N8N_ENDPOINTS.telemetria.registrarEvento,
+      data
+    );
     return response.data;
   }
 
@@ -610,12 +628,10 @@ export class N8NClient {
 
   getMetrics(): N8NClientMetrics {
     const totalRequests = this.metrics.totalRequests;
-    const successRate =
-      totalRequests > 0 ? this.metrics.successfulRequests / totalRequests : 0;
+    const successRate = totalRequests > 0 ? this.metrics.successfulRequests / totalRequests : 0;
     const averageResponseTime =
       this.metrics.responseTimes.length > 0
-        ? this.metrics.responseTimes.reduce((a, b) => a + b, 0) /
-          this.metrics.responseTimes.length
+        ? this.metrics.responseTimes.reduce((a, b) => a + b, 0) / this.metrics.responseTimes.length
         : 0;
 
     return {
