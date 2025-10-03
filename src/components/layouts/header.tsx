@@ -7,7 +7,6 @@
 
 'use client';
 
-import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/providers/theme-provider';
@@ -20,7 +19,7 @@ interface HeaderProps {
 }
 
 export function Header({ onMobileMenuToggle, isMobileMenuOpen = false, className }: HeaderProps) {
-  const { theme } = useTheme();
+  useTheme(); // Ensure ThemeProvider is available
 
   return (
     <header

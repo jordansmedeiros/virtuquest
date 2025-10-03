@@ -31,11 +31,7 @@ const DEFAULT_CONFIG: ThemeConfig = {
 
 const ThemeProviderContext = createContext<ThemeProviderState | undefined>(undefined);
 
-export function ThemeProvider({
-  children,
-  config = {},
-  storageKey = 'virtuquest-theme-config',
-}: ThemeProviderProps) {
+export function ThemeProvider({ children, config = {} }: ThemeProviderProps) {
   const [theme, setThemeState] = useState<Theme>(config.theme ?? DEFAULT_CONFIG.theme);
   const [colorScheme, setColorSchemeState] = useState<ColorScheme>(
     config.colorScheme ?? DEFAULT_CONFIG.colorScheme
