@@ -8,12 +8,12 @@
 
 'use client';
 
+import { useEffect } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -33,11 +33,12 @@ import {
 } from '@/components/ui/form';
 import { Bold, Italic, List, ListOrdered, Heading2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { Control } from 'react-hook-form';
+import type { Control, UseFormWatch } from 'react-hook-form';
 import type { PlannerFormData } from '@/types/planner';
 
 interface ContentTabProps {
   control: Control<PlannerFormData>;
+  watch: UseFormWatch<PlannerFormData>;
   className?: string;
 }
 
@@ -46,7 +47,10 @@ interface ContentTabProps {
  *
  * Tab para informações básicas, objetivos e metodologia do plano.
  */
-export function ContentTab({ control, className }: ContentTabProps) {
+export function ContentTab({ control, watch, className }: ContentTabProps) {
+  // Watch current description value
+  const currentDescription = watch('metadados.descricao') || '';
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -54,12 +58,22 @@ export function ContentTab({ control, className }: ContentTabProps) {
         placeholder: 'Descreva os objetivos de aprendizagem, metodologia e recursos...',
       }),
     ],
-    content: '',
+    content: currentDescription,
     onUpdate: ({ editor }) => {
-      // TODO: Atualizar campo do form
-      // control.setValue('metadados.descricao', editor.getHTML());
+      const html = editor.getHTML();
+      // Only update if content actually changed to avoid infinite loops
+      if (html !== currentDescription) {
+        control.setValue('metadados.descricao', html, { shouldDirty: true });
+      }
     },
   });
+
+  // Sync editor content when form value changes externally
+  useEffect(() => {
+    if (editor && currentDescription !== editor.getHTML()) {
+      editor.commands.setContent(currentDescription);
+    }
+  }, [editor, currentDescription]);
 
   return (
     <div className={cn('space-y-6', className)}>

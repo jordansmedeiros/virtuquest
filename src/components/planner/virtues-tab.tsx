@@ -28,9 +28,12 @@ export function VirtuesTab({ control, watch, className }: VirtuesTabProps) {
           estrategias: estrategiasVirtudes,
         }}
         onChange={(value) => {
-          // TODO: Integrar com react-hook-form
-          // control.setValue('virtudesFoco', value.virtudesFoco);
-          // control.setValue('estrategiasVirtudes', value.estrategias);
+          control.setValue('virtudesFoco', value.virtudesFoco, {
+            shouldDirty: true,
+          });
+          control.setValue('estrategiasVirtudes', value.estrategias, {
+            shouldDirty: true,
+          });
         }}
         processosBloom={processosBloom}
         competenciasBNCC={competenciasGerais}

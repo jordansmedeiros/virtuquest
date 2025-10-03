@@ -18,7 +18,7 @@ interface AssessmentTabProps {
   className?: string;
 }
 
-export function AssessmentTab({ control, watch, className }: AssessmentTabProps) {
+export function AssessmentTab({ watch, className }: AssessmentTabProps) {
   const avaliacao = watch('avaliacao');
 
   return (

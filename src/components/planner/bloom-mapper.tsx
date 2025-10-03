@@ -16,10 +16,10 @@ import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { BloomIndicator } from '@/components/educational/bloom-indicator';
 import { catalogoBloom } from '@/core/domain/bloom';
-import { classificarHabilidadeBloom } from '@/core/domain/shared/mappers';
-import { validarProgressaoBloom } from '@/core/domain/shared/validators';
+import { mapeadorBNCCBloom } from '@/core/domain/shared/mappers';
 import { ProcessoCognitivo, TipoConhecimento } from '@/core/domain/bloom/types';
 import { catalogoBNCC } from '@/core/domain/bncc';
+import { processoToBloomLevel } from '@/lib/bloom-utils';
 import type { BloomMapperProps } from '@/types/planner';
 import { cn } from '@/lib/utils';
 import { Lightbulb, Sparkles, Grid3x3, List, TrendingUp, AlertCircle } from 'lucide-react';
@@ -36,7 +36,7 @@ const PROCESSOS = [
 const CONHECIMENTOS = [
   TipoConhecimento.FACTUAL,
   TipoConhecimento.CONCEITUAL,
-  TipoConhecimento.PROCEDURAL,
+  TipoConhecimento.PROCEDIMENTAL,
   TipoConhecimento.METACOGNITIVO,
 ];
 
@@ -61,10 +61,10 @@ export function BloomMapper({
 
     const celulas = habilidadesBNCC
       .map((codigo) => {
-        const habilidade = catalogoBNCC.buscarHabilidadePorCodigo(codigo);
+        const habilidade = catalogoBNCC.getHabilidade(codigo);
         if (!habilidade) return null;
-        const celula = classificarHabilidadeBloom(habilidade);
-        return celula?.codigo;
+        const mapeamento = mapeadorBNCCBloom.mapear(codigo);
+        return mapeamento?.celulaPrincipal.codigo;
       })
       .filter((c): c is string => c !== null);
 
@@ -88,10 +88,18 @@ export function BloomMapper({
     return { principal, secundarias };
   }, [habilidadesBNCC, showSuggestions]);
 
-  // Validar progressão
+  // Validar progressão (placeholder - validação real seria feita aqui)
   const validacao = useMemo(() => {
     if (value.progressao.length === 0) return null;
-    return validarProgressaoBloom(value.progressao);
+    // Verificação simples de progressão crescente
+    const problemas: string[] = [];
+    for (let i = 0; i < value.progressao.length - 1; i++) {
+      if (value.progressao[i + 1]! < value.progressao[i]!) {
+        problemas.push('Progressão não é crescente em alguns pontos');
+        break;
+      }
+    }
+    return { valida: problemas.length === 0, problemas };
   }, [value.progressao]);
 
   // Handler para selecionar célula
@@ -218,7 +226,7 @@ export function BloomMapper({
                 <div key={processo} className="grid grid-cols-[150px_repeat(4,1fr)] gap-2">
                   {/* Label do Processo */}
                   <div className="flex items-center">
-                    <BloomIndicator processo={processo} showLabel />
+                    <BloomIndicator nivel={processoToBloomLevel(processo)} showLabel />
                   </div>
 
                   {/* Células */}
@@ -247,13 +255,11 @@ export function BloomMapper({
                           >
                             <div className="text-xs font-bold">{codigo}</div>
                             {isPrincipal && (
-                              <Badge className="absolute right-2 top-2" size="sm">
-                                Principal
-                              </Badge>
+                              <Badge className="absolute right-2 top-2">Principal</Badge>
                             )}
                             {celula && (
                               <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">
-                                {celula.exemplos[0]}
+                                {celula.exemplosContextualizados[0]}
                               </p>
                             )}
                           </button>
@@ -262,7 +268,7 @@ export function BloomMapper({
                           <div className="max-w-xs">
                             <p className="font-semibold">{celula?.descricao}</p>
                             <p className="mt-1 text-xs">
-                              Verbos: {celula?.verbos.slice(0, 5).join(', ')}
+                              Verbos: {celula?.verbosCaracteristicos.slice(0, 5).join(', ')}
                             </p>
                           </div>
                         </TooltipContent>
@@ -299,7 +305,7 @@ export function BloomMapper({
                 >
                   <div className="flex items-center gap-3">
                     <code className="rounded bg-muted px-2 py-1 font-bold">{codigo}</code>
-                    <BloomIndicator processo={processo} />
+                    <BloomIndicator nivel={processoToBloomLevel(processo)} />
                     <Badge variant="outline">{conhecimento}</Badge>
                     {isPrincipal && <Badge>Principal</Badge>}
                     {isSecundaria && <Badge variant="secondary">Secundária</Badge>}
@@ -321,9 +327,9 @@ export function BloomMapper({
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-2">
-                {value.progressao.map((processo, idx) => (
+                {value.progressao.map((processo: ProcessoCognitivo, idx: number) => (
                   <div key={idx} className="flex items-center">
-                    <BloomIndicator processo={processo} showLabel />
+                    <BloomIndicator nivel={processoToBloomLevel(processo)} showLabel />
                     {idx < value.progressao.length - 1 && <span className="mx-2">→</span>}
                   </div>
                 ))}
@@ -339,7 +345,7 @@ export function BloomMapper({
                   <div>
                     <p className="font-semibold">Problemas na progressão:</p>
                     <ul className="mt-2 space-y-1 text-sm">
-                      {validacao.problemas.map((p, idx) => (
+                      {validacao.problemas.map((p: string, idx: number) => (
                         <li key={idx}>• {p}</li>
                       ))}
                     </ul>

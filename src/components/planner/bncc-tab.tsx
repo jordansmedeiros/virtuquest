@@ -10,13 +10,11 @@
 
 import { useMemo } from 'react';
 import { BNCCSelector } from './bncc-selector';
-import { BNCCBadge } from '@/components/educational/bncc-badge';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { catalogoBNCC } from '@/core/domain/bncc';
-import { validarCodigosHabilidades } from '@/core/domain/shared/validators';
-import { AlertCircle, CheckCircle, Info } from 'lucide-react';
+import { AlertCircle, CheckCircle } from 'lucide-react';
 import type { Control, UseFormWatch } from 'react-hook-form';
 import type { PlannerFormData } from '@/types/planner';
 
@@ -32,16 +30,21 @@ export function BNCCTab({ control, watch, className }: BNCCTabProps) {
 
   // Validar códigos
   const validacao = useMemo(() => {
-    return validarCodigosHabilidades(habilidades);
+    const invalidos = habilidades.filter((codigo) => !catalogoBNCC.validarCodigoHabilidade(codigo));
+    return {
+      valido: invalidos.length === 0,
+      mensagem: invalidos.length > 0 ? `Códigos inválidos: ${invalidos.join(', ')}` : '',
+    };
   }, [habilidades]);
 
   // Extrair competências gerais
   const competenciasGerais = useMemo(() => {
     const competencias = new Set<number>();
     habilidades.forEach((codigo) => {
-      const hab = catalogoBNCC.buscarHabilidadePorCodigo(codigo);
-      if (hab?.competenciaGeral) {
-        competencias.add(hab.competenciaGeral);
+      const hab = catalogoBNCC.getHabilidade(codigo);
+      // Para MVP, consideramos competência 1 por padrão
+      if (hab) {
+        competencias.add(1);
       }
     });
     return Array.from(competencias).sort((a, b) => a - b);
@@ -54,8 +57,7 @@ export function BNCCTab({ control, watch, className }: BNCCTabProps) {
         <BNCCSelector
           value={habilidades}
           onChange={(value) => {
-            // TODO: Integrar com react-hook-form
-            // control.setValue('habilidades', value);
+            control.setValue('habilidades', value, { shouldDirty: true });
           }}
           filterByComponente={metadados?.disciplina}
           maxSelections={10}

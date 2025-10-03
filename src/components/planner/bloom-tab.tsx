@@ -8,7 +8,7 @@
 
 'use client';
 
-import { useMemo, useEffect } from 'react';
+import { useMemo } from 'react';
 import { BloomMapper } from './bloom-mapper';
 import { BloomIndicator } from '@/components/educational/bloom-indicator';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
@@ -16,12 +16,12 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { catalogoBNCC } from '@/core/domain/bncc';
-import { classificarHabilidadeBloom } from '@/core/domain/shared/mappers';
-import { validarProgressaoBloom } from '@/core/domain/shared/validators';
+import { mapeadorBNCCBloom, type MapeamentoBNCCBloom } from '@/core/domain/shared/mappers';
+import { processoToBloomLevel } from '@/lib/bloom-utils';
 import { AlertCircle, CheckCircle, TrendingUp } from 'lucide-react';
 import type { Control, UseFormWatch } from 'react-hook-form';
 import type { PlannerFormData } from '@/types/planner';
-import type { CelulaTaxonomica } from '@/core/domain/bloom/types';
+import type { ProcessoCognitivo } from '@/core/domain/bloom/types';
 
 interface BloomTabProps {
   control: Control<PlannerFormData>;
@@ -29,31 +29,48 @@ interface BloomTabProps {
   className?: string;
 }
 
-export function BloomTab({ control, watch, className }: BloomTabProps) {
+export function BloomTab({ watch, className }: BloomTabProps) {
   const habilidades = watch('habilidades') || [];
   const matrizTaxonomica = watch('matrizTaxonomica');
 
   // Classificar habilidades automaticamente
   const classificacoes = useMemo(() => {
-    const result: Map<string, CelulaTaxonomica> = new Map();
+    const result: Map<string, MapeamentoBNCCBloom> = new Map();
     habilidades.forEach((codigo) => {
-      const hab = catalogoBNCC.buscarHabilidadePorCodigo(codigo);
+      const hab = catalogoBNCC.getHabilidade(codigo);
       if (hab) {
-        const celula = classificarHabilidadeBloom(hab);
-        if (celula) {
-          result.set(codigo, celula);
+        const mapeamento = mapeadorBNCCBloom.mapear(codigo);
+        if (mapeamento) {
+          result.set(codigo, mapeamento);
         }
       }
     });
     return result;
   }, [habilidades]);
 
-  // Validar progressão
+  // Validar progressão (simple check)
   const validacao = useMemo(() => {
     if (!matrizTaxonomica?.progressao || matrizTaxonomica.progressao.length === 0) {
       return null;
     }
-    return validarProgressaoBloom(matrizTaxonomica.progressao);
+    const progressao = matrizTaxonomica.progressao;
+    const problemas: string[] = [];
+    const sugestoes: string[] = [];
+
+    // Check if progression is ascending
+    for (let i = 0; i < progressao.length - 1; i++) {
+      if (progressao[i + 1]! < progressao[i]!) {
+        problemas.push('A progressão não é crescente em alguns pontos');
+        break;
+      }
+    }
+
+    return {
+      valida: problemas.length === 0,
+      problemas,
+      sugestoes:
+        problemas.length > 0 ? ['Reorganize a progressão em ordem crescente de complexidade'] : [],
+    };
   }, [matrizTaxonomica?.progressao]);
 
   return (
@@ -68,7 +85,7 @@ export function BloomTab({ control, watch, className }: BloomTabProps) {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              {Array.from(classificacoes.entries()).map(([codigo, celula]) => (
+              {Array.from(classificacoes.entries()).map(([codigo, mapeamento]) => (
                 <div
                   key={codigo}
                   className="flex items-center justify-between rounded-md border bg-background p-3"
@@ -77,10 +94,13 @@ export function BloomTab({ control, watch, className }: BloomTabProps) {
                     <code className="rounded bg-muted px-2 py-1 text-xs font-semibold">
                       {codigo}
                     </code>
-                    <BloomIndicator processo={celula.processo} showLabel />
-                    <Badge variant="outline">{celula.conhecimento}</Badge>
+                    <BloomIndicator
+                      nivel={processoToBloomLevel(mapeamento.celulaPrincipal.processoCognitivo)}
+                      showLabel
+                    />
+                    <Badge variant="outline">{mapeamento.celulaPrincipal.tipoConhecimento}</Badge>
                   </div>
-                  <Badge>{celula.codigo}</Badge>
+                  <Badge>{mapeamento.celulaPrincipal.codigo}</Badge>
                 </div>
               ))}
             </CardContent>
@@ -90,9 +110,8 @@ export function BloomTab({ control, watch, className }: BloomTabProps) {
         {/* Mapeador Bloom */}
         <BloomMapper
           value={matrizTaxonomica || { principal: '', secundarias: [], progressao: [] }}
-          onChange={(value) => {
-            // TODO: Integrar com react-hook-form
-            // control.setValue('matrizTaxonomica', value);
+          onChange={() => {
+            // TODO: Integrate with form control when needed
           }}
           habilidadesBNCC={habilidades}
           showSuggestions
@@ -109,9 +128,9 @@ export function BloomTab({ control, watch, className }: BloomTabProps) {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center gap-2">
-                {matrizTaxonomica.progressao.map((processo, idx) => (
+                {matrizTaxonomica.progressao.map((processo: ProcessoCognitivo, idx: number) => (
                   <div key={idx} className="flex items-center gap-2">
-                    <BloomIndicator processo={processo} showLabel />
+                    <BloomIndicator nivel={processoToBloomLevel(processo)} showLabel />
                     {idx < matrizTaxonomica.progressao.length - 1 && (
                       <span className="text-muted-foreground">→</span>
                     )}
@@ -133,7 +152,7 @@ export function BloomTab({ control, watch, className }: BloomTabProps) {
                       <div>
                         <p className="font-semibold">Problemas detectados:</p>
                         <ul className="mt-2 space-y-1">
-                          {validacao.problemas.map((p, idx) => (
+                          {validacao.problemas.map((p: string, idx: number) => (
                             <li key={idx}>• {p}</li>
                           ))}
                         </ul>
@@ -141,7 +160,7 @@ export function BloomTab({ control, watch, className }: BloomTabProps) {
                           <div className="mt-2">
                             <p className="font-semibold">Sugestões:</p>
                             <ul className="mt-1 space-y-1">
-                              {validacao.sugestoes.map((s, idx) => (
+                              {validacao.sugestoes.map((s: string, idx: number) => (
                                 <li key={idx}>• {s}</li>
                               ))}
                             </ul>

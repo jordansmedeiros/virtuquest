@@ -32,8 +32,9 @@ export function SituationsTab({ control, watch, className }: SituationsTabProps)
       <SituationsTimeline
         value={situacoesAprendizagem}
         onChange={(value) => {
-          // TODO: Integrar com react-hook-form
-          // control.setValue('situacoesAprendizagem', value);
+          control.setValue('situacoesAprendizagem', value, {
+            shouldDirty: true,
+          });
         }}
         momentos={momentos}
         habilidadesBNCC={habilidadesBNCC}
