@@ -8,7 +8,12 @@
       "Bash(npm install:*)",
       "Bash(cat:*)",
       "Bash(.specify/scripts/bash/check-prerequisites.sh:*)",
-      "Bash(npx:*)"
+      "Bash(npx:*)",
+      "Bash(npm run type-check:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(npm run dev:*)",
+      "Bash(mkdir:*)",
+      "Bash(pnpm install:*)"
     ],
     "deny": [],
     "ask": []
