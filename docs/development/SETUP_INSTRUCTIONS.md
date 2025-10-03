@@ -1,18 +1,24 @@
 # Guia de Conclusão da Configuração da Fase 1
 
-Este guia detalha os passos necessários para completar a inicialização da Fase 1 do VirtuQuest.
+Este guia detalha os passos necessários para completar a inicialização da Fase 1
+do VirtuQuest.
 
 ## 📋 Passo 1: Verificar Versões das Dependências
 
-Antes de instalar as dependências, a equipe deve confirmar as versões para pacotes com mudanças incompatíveis:
+Antes de instalar as dependências, a equipe deve confirmar as versões para
+pacotes com mudanças incompatíveis:
 
 ### 1. **Revisar [`DEPENDENCY_VERSIONS.md`](./DEPENDENCY_VERSIONS.md)**
+
 ### 2. **Tomar decisões sobre:**
-   - **Tailwind CSS**: v4.1.13 (atual) ou v3.4.17 (EOL)
-   - **Recharts**: v3.2.1 (atual) ou v2.15.4 (último v2)
-   - **Framer Motion**: v12.23.12 (atual) ou v11.x
-   - **Zod**: v4.1.11 (atual) ou v3.x
+
+- **Tailwind CSS**: v4.1.13 (atual) ou v3.4.17 (EOL)
+- **Recharts**: v3.2.1 (atual) ou v2.15.4 (último v2)
+- **Framer Motion**: v12.23.12 (atual) ou v11.x
+- **Zod**: v4.1.11 (atual) ou v3.x
+
 ### 3. **Atualizar `package.json`** com as versões confirmadas
+
 ### 4. **Documentar decisões** em [`DEPENDENCY_VERSIONS.md`](./DEPENDENCY_VERSIONS.md)
 
 ## 🔧 Passo 2: Instalar Dependências
@@ -28,8 +34,9 @@ npm install
 yarn install
 ```
 
-**Nota para usuários npm com React 19:**
-Se encontrar avisos de peer dependency com npm:
+**Nota para usuários npm com React 19:** Se encontrar avisos de peer dependency
+com npm:
+
 ```bash
 npm install --legacy-peer-deps
 ```
@@ -42,6 +49,7 @@ pnpm prepare
 ```
 
 Tornar arquivos de hook executáveis (Unix/Mac):
+
 ```bash
 chmod +x .husky/pre-commit
 chmod +x .husky/commit-msg
@@ -50,11 +58,13 @@ chmod +x .husky/commit-msg
 ## 🔐 Passo 4: Configurar Variáveis de Ambiente
 
 ### 1. **Copiar arquivo de exemplo:**
+
 ```bash
 cp .env.example .env.local
 ```
 
 ### 2. **Editar `.env.local`** com sua configuração:
+
 - Definir `N8N_BASE_URL` para sua instância N8N
 - Gerar segredos:
   ```bash
@@ -66,7 +76,9 @@ cp .env.example .env.local
 - Definir `NEXT_PUBLIC_APP_URL` para sua URL local (ex: `http://localhost:3000`)
 
 ### 3. **Validar ambiente:**
-A aplicação validará variáveis de ambiente na inicialização usando `src/lib/env.ts`
+
+A aplicação validará variáveis de ambiente na inicialização usando
+`src/lib/env.ts`
 
 ## 🎨 Passo 5: Inicializar shadcn/ui
 
@@ -75,6 +87,7 @@ npx shadcn@latest init
 ```
 
 Quando solicitado:
+
 - **Style**: **Default**
 - **Base color**: **Slate**
 - **CSS variables**: **Yes**
@@ -82,7 +95,8 @@ Quando solicitado:
 - **TypeScript**: **Yes**
 - **Import alias**: **@/components** (deve corresponder ao `components.json`)
 
-**Nota:** O arquivo `components.json` já está configurado, então o CLI deve usar essas configurações.
+**Nota:** O arquivo `components.json` já está configurado, então o CLI deve usar
+essas configurações.
 
 ## 📦 Passo 6: Instalar Componentes shadcn/ui Essenciais
 
@@ -107,6 +121,7 @@ npx shadcn@latest add skeleton
 ```
 
 Ou instalar todos de uma vez:
+
 ```bash
 npx shadcn@latest add button card dialog form input select table tabs toast badge tooltip command sheet skeleton
 ```
@@ -117,7 +132,8 @@ npx shadcn@latest add button card dialog form input select table tabs toast badg
 pnpm type-check
 ```
 
-Deve completar sem erros. Se houver erros, provavelmente são de componentes shadcn/ui faltantes (instale conforme necessário).
+Deve completar sem erros. Se houver erros, provavelmente são de componentes
+shadcn/ui faltantes (instale conforme necessário).
 
 ## 🚀 Passo 8: Executar Servidor de Desenvolvimento
 
@@ -130,6 +146,7 @@ A aplicação deve iniciar em `http://localhost:3000`
 ## 🔍 Passo 9: Verificar Setup
 
 Confirmar que:
+
 - ✅ Servidor de desenvolvimento executa sem erros
 - ✅ Compilação TypeScript é bem-sucedida
 - ✅ ESLint executa sem erros: `pnpm lint`
@@ -160,24 +177,34 @@ rm teste.md
 ## 🔧 Solução de Problemas
 
 ### Problema: Avisos de Peer Dependency
+
 **Solução:** Use flag `--legacy-peer-deps` com npm, ou mude para pnpm
 
 ### Problema: Hooks Husky Não Executam
-**Solução:** 
+
+**Solução:**
+
 ```bash
 pnpm prepare
 chmod +x .husky/*
 ```
 
 ### Problema: Componentes shadcn/ui Não Encontrados
-**Solução:** Certifique-se de que os caminhos do `components.json` correspondem aos aliases do `tsconfig.json`
+
+**Solução:** Certifique-se de que os caminhos do `components.json` correspondem
+aos aliases do `tsconfig.json`
 
 ### Problema: Erros de Validação de Ambiente
-**Solução:** Verifique se `.env.local` tem todas as variáveis necessárias do `.env.example`
+
+**Solução:** Verifique se `.env.local` tem todas as variáveis necessárias do
+`.env.example`
 
 ### Problema: Classes Tailwind Não Funcionam
-**Solução:** 
-- Verificar se `tailwind.config.ts` inclui seus arquivos nos caminhos de conteúdo
+
+**Solução:**
+
+- Verificar se `tailwind.config.ts` inclui seus arquivos nos caminhos de
+  conteúdo
 - Verificar se `globals.css` tem as diretivas Tailwind
 - Reiniciar servidor de desenvolvimento
 
@@ -187,7 +214,8 @@ Após completar a configuração da Fase 1:
 
 1. **Revisar `Specs.md`** para especificações detalhadas de recursos
 2. **Ler fundamentos pedagógicos** em `docs/fundamentos/`
-3. **Prosseguir para Fase 1 - Design System** (próxima fase no plano de desenvolvimento)
+3. **Prosseguir para Fase 1 - Design System** (próxima fase no plano de
+   desenvolvimento)
 4. **Configurar fluxos N8N** (equipe backend)
 5. **Configurar pipeline CI/CD** (equipe DevOps)
 
@@ -203,8 +231,10 @@ Após completar a configuração da Fase 1:
 ## 🆘 Suporte
 
 Se encontrar problemas:
+
 1. Consulte esta seção de solução de problemas
-2. Revise [`DEPENDENCY_VERSIONS.md`](./DEPENDENCY_VERSIONS.md) para notas específicas de versão
+2. Revise [`DEPENDENCY_VERSIONS.md`](./DEPENDENCY_VERSIONS.md) para notas
+   específicas de versão
 3. Consulte documentação da equipe
 4. Entre em contato com a equipe de desenvolvimento
 
@@ -223,6 +253,8 @@ Se encontrar problemas:
 
 ---
 
-**Nota:** Este guia de configuração cobre apenas a infraestrutura da Fase 1. Fases subsequentes adicionarão design system, integração N8N, modelos de domínio e recursos.
+**Nota:** Este guia de configuração cobre apenas a infraestrutura da Fase 1.
+Fases subsequentes adicionarão design system, integração N8N, modelos de domínio
+e recursos.
 
 **Última atualização:** 3 de outubro de 2025

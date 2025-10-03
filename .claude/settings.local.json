@@ -1,11 +1,6 @@
 {
   "permissions": {
-    "allow": [
-      "Bash(git submodule:*)",
-      "Bash(rm:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)"
-    ],
+    "allow": ["Bash(git submodule:*)", "Bash(rm:*)", "Bash(git add:*)", "Bash(git commit:*)"],
     "deny": [],
     "ask": []
   }
