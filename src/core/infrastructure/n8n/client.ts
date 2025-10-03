@@ -6,7 +6,7 @@
 import { env } from '@/lib/env';
 import { N8N_ENDPOINTS, buildEndpointURL } from './endpoints';
 import { translateN8NError, logError, type N8NError } from './errors';
-import { RetryPolicy, type RetryConfig } from '../resilience/retry';
+import { RetryPolicy, withRetry, type RetryConfig } from '../resilience/retry';
 import {
   CircuitBreakerManager,
   type CircuitBreakerConfig,
@@ -233,8 +233,8 @@ export class N8NClient {
         // Executar com timeout
         return await this.timeoutManager.execute(
           async () => {
-            // Executar com retry
-            return await this.retryPolicy.execute(async () => {
+            // Executar com retry (usar config customizado se fornecido)
+            const retryFn = async () => {
               const response = await fetch(url, {
                 method: 'POST',
                 headers,
@@ -255,7 +255,18 @@ export class N8NClient {
               // Parsear resposta
               const jsonResponse = (await response.json()) as N8NResponse<TResponse>;
               return jsonResponse;
-            });
+            };
+
+            // Se retryConfig customizado foi fornecido, usar withRetry diretamente
+            if (options?.retryConfig) {
+              return await withRetry(retryFn, {
+                ...this.config.retryConfig,
+                ...options.retryConfig,
+              });
+            }
+
+            // Caso contrário, usar retry policy padrão
+            return await this.retryPolicy.execute(retryFn);
           },
           endpoint,
           options?.timeout
@@ -477,8 +488,8 @@ export class N8NClient {
       undefined as unknown as void
     );
 
-    // Cachear resposta
-    this.catalogCache['bnccCache'].set('catalog', response.data);
+    // Cachear resposta usando setter público
+    this.catalogCache.setBNCCCatalog(response.data);
 
     return response.data;
   }
@@ -496,8 +507,8 @@ export class N8NClient {
       undefined as unknown as void
     );
 
-    // Cachear resposta
-    this.catalogCache['bloomCache'].set('catalog', response.data);
+    // Cachear resposta usando setter público
+    this.catalogCache.setBloomCatalog(response.data);
 
     return response.data;
   }
@@ -515,8 +526,8 @@ export class N8NClient {
       undefined as unknown as void
     );
 
-    // Cachear resposta
-    this.catalogCache['virtuesCache'].set('catalog', response.data);
+    // Cachear resposta usando setter público
+    this.catalogCache.setVirtuesCatalog(response.data);
 
     return response.data;
   }
@@ -555,6 +566,27 @@ export class N8NClient {
    */
   invalidateCatalogs(): void {
     this.catalogCache.invalidateCatalogs();
+  }
+
+  /**
+   * Invalida apenas catálogo BNCC
+   */
+  invalidateBNCCCatalog(): void {
+    this.catalogCache.invalidateBNCC();
+  }
+
+  /**
+   * Invalida apenas catálogo Bloom
+   */
+  invalidateBloomCatalog(): void {
+    this.catalogCache.invalidateBloom();
+  }
+
+  /**
+   * Invalida apenas catálogo Virtudes
+   */
+  invalidateVirtuesCatalog(): void {
+    this.catalogCache.invalidateVirtues();
   }
 
   /**

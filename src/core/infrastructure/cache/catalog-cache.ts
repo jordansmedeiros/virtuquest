@@ -300,10 +300,24 @@ export class EducationalCatalogCache {
   }
 
   /**
+   * Armazena catálogo BNCC no cache
+   */
+  setBNCCCatalog(catalog: CatalogoBNCC): void {
+    this.bnccCache.set('catalog', catalog);
+  }
+
+  /**
    * Retorna catálogo Bloom
    */
   getBloom(): CatalogoBloom | null {
     return this.bloomCache.get('catalog');
+  }
+
+  /**
+   * Armazena catálogo Bloom no cache
+   */
+  setBloomCatalog(catalog: CatalogoBloom): void {
+    this.bloomCache.set('catalog', catalog);
   }
 
   /**
@@ -314,6 +328,13 @@ export class EducationalCatalogCache {
   }
 
   /**
+   * Armazena catálogo Virtudes no cache
+   */
+  setVirtuesCatalog(catalog: CatalogoVirtudes): void {
+    this.virtuesCache.set('catalog', catalog);
+  }
+
+  /**
    * Invalida todos os catálogos
    */
   invalidateCatalogs(): void {
@@ -321,6 +342,27 @@ export class EducationalCatalogCache {
     this.bloomCache.invalidateAll();
     this.virtuesCache.invalidateAll();
     this.hydrated = false;
+  }
+
+  /**
+   * Invalida apenas catálogo BNCC
+   */
+  invalidateBNCC(): void {
+    this.bnccCache.invalidate('catalog');
+  }
+
+  /**
+   * Invalida apenas catálogo Bloom
+   */
+  invalidateBloom(): void {
+    this.bloomCache.invalidate('catalog');
+  }
+
+  /**
+   * Invalida apenas catálogo Virtudes
+   */
+  invalidateVirtues(): void {
+    this.virtuesCache.invalidate('catalog');
   }
 
   /**

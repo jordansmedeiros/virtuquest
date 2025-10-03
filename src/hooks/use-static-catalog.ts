@@ -87,8 +87,22 @@ function useStaticCatalog<T>(
   }, [catalogType, options]);
 
   const invalidate = useCallback(() => {
+    // Invalidar cache do n8nClient primeiro
+    switch (catalogType) {
+      case 'bncc':
+        n8nClient.invalidateBNCCCatalog();
+        break;
+      case 'bloom':
+        n8nClient.invalidateBloomCatalog();
+        break;
+      case 'virtues':
+        n8nClient.invalidateVirtuesCatalog();
+        break;
+    }
+
+    // Limpar estado local
     setCatalog(null);
-  }, []);
+  }, [catalogType]);
 
   // Effect para auto-fetch
   useEffect(() => {
