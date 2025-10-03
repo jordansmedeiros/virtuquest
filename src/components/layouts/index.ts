@@ -1,23 +1,18 @@
 /**
- * Layout Components - VirtuQuest Design System
+ * Layout Components - Responsive scaffolding for VirtuQuest
  *
- * Responsive layout scaffolding components
- * Conforme SPECS.md seção 11 - Design System Infrastructure
+ * Export all layout components for easy importing
+ * Conforme especificado em Specs.md seção 11
  */
 
 export { Header } from './header';
-export type { HeaderProps } from './header';
-
-export { Sidebar, SidebarNavItem } from './sidebar';
-export type { SidebarProps, SidebarNavItemProps } from './sidebar';
-
+export { Sidebar } from './sidebar';
 export { MainLayout } from './main-layout';
-export type { MainLayoutProps } from './main-layout';
-
-export { EducationalGrid, GridWithHeader, MasonryGrid, StackedGrid } from './educational-grid';
-export type {
-  EducationalGridProps,
-  GridWithHeaderProps,
-  MasonryGridProps,
-  StackedGridProps,
+export {
+  EducationalGrid,
+  GridWithHeader,
+  MasonryGrid,
+  StackedGrid,
+  GridCard,
+  ResponsiveContainer,
 } from './educational-grid';

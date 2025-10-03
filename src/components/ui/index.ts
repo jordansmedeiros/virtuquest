@@ -2,7 +2,7 @@
  * Componentes UI - VirtuQuest Design System
  *
  * Re-exports dos componentes shadcn/ui oficiais implementados
- * Conforme especificado em SPECS.md seção 11.3.1
+ * Conforme especificado em Specs.md seção 11
  */
 
 // ========================================
@@ -18,10 +18,14 @@ export * from './popover';
 export * from './dialog';
 export * from './dropdown-menu';
 export * from './table';
+export * from './sheet';
 
 // ========================================
 // COMPONENTES DE FORMULÁRIO
 // ========================================
+export * from './input';
+export * from './select';
+export * from './form';
 export * from './shadcn-io/calendar';
 export * from './shadcn-io/combobox';
 // Advanced table exports with different namespace to avoid conflicts
@@ -34,16 +38,14 @@ export {
   type TableColumnHeaderProps,
 } from './shadcn-io/table';
 export * from './shadcn-io/tabs';
-export * from './shadcn-io/theme-switcher';
-
-// ========================================
-// COMPONENTES DE LAYOUT
-// ========================================
 
 // ========================================
 // COMPONENTES DE NAVEGAÇÃO
 // ========================================
+export * from './shadcn-io/theme-switcher';
 
 // ========================================
 // COMPONENTES DE FEEDBACK
 // ========================================
+export * from './toast';
+export * from './tooltip';

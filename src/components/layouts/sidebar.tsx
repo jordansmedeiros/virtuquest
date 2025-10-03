@@ -1,101 +1,153 @@
 /**
- * Sidebar - VirtuQuest Design System
+ * Sidebar Component - Desktop sidebar and mobile sheet navigation
  *
- * Desktop sidebar and mobile sheet navigation component
- * Conforme SPECS.md seção 11 - Design System Infrastructure
+ * Desktop sidebar and mobile sheet navigation referencing lucide icons
+ * Conforme especificado em Specs.md seção 11
  */
 
 'use client';
 
-import { X } from 'lucide-react';
+import {
+  BookOpen,
+  Calendar,
+  BarChart3,
+  Settings,
+  Users,
+  FileText,
+  GraduationCap,
+  Target,
+  Award,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { Separator } from '@/components/ui/separator';
 
-export interface SidebarProps {
-  /** Additional CSS classes */
+interface SidebarProps {
   className?: string;
-  /** Navigation items */
-  children?: React.ReactNode;
-  /** Whether sidebar is open (for mobile) */
-  isOpen?: boolean;
-  /** Callback when sidebar is closed (for mobile) */
-  onClose?: () => void;
-  /** Sidebar title */
-  title?: string;
+  onItemClick?: () => void; // Para fechar menu mobile
 }
 
-export function Sidebar({ className, children, isOpen = false, onClose, title }: SidebarProps) {
+const navigationItems = [
+  {
+    title: 'Planejamento',
+    items: [
+      {
+        title: 'Planos de Aula',
+        href: '/professor/planos',
+        icon: BookOpen,
+        description: 'Criar e gerenciar planos de aula',
+      },
+      {
+        title: 'Cronograma',
+        href: '/professor/cronograma',
+        icon: Calendar,
+        description: 'Visualizar cronograma anual',
+      },
+    ],
+  },
+  {
+    title: 'Recursos',
+    items: [
+      {
+        title: 'Biblioteca BNCC',
+        href: '/biblioteca/bncc',
+        icon: GraduationCap,
+        description: 'Competências e habilidades',
+      },
+      {
+        title: 'Taxonomia Bloom',
+        href: '/biblioteca/bloom',
+        icon: Target,
+        description: 'Níveis cognitivos',
+      },
+      {
+        title: 'Virtudes',
+        href: '/biblioteca/virtudes',
+        icon: Award,
+        description: 'Virtudes intelectuais',
+      },
+    ],
+  },
+  {
+    title: 'Gestão',
+    items: [
+      {
+        title: 'Relatórios',
+        href: '/gestao/relatorios',
+        icon: BarChart3,
+        description: 'Análises e métricas',
+      },
+      {
+        title: 'Turmas',
+        href: '/gestao/turmas',
+        icon: Users,
+        description: 'Gerenciar turmas',
+      },
+    ],
+  },
+];
+
+export function Sidebar({ className, onItemClick }: SidebarProps) {
   return (
-    <>
-      {/* Mobile overlay */}
-      {isOpen && (
-        <div
-          className="bg-background/80 fixed inset-0 z-40 backdrop-blur-sm md:hidden"
-          onClick={onClose}
-          aria-hidden="true"
-        />
-      )}
+    <div className={`flex h-full flex-col ${className || ''}`}>
+      {/* Sidebar Header */}
+      <div className="p-6">
+        <h2 className="text-foreground text-lg font-semibold">Menu Principal</h2>
+        <p className="text-muted-foreground text-sm">Sistema pedagógico integrado</p>
+      </div>
 
-      {/* Sidebar container */}
-      <aside
-        className={cn(
-          // Base styles
-          'bg-background fixed top-0 left-0 z-50 h-screen w-64 border-r transition-transform duration-300',
-          // Desktop: always visible, pushed down by header
-          'md:sticky md:top-14 md:h-[calc(100vh-3.5rem)] md:translate-x-0',
-          // Mobile: slide in/out
-          isOpen ? 'translate-x-0' : '-translate-x-full',
-          className
-        )}
-      >
-        {/* Mobile header with close button */}
-        <div className="flex h-14 items-center justify-between border-b px-4 md:hidden">
-          {title && <h2 className="text-lg font-semibold">{title}</h2>}
-          <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close sidebar">
-            <X className="h-5 w-5" />
-          </Button>
-        </div>
+      <Separator />
 
-        {/* Navigation content */}
-        <nav className="flex flex-col gap-2 p-4">{children}</nav>
-      </aside>
-    </>
-  );
-}
+      {/* Navigation */}
+      <nav className="flex-1 space-y-6 p-4">
+        {navigationItems.map((section) => (
+          <div key={section.title}>
+            <h3 className="text-muted-foreground mb-3 px-3 text-xs font-semibold tracking-wide uppercase">
+              {section.title}
+            </h3>
+            <div className="space-y-1">
+              {section.items.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Button
+                    key={item.href}
+                    variant="ghost"
+                    className="h-auto w-full justify-start px-3 py-2"
+                    onClick={onItemClick}
+                    asChild
+                  >
+                    <a href={item.href}>
+                      <Icon className="mr-3 h-4 w-4" />
+                      <div className="flex flex-col items-start">
+                        <span className="text-sm font-medium">{item.title}</span>
+                        <span className="text-muted-foreground text-xs">{item.description}</span>
+                      </div>
+                    </a>
+                  </Button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </nav>
 
-export interface SidebarNavItemProps {
-  /** Item label */
-  label: string;
-  /** Item icon */
-  icon?: React.ComponentType<{ className?: string }>;
-  /** Whether item is active */
-  active?: boolean;
-  /** Click handler */
-  onClick?: () => void;
-  /** Additional CSS classes */
-  className?: string;
-}
+      <Separator />
 
-export function SidebarNavItem({
-  label,
-  icon: Icon,
-  active = false,
-  onClick,
-  className,
-}: SidebarNavItemProps) {
-  return (
-    <button
-      onClick={onClick}
-      className={cn(
-        'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
-        active
-          ? 'bg-secondary text-secondary-foreground'
-          : 'text-muted-foreground hover:bg-secondary/50 hover:text-foreground',
-        className
-      )}
-    >
-      {Icon && <Icon className="h-5 w-5" />}
-      <span>{label}</span>
-    </button>
+      {/* Bottom section */}
+      <div className="p-4">
+        <Button variant="ghost" className="w-full justify-start" onClick={onItemClick} asChild>
+          <a href="/configuracoes">
+            <Settings className="mr-3 h-4 w-4" />
+            <span>Configurações</span>
+          </a>
+        </Button>
+
+        <Button variant="ghost" className="mt-1 w-full justify-start" onClick={onItemClick} asChild>
+          <a href="/ajuda">
+            <FileText className="mr-3 h-4 w-4" />
+            <span>Ajuda</span>
+          </a>
+        </Button>
+      </div>
+    </div>
   );
 }

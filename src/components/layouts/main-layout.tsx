@@ -1,41 +1,28 @@
 /**
- * MainLayout - VirtuQuest Design System
+ * MainLayout Component - Integrates header + sidebar with responsive behavior
  *
- * Main layout component integrating header + sidebar with responsive behavior
- * Conforme SPECS.md seção 11 - Design System Infrastructure
+ * Integrates header + sidebar, manages mobile drawer state, wraps children
+ * in responsive content container
+ * Conforme especificado em Specs.md seção 11
  */
 
 'use client';
 
 import { useState } from 'react';
-import { Header, type HeaderProps } from './header';
-import { Sidebar, type SidebarProps } from './sidebar';
-import { cn } from '@/lib/utils';
+import { Header } from './header';
+import { Sidebar } from './sidebar';
+import { Sheet, SheetContent } from '@/components/ui/sheet';
 
-export interface MainLayoutProps {
-  /** Additional CSS classes for the container */
-  className?: string;
-  /** Header configuration */
-  header?: Omit<HeaderProps, 'onMobileMenuToggle' | 'isMobileMenuOpen'>;
-  /** Sidebar configuration */
-  sidebar?: Omit<SidebarProps, 'isOpen' | 'onClose'>;
-  /** Main content */
+interface MainLayoutProps {
   children: React.ReactNode;
-  /** Whether to show the sidebar */
-  showSidebar?: boolean;
+  className?: string;
 }
 
-export function MainLayout({
-  className,
-  header,
-  sidebar,
-  children,
-  showSidebar = true,
-}: MainLayoutProps) {
+export function MainLayout({ children, className }: MainLayoutProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleMobileMenuToggle = () => {
-    setIsMobileMenuOpen((prev) => !prev);
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   const handleMobileMenuClose = () => {
@@ -43,30 +30,29 @@ export function MainLayout({
   };
 
   return (
-    <div className="bg-background relative min-h-screen">
+    <div className={`bg-background min-h-screen ${className || ''}`}>
       {/* Header */}
-      <Header
-        {...header}
-        onMobileMenuToggle={handleMobileMenuToggle}
-        isMobileMenuOpen={isMobileMenuOpen}
-      />
+      <Header onMobileMenuToggle={handleMobileMenuToggle} isMobileMenuOpen={isMobileMenuOpen} />
 
-      <div className="flex">
-        {/* Sidebar */}
-        {showSidebar && (
-          <Sidebar {...sidebar} isOpen={isMobileMenuOpen} onClose={handleMobileMenuClose} />
-        )}
+      <div className="flex h-[calc(100vh-4rem)]">
+        {/* Desktop Sidebar */}
+        <aside className="bg-background hidden w-64 border-r md:flex md:flex-col">
+          <Sidebar />
+        </aside>
 
-        {/* Main content area */}
-        <main
-          className={cn(
-            'flex-1 overflow-x-hidden',
-            // Add left padding on desktop when sidebar is shown
-            showSidebar && 'md:ml-0',
-            className
-          )}
-        >
-          <div className="container px-4 py-6 md:px-6 lg:px-8">{children}</div>
+        {/* Mobile Sidebar Sheet */}
+        <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+          <SheetContent side="left" className="w-64 p-0" onInteractOutside={handleMobileMenuClose}>
+            <Sidebar onItemClick={handleMobileMenuClose} />
+          </SheetContent>
+        </Sheet>
+
+        {/* Main Content Area */}
+        <main className="flex-1 overflow-auto">
+          {/* Content Container with responsive padding */}
+          <div className="container mx-auto px-4 py-6 md:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl">{children}</div>
+          </div>
         </main>
       </div>
     </div>

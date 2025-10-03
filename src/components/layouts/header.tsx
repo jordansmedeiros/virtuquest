@@ -1,71 +1,83 @@
 /**
- * Header - VirtuQuest Design System
+ * Header Component - Navigation with theme toggle and mobile menu
  *
- * Top navigation component with theme toggle and mobile menu trigger
- * Conforme SPECS.md seção 11 - Design System Infrastructure
+ * Top navigation with theme toggle and mobile menu trigger using useTheme
+ * Conforme especificado em Specs.md seção 11
  */
 
 'use client';
 
-import { Menu } from 'lucide-react';
+import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { ThemeSwitcher } from '@/components/ui/shadcn-io/theme-switcher';
 import { useTheme } from '@/providers/theme-provider';
-import { cn } from '@/lib/utils';
+import { ThemeSwitcher } from '@/components/ui/shadcn-io/theme-switcher';
 
-export interface HeaderProps {
-  /** Additional CSS classes */
-  className?: string;
-  /** Logo or brand component */
-  logo?: React.ReactNode;
-  /** Navigation items for desktop */
-  navItems?: React.ReactNode;
-  /** Callback when mobile menu is triggered */
+interface HeaderProps {
   onMobileMenuToggle?: () => void;
-  /** Whether the mobile menu is currently open */
   isMobileMenuOpen?: boolean;
+  className?: string;
 }
 
-export function Header({
-  className,
-  logo,
-  navItems,
-  onMobileMenuToggle,
-  isMobileMenuOpen = false,
-}: HeaderProps) {
-  const { theme, setTheme } = useTheme();
+export function Header({ onMobileMenuToggle, isMobileMenuOpen = false, className }: HeaderProps) {
+  const { theme } = useTheme();
 
   return (
     <header
-      className={cn(
-        'bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur',
-        className
-      )}
+      className={`bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur ${className || ''}`}
     >
-      <div className="container flex h-14 items-center justify-between px-4">
-        {/* Mobile menu toggle */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="md:hidden"
-          onClick={onMobileMenuToggle}
-          aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
-          aria-expanded={isMobileMenuOpen}
-        >
-          <Menu className="h-5 w-5" />
-        </Button>
+      <div className="container mx-auto px-4">
+        <div className="flex h-16 items-center justify-between">
+          {/* Logo/Brand */}
+          <div className="flex items-center gap-4">
+            {/* Mobile menu trigger */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden"
+              onClick={onMobileMenuToggle}
+              aria-label="Toggle mobile menu"
+            >
+              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </Button>
 
-        {/* Logo / Brand */}
-        <div className="flex items-center gap-2">
-          {logo || <span className="text-foreground text-lg font-semibold">VirtuQuest</span>}
-        </div>
+            {/* Brand */}
+            <div className="flex items-center space-x-2">
+              <h1 className="text-primary text-xl font-bold">VirtuQuest</h1>
+            </div>
+          </div>
 
-        {/* Desktop navigation */}
-        {navItems && <nav className="hidden md:flex md:items-center md:gap-6">{navItems}</nav>}
+          {/* Navigation - Desktop */}
+          <nav className="hidden md:flex md:items-center md:space-x-6">
+            <a
+              href="/professor"
+              className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
+            >
+              Planos de Aula
+            </a>
+            <a
+              href="/biblioteca"
+              className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
+            >
+              Biblioteca
+            </a>
+            <a
+              href="/relatorios"
+              className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
+            >
+              Relatórios
+            </a>
+          </nav>
 
-        {/* Theme switcher */}
-        <div className="flex items-center gap-2">
-          <ThemeSwitcher value={theme} onChange={setTheme} className="ml-auto" />
+          {/* Right side actions */}
+          <div className="flex items-center space-x-4">
+            <ThemeSwitcher />
+
+            {/* User menu placeholder */}
+            <Button variant="ghost" size="sm" className="hidden md:inline-flex">
+              Prof. Maria
+            </Button>
+          </div>
         </div>
       </div>
     </header>
