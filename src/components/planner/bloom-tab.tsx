@@ -29,7 +29,7 @@ interface BloomTabProps {
   className?: string;
 }
 
-export function BloomTab({ watch, className }: BloomTabProps) {
+export function BloomTab({ control, watch, className }: BloomTabProps) {
   const habilidades = watch('habilidades') || [];
   const matrizTaxonomica = watch('matrizTaxonomica');
 
@@ -110,8 +110,8 @@ export function BloomTab({ watch, className }: BloomTabProps) {
         {/* Mapeador Bloom */}
         <BloomMapper
           value={matrizTaxonomica || { principal: '', secundarias: [], progressao: [] }}
-          onChange={() => {
-            // TODO: Integrate with form control when needed
+          onChange={(value) => {
+            control.setValue('matrizTaxonomica', value, { shouldDirty: true });
           }}
           habilidadesBNCC={habilidades}
           showSuggestions
