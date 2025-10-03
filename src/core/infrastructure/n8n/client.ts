@@ -12,6 +12,7 @@ import {
   type CircuitBreakerConfig,
 } from '../resilience/circuit-breaker';
 import { TimeoutManager } from '../resilience/timeout';
+import { EducationalCatalogCache } from '../cache/catalog-cache';
 import type {
   N8NResponse,
   CreateUserRequest,
@@ -127,6 +128,7 @@ export class N8NClient {
   private retryPolicy: RetryPolicy;
   private circuitBreakerManager: CircuitBreakerManager;
   private timeoutManager: TimeoutManager;
+  private catalogCache: EducationalCatalogCache;
   private requestInterceptors: RequestInterceptor[] = [];
   private responseInterceptors: ResponseInterceptor[] = [];
 
@@ -146,6 +148,13 @@ export class N8NClient {
       this.config.circuitBreakerConfig
     );
     this.timeoutManager = new TimeoutManager(this.config.timeout);
+
+    // Inicializar cache de catálogos
+    this.catalogCache = new EducationalCatalogCache({
+      bncc: env.CACHE_TTL_BNCC,
+      bloom: env.CACHE_TTL_BLOOM,
+      virtues: env.CACHE_TTL_VIRTUDES,
+    });
 
     // Configurar interceptadores padrão
     this.setupDefaultInterceptors();
@@ -167,6 +176,23 @@ export class N8NClient {
         return response;
       });
     }
+  }
+
+  /**
+   * Método público para executar requisições arbitrárias
+   * @public
+   */
+  async execute<TRequest, TResponse>(
+    endpoint: string,
+    data: TRequest,
+    options?: RequestOptions
+  ): Promise<TResponse> {
+    const response = await this.request<TRequest, TResponse>(
+      endpoint,
+      data,
+      options
+    );
+    return response.data;
   }
 
   /**
@@ -439,27 +465,103 @@ export class N8NClient {
   // ========================================================================
 
   async fetchBNCCCatalog(): Promise<CatalogoBNCC> {
+    // Verificar cache primeiro
+    const cached = this.catalogCache.getBNCC();
+    if (cached) {
+      return cached;
+    }
+
+    // Cache miss, buscar do N8N
     const response = await this.request<void, CatalogoBNCC>(
       N8N_ENDPOINTS.catalogos.buscarBNCC,
       undefined as unknown as void
     );
+
+    // Cachear resposta
+    this.catalogCache['bnccCache'].set('catalog', response.data);
+
     return response.data;
   }
 
   async fetchBloomCatalog(): Promise<CatalogoBloom> {
+    // Verificar cache primeiro
+    const cached = this.catalogCache.getBloom();
+    if (cached) {
+      return cached;
+    }
+
+    // Cache miss, buscar do N8N
     const response = await this.request<void, CatalogoBloom>(
       N8N_ENDPOINTS.catalogos.buscarBloom,
       undefined as unknown as void
     );
+
+    // Cachear resposta
+    this.catalogCache['bloomCache'].set('catalog', response.data);
+
     return response.data;
   }
 
   async fetchVirtuesCatalog(): Promise<CatalogoVirtudes> {
+    // Verificar cache primeiro
+    const cached = this.catalogCache.getVirtues();
+    if (cached) {
+      return cached;
+    }
+
+    // Cache miss, buscar do N8N
     const response = await this.request<void, CatalogoVirtudes>(
       N8N_ENDPOINTS.catalogos.buscarVirtudes,
       undefined as unknown as void
     );
+
+    // Cachear resposta
+    this.catalogCache['virtuesCache'].set('catalog', response.data);
+
     return response.data;
+  }
+
+  /**
+   * Hidrata cache de catálogos com dados do N8N
+   */
+  async hydrateCatalogs(): Promise<void> {
+    await this.catalogCache.hydrate({
+      fetchBNCC: async () => {
+        const response = await this.request<void, CatalogoBNCC>(
+          N8N_ENDPOINTS.catalogos.buscarBNCC,
+          undefined as unknown as void
+        );
+        return response.data;
+      },
+      fetchBloom: async () => {
+        const response = await this.request<void, CatalogoBloom>(
+          N8N_ENDPOINTS.catalogos.buscarBloom,
+          undefined as unknown as void
+        );
+        return response.data;
+      },
+      fetchVirtues: async () => {
+        const response = await this.request<void, CatalogoVirtudes>(
+          N8N_ENDPOINTS.catalogos.buscarVirtudes,
+          undefined as unknown as void
+        );
+        return response.data;
+      },
+    });
+  }
+
+  /**
+   * Invalida cache de catálogos
+   */
+  invalidateCatalogs(): void {
+    this.catalogCache.invalidateCatalogs();
+  }
+
+  /**
+   * Verifica se catálogos estão cacheados
+   */
+  isCatalogsHydrated(): boolean {
+    return this.catalogCache.isHydrated();
   }
 
   // ========================================================================
@@ -516,9 +618,5 @@ export async function executeN8NWorkflow<TRequest, TResponse>(
 ): Promise<TResponse> {
   'use server';
 
-  const response = await (n8nClient as any).request<TRequest, TResponse>(
-    endpoint,
-    data
-  );
-  return response.data;
+  return await n8nClient.execute<TRequest, TResponse>(endpoint, data);
 }

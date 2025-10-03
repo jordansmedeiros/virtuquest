@@ -143,13 +143,11 @@ export function useN8NWorkflow<TRequest, TResponse>(
         }
 
         // 3. Executar workflow via n8nClient
-        const response = await (n8nClient as any).request<TRequest, TResponse>(
+        const responseData = await n8nClient.execute<TRequest, TResponse>(
           endpoint,
           requestData,
           { retryConfig: options?.retryConfig }
         );
-
-        const responseData = response.data;
 
         // 4. Armazenar resposta
         setData(responseData);
