@@ -6,7 +6,6 @@ import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import {
   Command,
@@ -97,8 +96,8 @@ export default function DemoPage() {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <BNCCBadge code="EF01MA01" />
-            <BNCCBadge code="EF02CI03" variant="compact" />
+            <BNCCBadge habilidade="EF01MA01" />
+            <BNCCBadge competencia="COMP01" variant="outline" />
           </div>
 
           <div className="flex flex-wrap gap-2">
