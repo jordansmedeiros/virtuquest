@@ -1,0 +1,4 @@
+{
+  "model": "claude-2.1",
+  "tools": ["read_file", "list_directory", "search_file_content"]
+}

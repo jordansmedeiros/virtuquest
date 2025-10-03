@@ -8,34 +8,42 @@
 // ========================================
 // COMPONENTES BASE
 // ========================================
-export * from './badge';
 export * from './button';
+export * from './badge';
 export * from './card';
 export * from './label';
 export * from './separator';
+export * from './command';
+export * from './popover';
+export * from './dialog';
+export * from './dropdown-menu';
+export * from './table';
 
 // ========================================
 // COMPONENTES DE FORMULÁRIO
 // ========================================
-export * from './input';
-export * from './textarea';
-export * from './select';
+export * from './shadcn-io/calendar';
+export * from './shadcn-io/combobox';
+// Advanced table exports with different namespace to avoid conflicts
+export {
+  TableProvider as AdvancedTableProvider,
+  TableContext as AdvancedTableContext,
+  TableColumnHeader,
+  type ColumnDef,
+  type TableProviderProps,
+  type TableColumnHeaderProps,
+} from './shadcn-io/table';
+export * from './shadcn-io/tabs';
+export * from './shadcn-io/theme-switcher';
 
 // ========================================
 // COMPONENTES DE LAYOUT
 // ========================================
-export * from './tabs';
-export * from './table';
-export * from './dialog';
 
 // ========================================
 // COMPONENTES DE NAVEGAÇÃO
 // ========================================
-export * from './popover';
-export * from './command';
 
 // ========================================
 // COMPONENTES DE FEEDBACK
 // ========================================
-export * from './spinner';
-export * from './rating';
