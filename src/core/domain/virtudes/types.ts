@@ -114,11 +114,11 @@ export interface VirtudeIntelectual {
 
   // Desenvolvimento
   /** Descrições por nível de desenvolvimento */
-  readonly nivelDesenvolvimento: {
-    readonly inicial: string;
-    readonly intermediario: string;
-    readonly avancado: string;
-  };
+  readonly nivelDesenvolvimento: Readonly<{
+    inicial: string;
+    intermediario: string;
+    avancado: string;
+  }>;
 }
 
 /**
@@ -143,18 +143,22 @@ export interface MapaVirtudes {
  */
 export interface PerfilVirtudes {
   /** Virtudes já desenvolvidas com evidências */
-  readonly virtudesDesenvolvidas: readonly Array<{
-    readonly virtude: string;
-    readonly nivel: NivelDesenvolvimento;
-    readonly evidencias: readonly string[];
-  }>;
+  readonly virtudesDesenvolvidas: ReadonlyArray<
+    Readonly<{
+      virtude: string;
+      nivel: NivelDesenvolvimento;
+      evidencias: readonly string[];
+    }>
+  >;
   /** Virtudes prioritárias para desenvolvimento */
   readonly virtudesPrioritarias: readonly string[];
   /** Evolução temporal (score 0-100) */
-  readonly progressao: readonly Array<{
-    readonly virtude: string;
-    readonly evolucao: number;
-  }>;
+  readonly progressao: ReadonlyArray<
+    Readonly<{
+      virtude: string;
+      evolucao: number;
+    }>
+  >;
 }
 
 /**

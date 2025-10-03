@@ -91,7 +91,14 @@ export function decomposeCodigoHabilidade(codigo: string): HabilidadeDecomposta 
     );
   }
 
-  const [, etapaStr, anosStr, componente, sequenciaStr] = match;
+  const etapaStr = match[1];
+  const anosStr = match[2];
+  const componente = match[3];
+  const sequenciaStr = match[4];
+
+  if (!etapaStr || !anosStr || !componente || !sequenciaStr) {
+    throw new InvalidBNCCCodeError(codigo, 'Código incompleto');
+  }
 
   // Validar etapa
   if (!Object.values(Etapa).includes(etapaStr as Etapa)) {
@@ -133,8 +140,8 @@ export function decomposeCodigoHabilidade(codigo: string): HabilidadeDecomposta 
  * @returns Array de anos
  */
 function extrairAnos(anosStr: string, etapa: Etapa): number[] {
-  const primeiroDigito = parseInt(anosStr[0], 10);
-  const segundoDigito = parseInt(anosStr[1], 10);
+  const primeiroDigito = parseInt(anosStr.charAt(0), 10);
+  const segundoDigito = parseInt(anosStr.charAt(1), 10);
 
   // Educação Infantil: creche e pré-escola
   if (etapa === Etapa.EI) {

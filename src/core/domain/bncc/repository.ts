@@ -13,10 +13,8 @@
 
 import {
   Etapa,
-  AreaConhecimento,
   ComponenteCurricular,
   type CompetenciaGeral,
-  type CompetenciaEspecifica,
   type Habilidade,
   type ObjetoConhecimento,
 } from './types';
@@ -27,13 +25,11 @@ import { decomposeCodigoHabilidade, validarCodigoBNCC } from './decomposer';
  */
 class CatalogoBNCCRepository {
   private readonly competenciasGerais: Map<number, CompetenciaGeral>;
-  private readonly competenciasEspecificas: Map<string, CompetenciaEspecifica>;
   private readonly habilidades: Map<string, Habilidade>;
   private readonly objetosConhecimento: Map<string, ObjetoConhecimento>;
 
   constructor() {
     this.competenciasGerais = new Map();
-    this.competenciasEspecificas = new Map();
     this.habilidades = new Map();
     this.objetosConhecimento = new Map();
 

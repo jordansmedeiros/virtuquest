@@ -219,10 +219,12 @@ export interface Competencia {
  */
 export interface ProgressaoPerrenoud {
   /** Sequência de momentos com situações-problema */
-  readonly momentos: readonly Array<{
-    readonly momento: MomentoDidatico;
-    readonly situacoes: readonly SituacaoProblema[];
-  }>;
+  readonly momentos: ReadonlyArray<
+    Readonly<{
+      momento: MomentoDidatico;
+      situacoes: readonly SituacaoProblema[];
+    }>
+  >;
   /** Indica se há progressão de complexidade */
   readonly complexidadeCrescente: boolean;
   /** Transferibilidade esperada ao final */

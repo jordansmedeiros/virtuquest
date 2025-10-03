@@ -247,7 +247,7 @@ class CatalogoVirtudesRepository {
 
     virtudes.forEach((v) => {
       this.virtudes.set(v.id, v);
-      this.indicadores.set(v.id, v.indicadores);
+      this.indicadores.set(v.id, [...v.indicadores]);
     });
   }
 

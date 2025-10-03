@@ -15,8 +15,6 @@ import {
   MATRIZ_BLOOM_COMPLETA,
   getCelula,
   getCelulaPorCodigo,
-  listarCelulasPorProcesso,
-  listarCelulasPorConhecimento,
   VERBOS_POR_PROCESSO,
 } from './matriz';
 
@@ -134,6 +132,9 @@ class CatalogoBloomRepository {
     for (let i = 0; i < processos.length - 1; i++) {
       const atual = processos[i];
       const proximo = processos[i + 1];
+
+      if (atual === undefined || proximo === undefined) continue;
+
       const salto = proximo - atual;
 
       if (salto > 2) {
