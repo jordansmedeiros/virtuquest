@@ -8,7 +8,6 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores/auth-store';
-import { getCurrentUserAction } from '@/core/auth/actions';
 import type { SessionUser } from '@/core/infrastructure/n8n/types';
 
 // ============================================================================
@@ -17,7 +16,7 @@ import type { SessionUser } from '@/core/infrastructure/n8n/types';
 
 /**
  * Hook para obter dados do usuário atual
- * Sincroniza com cookies HttpOnly via Server Action
+ * Sincroniza com cookies HttpOnly via API endpoint
  */
 export function useCurrentUser(): {
   user: SessionUser | null;
@@ -31,12 +30,24 @@ export function useCurrentUser(): {
   const setUser = useAuthStore((state) => state.setUser);
   const setLoading = useAuthStore((state) => state.setLoading);
 
-  // Função para buscar usuário
+  // Função para buscar usuário via API
   const fetchUser = async () => {
     setLoading(true);
     try {
-      const userData = await getCurrentUserAction();
-      setUser(userData);
+      const response = await fetch('/api/auth/me', {
+        method: 'GET',
+        credentials: 'include', // Incluir cookies
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        setUser(userData as SessionUser);
+      } else if (response.status === 401) {
+        // Não autenticado
+        setUser(null);
+      } else {
+        throw new Error('Failed to fetch user');
+      }
     } catch (error) {
       console.error('[useCurrentUser] Failed to fetch user:', error);
       setUser(null);
@@ -51,10 +62,19 @@ export function useCurrentUser(): {
       fetchUser();
     } else if (user) {
       // Se já tem user no store, ainda sincronizar (mas não mostrar loading)
-      getCurrentUserAction()
+      fetch('/api/auth/me', {
+        method: 'GET',
+        credentials: 'include',
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          return null;
+        })
         .then((userData) => {
           if (userData && userData.id !== user.id) {
-            setUser(userData);
+            setUser(userData as SessionUser);
           }
         })
         .catch((error) => {

@@ -3,7 +3,7 @@
  * @module core/auth/permissions
  */
 
-import type { UserType, Permission, RolePermissions } from '@/core/infrastructure/n8n/types';
+import { UserType, type Permission, type RolePermissions } from '@/core/infrastructure/n8n/types';
 
 // ============================================================================
 // Mapeamento de Permissões por Role

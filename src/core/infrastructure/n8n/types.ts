@@ -98,6 +98,9 @@ export enum EventType {
   IA_UTILIZADA = 'ia_utilizada',
   AVALIACAO_GERADA = 'avaliacao_gerada',
   RELATORIO_ACESSADO = 'relatorio_acessado',
+  LOGIN = 'login',
+  LOGOUT = 'logout',
+  TOKEN_REFRESHED = 'token_refreshed',
 }
 
 // ============================================================================

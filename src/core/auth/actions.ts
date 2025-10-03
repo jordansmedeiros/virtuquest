@@ -10,7 +10,7 @@ import { n8nClient } from '@/core/infrastructure/n8n';
 import { setAuthCookies, clearAuthCookies, getRefreshToken } from './cookies';
 import { verifyToken } from './jwt';
 import { getCurrentUser as getSessionUser } from './session';
-import type { AuthUserRequest, SessionUser } from '@/core/infrastructure/n8n/types';
+import type { AuthUserRequest, SessionUser, EventType } from '@/core/infrastructure/n8n/types';
 
 // ============================================================================
 // Types
@@ -196,15 +196,32 @@ async function recordAuthEvent(
   userId: string
 ): Promise<void> {
   try {
-    // Preparar evento (simplified - adapt to your telemetry system)
-    // await n8nClient.recordPedagogicalEvent({
-    //   tipo: tipo as any,
-    //   contexto: {
-    //     usuario: userId,
-    //     timestamp: new Date().toISOString(),
-    //   },
-    //   dados: {},
-    //});
+    // Mapear tipo para EventType
+    let eventType: EventType;
+    switch (tipo) {
+      case 'LOGIN':
+        eventType = 'login' as EventType;
+        break;
+      case 'LOGOUT':
+        eventType = 'logout' as EventType;
+        break;
+      case 'TOKEN_REFRESHED':
+        eventType = 'token_refreshed' as EventType;
+        break;
+    }
+
+    // Enviar evento para telemetria pedagógica N8N
+    await n8nClient.recordPedagogicalEvent({
+      tipo: eventType,
+      contexto: {
+        usuario: userId,
+        timestamp: new Date().toISOString(),
+      },
+      dados: {
+        eventType: tipo,
+        timestamp: Date.now(),
+      },
+    });
 
     console.debug(`[Auth] Recorded ${tipo} event for user ${userId}`);
   } catch (error) {
