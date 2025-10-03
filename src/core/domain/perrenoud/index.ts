@@ -10,3 +10,6 @@
 
 // Tipos
 export * from './types';
+
+// Repositório (Singleton)
+export { catalogoPerrenoud } from './repository';

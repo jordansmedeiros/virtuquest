@@ -3,10 +3,11 @@
 <cite>
 **Arquivos Referenciados neste Documento**   
 - [README.md](file://README.md) - *Atualizado nos commits recentes*
-- [src/components/icons/educational.tsx](file://src\components\icons\educational.tsx) - *Definições de ícones e virtudes*
-- [src/core/infrastructure/cache/catalog-cache.ts](file://src\core\infrastructure\cache\catalog-cache.ts) - *Implementação do cache de virtudes*
-- [src/hooks/use-static-catalog.ts](file://src\hooks\use-static-catalog.ts) - *Hooks para acesso a catálogos*
-- [src/core/infrastructure/n8n/client.ts](file://src\core\infrastructure\n8n\client.ts) - *Cliente N8N com métodos públicos para virtudes*
+- [src/core/domain/virtudes/types.ts](file://src\core\domain\virtudes\types.ts) - *Definições de tipos e categorias de virtudes*
+- [src/core/domain/virtudes/repository.ts](file://src\core\domain\virtudes\repository.ts) - *Implementação do repositório de virtudes*
+- [src/core/domain/README.md](file://src\core\domain\README.md) - *Documentação da camada de domínio pedagógico*
+- [src/core/domain/bloom/types.ts](file://src\core\domain\bloom\types.ts) - *Tipos da Taxonomia de Bloom*
+- [src/core/domain/bncc/types.ts](file://src\core\domain\bncc\types.ts) - *Tipos da BNCC*
 </cite>
 
 ## Resumo das Atualizações
@@ -14,7 +15,9 @@
 **Alterações Realizadas**
 
 - Atualização da definição de virtudes com base nas implementações de código
-- Correção dos ícones e comportamentos associados às virtudes
+- Substituição da virtude "Honestidade Intelectual" por "Rigor Intelectual"
+- Atualização dos indicadores observáveis e níveis de desenvolvimento
+- Correção dos mapeamentos com a Taxonomia de Bloom e BNCC
 - Atualização da matriz de virtudes com base na implementação real
 - Adição de seção sobre cache e desempenho
 - Atualização dos fontes de seção com base nos arquivos analisados
@@ -35,13 +38,14 @@ O pilar das Virtudes Intelectuais no VirtuQuest representa um componente
 fundamental para o desenvolvimento do caráter estudantil, integrando-se
 harmoniosamente com os frameworks da BNCC e da Taxonomia de Bloom. Este
 documento detalha como a plataforma apoia professores na promoção de virtudes
-como curiosidade, humildade intelectual, coragem, autonomia, perseverança e
-honestidade, oferecendo ferramentas práticas para observação, planejamento e
-fomento dessas qualidades em sala de aula.
+como curiosidade, rigor intelectual, abertura de pensamento e persistência,
+oferecendo ferramentas práticas para observação, planejamento e fomento dessas
+qualidades em sala de aula.
 
 **Fontes da seção**
 
 - [README.md](file://README.md#L0-L44)
+- [src/core/domain/README.md](file://src\core\domain\README.md#L180-L237)
 
 ## Definição das Virtudes Intelectuais
 
@@ -50,52 +54,144 @@ emocionais que orientam o comportamento do estudante no processo de
 aprendizagem. Elas vão além do domínio de conteúdos, promovendo uma postura
 ativa, reflexiva e ética diante do conhecimento.
 
-### Curiosidade
+### Curiosidade Intelectual
 
-A curiosidade é a disposição para questionar, investigar e buscar compreensão
-mais profunda sobre o mundo. Representada visualmente pelo ícone de olho (Eye),
-esta virtude estimula a formulação de perguntas, a exploração de novas ideias e
-o desejo de aprender continuamente.
+A curiosidade intelectual é a disposição para buscar conhecimento, fazer
+perguntas investigativas e explorar ideias além do superficial. Esta virtude
+estimula a formulação de perguntas, a exploração de novas ideias e o desejo de
+aprender continuamente.
 
-### Humildade Intelectual
+**Indicadores Observáveis**
 
-A humildade intelectual envolve o reconhecimento das próprias limitações
-cognitivas e a disposição para revisar crenças diante de novas evidências.
-Associada ao ícone de coração (Heart), esta virtude promove a honestidade
-cognitiva e a responsabilidade intelectual.
+- Formula perguntas investigativas
+- Busca múltiplas fontes de informação
+- Compara perspectivas diversas
 
-### Coragem Intelectual
+**Níveis de Desenvolvimento**
 
-A coragem intelectual é a disposição para questionar ideias estabelecidas,
-expressar pensamentos divergentes e enfrentar desafios cognitivos. Representada
-pelo raio (Zap), esta virtude valoriza o pensamento independente e a defesa de
-posições bem fundamentadas.
-
-### Autonomia Intelectual
-
-A autonomia intelectual é a capacidade de pensar de forma independente, formar
-juízos próprios e assumir responsabilidade pelo próprio aprendizado. Simbolizada
-pela figura de grupo (Users), esta virtude desenvolve a capacidade de
-autoavaliação e autorregulação.
-
-### Perseverança
-
-A perseverança é a disposição para continuar esforçando-se diante de desafios e
-obstáculos cognitivos. Representada pela seta ascendente (TrendingUp), esta
-virtude desenvolve a resiliência, a paciência e a determinação necessárias para
-alcançar metas de aprendizagem complexas.
-
-### Honestidade Intelectual
-
-A honestidade intelectual envolve a integridade no tratamento do conhecimento,
-incluindo a atribuição adequada de fontes e o reconhecimento de erros.
-Simbolizada pelo círculo de verificação (CheckCircle), esta virtude promove a
-ética acadêmica e a responsabilidade intelectual.
+- **Inicial**: Faz perguntas básicas sobre tópicos apresentados
+- **Intermediário**: Investiga sistematicamente temas de interesse com perguntas
+  aprofundadas
+- **Avançado**: Formula hipóteses originais e busca validá-las com rigor
 
 **Fontes da seção**
 
-- [src/components/icons/educational.tsx](file://src\components\icons\educational.tsx#L107-L128)
-- [README.md](file://README.md#L0-L44)
+- [src/core/domain/virtudes/repository.ts](file://src\core\domain\virtudes\repository.ts#L38-L73)
+- [src/core/domain/virtudes/types.ts](file://src\core\domain\virtudes\types.ts#L75-L112)
+
+### Humildade Intelectual
+
+A humildade intelectual envolve o reconhecimento dos limites do próprio
+conhecimento e a abertura para aprender com outros. Esta virtude promove a
+honestidade cognitiva e a responsabilidade intelectual.
+
+**Indicadores Observáveis**
+
+- Reconhece e admite erros
+- Aceita correções sem defensividade
+- Revisa posições diante de novas evidências
+
+**Níveis de Desenvolvimento**
+
+- **Inicial**: Aceita feedback com relutância
+- **Intermediário**: Busca ativamente feedback e reconhece limitações
+- **Avançado**: Cultiva consciência metacognitiva sobre próprio conhecimento
+
+**Fontes da seção**
+
+- [src/core/domain/virtudes/repository.ts](file://src\core\domain\virtudes\repository.ts#L104-L139)
+- [src/core/domain/virtudes/types.ts](file://src\core\domain\virtudes\types.ts#L75-L112)
+
+### Coragem Intelectual
+
+A coragem intelectual é a disposição para defender ideias fundamentadas e
+questionar consensos quando necessário. Esta virtude valoriza o pensamento
+independente e a defesa de posições bem fundamentadas.
+
+**Indicadores Observáveis**
+
+- Expressa opiniões fundamentadas mesmo quando impopulares
+- Defende posições com argumentos
+- Assume riscos intelectuais
+
+**Níveis de Desenvolvimento**
+
+- **Inicial**: Expressa opiniões ocasionalmente
+- **Intermediário**: Defende ideias com argumentos em contextos seguros
+- **Avançado**: Assume posições fundamentadas mesmo diante de oposição
+
+**Fontes da seção**
+
+- [src/core/domain/virtudes/repository.ts](file://src\core\domain\virtudes\repository.ts#L139-L173)
+- [src/core/domain/virtudes/types.ts](file://src\core\domain\virtudes\types.ts#L75-L112)
+
+### Autonomia Intelectual
+
+A autonomia intelectual é a capacidade de pensar e agir independentemente com
+responsabilidade. Esta virtude desenvolve a capacidade de autoavaliação e
+autorregulação.
+
+**Indicadores Observáveis**
+
+- Toma decisões próprias sobre aprendizado
+- Gerencia próprio estudo
+- Escolhe caminhos de aprendizagem
+
+**Níveis de Desenvolvimento**
+
+- **Inicial**: Segue orientações com pouca iniciativa própria
+- **Intermediário**: Toma decisões sobre aprendizado com suporte
+- **Avançado**: Dirige autonomamente próprio desenvolvimento intelectual
+
+**Fontes da seção**
+
+- [src/core/domain/virtudes/repository.ts](file://src\core\domain\virtudes\repository.ts#L173-L201)
+- [src/core/domain/virtudes/types.ts](file://src\core\domain\virtudes\types.ts#L75-L112)
+
+### Perseverança
+
+A perseverança é a persistência diante de desafios cognitivos e a disposição
+para superar dificuldades. Esta virtude desenvolve a resiliência, a paciência e
+a determinação necessárias para alcançar metas de aprendizagem complexas.
+
+**Indicadores Observáveis**
+
+- Persiste em tarefas difíceis
+- Não desiste facilmente
+- Tenta múltiplas estratégias
+
+**Níveis de Desenvolvimento**
+
+- **Inicial**: Desiste diante de dificuldades iniciais
+- **Intermediário**: Persiste com esforço consciente
+- **Avançado**: Demonstra resiliência natural diante de desafios
+
+**Fontes da seção**
+
+- [src/core/domain/virtudes/repository.ts](file://src\core\domain\virtudes\repository.ts#L201-L236)
+- [src/core/domain/virtudes/types.ts](file://src\core\domain\virtudes\types.ts#L75-L112)
+
+### Rigor Intelectual
+
+O rigor intelectual é o compromisso com precisão, evidências e raciocínio
+lógico. Esta virtude promove a ética acadêmica e a responsabilidade intelectual.
+
+**Indicadores Observáveis**
+
+- Verifica fontes e busca evidências
+- Questiona validade de informações
+- Argumenta logicamente
+
+**Níveis de Desenvolvimento**
+
+- **Inicial**: Aceita informações sem questionamento
+- **Intermediário**: Verifica fontes e busca evidências ocasionalmente
+- **Avançado**: Aplica rigor sistemático em análises e argumentações
+
+**Fontes da seção**
+
+- [src/core/domain/virtudes/repository.ts](file://src\core\domain\virtudes\repository.ts#L236-L267)
+- [src/core/domain/virtudes/types.ts](file://src\core\domain\virtudes\types.ts#L75-L112)
 
 ## Integração no Planejamento de Aulas
 
@@ -111,7 +207,7 @@ intelectuais diretamente ao planejamento de aulas, oferecendo suporte para:
 
 ### Sugestões de Atividades
 
-**Para desenvolver curiosidade:**
+**Para desenvolver curiosidade intelectual:**
 
 - Projetos de investigação autodirigidos
 - Sessões de perguntas e respostas abertas
@@ -141,16 +237,16 @@ intelectuais diretamente ao planejamento de aulas, oferecendo suporte para:
 - Projetos de longo prazo com metas intermediárias
 - Reflexão sobre erros como oportunidades de aprendizagem
 
-**Para promover honestidade intelectual:**
+**Para promover rigor intelectual:**
 
-- Atividades de citação e referência adequada
-- Análise de plágio e suas consequências
-- Discussões sobre ética acadêmica e responsabilidade intelectual
+- Atividades de verificação de fontes e busca de evidências
+- Análise crítica de argumentos
+- Discussões sobre raciocínio lógico e validade de informações
 
 **Fontes da seção**
 
-- [README.md](file://README.md#L0-L44)
-- [src/components/icons/educational.tsx](file://src\components\icons\educational.tsx#L107-L179)
+- [src/core/domain/README.md](file://src\core\domain\README.md#L180-L237)
+- [src/core/domain/virtudes/repository.ts](file://src\core\domain\virtudes\repository.ts#L38-L267)
 
 ## Relação com a Taxonomia de Bloom
 
@@ -159,7 +255,7 @@ da Taxonomia de Bloom, complementando e aprofundando cada nível de pensamento.
 
 ```mermaid
 graph TD
-A[Lembrar] --> |Curiosidade| B[Compreender]
+A[Lembrar] --> |Curiosidade Intelectual| B[Compreender]
 B --> |Humildade Intelectual| C[Aplicar]
 C --> |Coragem Intelectual| D[Analisar]
 D --> |Perseverança| E[Avaliar]
@@ -175,12 +271,13 @@ style F fill:#FF69B4,stroke:#333
 **Fontes do diagrama**
 
 - [src/styles/design-tokens.css](file://src\styles\design-tokens.css#L40-L69)
-- [src/components/icons/educational.tsx](file://src\components\icons\educational.tsx#L57-L105)
+- [src/core/domain/bloom/types.ts](file://src\core\domain\bloom\types.ts#L10-L25)
 
-A curiosidade impulsiona o movimento do nível "Lembrar" para "Compreender",
-enquanto a humildade intelectual facilita a aplicação de conhecimentos em novos
-contextos. A coragem intelectual é essencial para a análise crítica, e a
-perseverança sustenta o processo de avaliação e criação de soluções inovadoras.
+A curiosidade intelectual impulsiona o movimento do nível "Lembrar" para
+"Compreender", enquanto a humildade intelectual facilita a aplicação de
+conhecimentos em novos contextos. A coragem intelectual é essencial para a
+análise crítica, e a perseverança sustenta o processo de avaliação e criação de
+soluções inovadoras.
 
 ## Alinhamento com a BNCC
 
@@ -188,9 +285,10 @@ As virtudes intelectuais no VirtuQuest estão alinhadas com as competências
 gerais da BNCC, especialmente com:
 
 - **Competência 2**: Pensamento Científico, Crítico e Criativo
-- **Competência 3**: Comunicação
-- **Competência 5**: Autoconhecimento e Autocuidado
 - **Competência 6**: Empatia e cooperação
+- **Competência 7**: Argumentação
+- **Competência 8**: Consciência e cuidado com a saúde
+- **Competência 10**: Consciência socioemocional
 
 A plataforma utiliza cores específicas para representar visualmente essas
 conexões, com o roxo representando competências da BNCC e o azul representando
@@ -200,22 +298,22 @@ intelectuais.
 
 **Fontes da seção**
 
-- [src/styles/design-tokens.css](file://src\styles\design-tokens.css#L40-L69)
-- [README.md](file://README.md#L0-L44)
+- [src/core/domain/README.md](file://src\core\domain\README.md#L180-L237)
+- [src/core/domain/virtudes/repository.ts](file://src\core\domain\virtudes\repository.ts#L38-L267)
 
 ## Matriz de Virtudes com Comportamentos Observáveis
 
 A matriz a seguir apresenta as virtudes intelectuais com comportamentos
 observáveis e estratégias de fomento em sala de aula:
 
-| Virtude Intelectual         | Comportamentos Observáveis                                                                                    | Estratégias de Fomento                                                                        |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| **Curiosidade**             | Formula perguntas originais, demonstra interesse por temas além do conteúdo, busca fontes adicionais          | Projetos de investigação, sessões de brainstorming, laboratórios de experimentação            |
-| **Humildade Intelectual**   | Reconhece limitações do próprio conhecimento, aceita feedback, modifica opiniões com base em novas evidências | Discussões sobre incertezas científicas, análise de erros históricos, revisão por pares       |
-| **Coragem Intelectual**     | Expressa ideias contrárias à maioria, questiona pressupostos, defende posições bem fundamentadas              | Debates estruturados, simulações de julgamento, atividades de defesa de posições minoritárias |
-| **Autonomia Intelectual**   | Planeja seu próprio aprendizado, autoavalia seu progresso, toma decisões cognitivas independentes             | Projetos autodirigidos, diários metacognitivos, planejamento de metas de aprendizagem         |
-| **Perseverança**            | Continua tentando após falhas, busca ajuda quando necessário, completa tarefas desafiadoras                   | Desafios progressivos, metas intermediárias, reflexão sobre o processo de aprendizagem        |
-| **Honestidade Intelectual** | Cita fontes adequadamente, reconhece erros, evita plágio                                                      | Atividades de citação, análise de casos de plágio, discussões sobre ética acadêmica           |
+| Virtude Intelectual         | Comportamentos Observáveis                                                                                            | Estratégias de Fomento                                                                                 |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| **Curiosidade Intelectual** | Formula perguntas investigativas, busca múltiplas fontes de informação, compara perspectivas diversas                 | Projetos de investigação, sessões de brainstorming, laboratórios de experimentação                     |
+| **Humildade Intelectual**   | Reconhece e admite erros, aceita correções sem defensividade, revisa posições diante de novas evidências              | Discussões sobre incertezas científicas, análise de erros históricos, revisão por pares                |
+| **Coragem Intelectual**     | Expressa opiniões fundamentadas mesmo quando impopulares, defende posições com argumentos, assume riscos intelectuais | Debates estruturados, simulações de julgamento, atividades de defesa de posições minoritárias          |
+| **Autonomia Intelectual**   | Toma decisões próprias sobre aprendizado, gerencia próprio estudo, escolhe caminhos de aprendizagem                   | Projetos autodirigidos, diários metacognitivos, planejamento de metas de aprendizagem                  |
+| **Perseverança**            | Persiste em tarefas difíceis, não desiste facilmente, tenta múltiplas estratégias                                     | Desafios progressivos, metas intermediárias, reflexão sobre o processo de aprendizagem                 |
+| **Rigor Intelectual**       | Verifica fontes e busca evidências, questiona validade de informações, argumenta logicamente                          | Atividades de verificação de fontes, análise crítica de argumentos, discussões sobre raciocínio lógico |
 
 Esta matriz serve como guia para professores observarem, avaliarem e promoverem
 o desenvolvimento das virtudes intelectuais em seus alunos, integrando esse
@@ -223,24 +321,29 @@ desenvolvimento ao planejamento pedagógico diário.
 
 **Fontes da seção**
 
-- [src/components/icons/educational.tsx](file://src\components\icons\educational.tsx#L107-L128)
-- [README.md](file://README.md#L0-L44)
+- [src/core/domain/virtudes/repository.ts](file://src\core\domain\virtudes\repository.ts#L38-L267)
+- [src/core/domain/README.md](file://src\core\domain\README.md#L180-L237)
 
 ## Cache e Desempenho
 
 O sistema de virtudes intelectuais no VirtuQuest implementa um mecanismo de
 cache sofisticado para otimizar o desempenho e a experiência do usuário. O cache
-é gerenciado pela classe `EducationalCatalogCache` e integrado ao cliente N8N,
-permitindo acesso eficiente aos catálogos de virtudes.
+é gerenciado pela classe `CatalogoVirtudesRepository` e integrado ao cliente
+N8N, permitindo acesso eficiente aos catálogos de virtudes.
 
 ### Métodos de Cache
 
 Os seguintes métodos públicos estão disponíveis para gerenciar o cache de
 virtudes:
 
-- **`invalidateVirtuesCatalog()`**: Invalida o cache do catálogo de virtudes
-- **`fetchVirtuesCatalog()`**: Busca o catálogo de virtudes do servidor N8N
-- **`isCatalogsHydrated()`**: Verifica se os catálogos estão carregados no cache
+- **`getVirtude(nome: string)`**: Retorna uma virtude específica pelo nome
+- **`listarVirtudes()`**: Retorna todas as virtudes do catálogo
+- **`listarVirtudesPorCategoria(categoria)`**: Retorna virtudes por categoria
+  (epistêmica, moral, prática)
+- **`listarVirtudesPorProcessoBloom(processo)`**: Retorna virtudes relacionadas
+  a um processo Bloom
+- **`listarVirtudesPorCompetenciaBNCC(competencia)`**: Retorna virtudes
+  relacionadas a uma competência BNCC
 
 ### Estratégia de Cache
 
@@ -257,8 +360,8 @@ Os hooks React fornecem uma interface simples para acessar os catálogos de
 virtudes:
 
 ```typescript
-const { catalog, isLoading, error } = useVirtuesCatalog();
-const virtue = useVirtue('perseveranca');
+const { catalogoVirtudes } = useStaticCatalog();
+const virtude = catalogoVirtudes.getVirtude('curiosidade-intelectual');
 ```
 
 Esta integração permite que componentes da interface atualizem automaticamente
@@ -266,6 +369,5 @@ quando os dados de virtudes forem alterados ou invalidados.
 
 **Fontes da seção**
 
-- [src/core/infrastructure/cache/catalog-cache.ts](file://src\core\infrastructure\cache\catalog-cache.ts#L236-L390)
-- [src/core/infrastructure/n8n/client.ts](file://src\core\infrastructure\n8n\client.ts#L500-L550)
+- [src/core/domain/virtudes/repository.ts](file://src\core\domain\virtudes\repository.ts#L286-L316)
 - [src/hooks/use-static-catalog.ts](file://src\hooks\use-static-catalog.ts#L152-L158)

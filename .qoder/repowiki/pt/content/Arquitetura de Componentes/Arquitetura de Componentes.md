@@ -18,24 +18,23 @@
 - [like-button.tsx](file://src/components/ui/like-button.tsx) - *Adicionado no commit d28f3e7*
 - [like-button.test.tsx](file://src/components/ui/like-button.test.tsx) - *Adicionado no commit d28f3e7*
 - [design-system-showcase.tsx](file://src/components/demo/design-system-showcase.tsx) - *Atualizado no commit d28f3e7*
+- [bncc-badge.tsx](file://src/components/educational/bncc-badge.tsx) - *Atualizado no commit e43cae2*
+- [demo/page.tsx](file://src/app/demo/page.tsx) - *Atualizado no commit e43cae2*
 </cite>
 
 ## Atualização de Documentação
 
 **Alterações Realizadas**
 
-- Atualização da seção de Hierarquia de Componentes com novos componentes
-  MainLayout e Header
-- Adição de detalhes sobre o Provider Pattern com base em implementações reais
-- Atualização das fontes do diagrama para refletir arquivos analisados
-- Correção de informações sobre o ThemeProvider com base na implementação atual
-- Adição de exemplos práticos de integração entre componentes e estado global
-- **Adição da seção "Novo Componente LikeButton" para documentar o componente
-  recém-adicionado**
-- **Atualização da seção "Exemplo Prático: Componente Button" com referência ao
-  novo componente**
-- **Atualização das fontes do documento para incluir os novos arquivos
-  adicionados**
+- Atualização da seção de Componentes Educacionais com base nas alterações nas
+  props do BNCCBadge
+- Correção das props do componente BNCCBadge para refletir as mudanças de `code`
+  para `habilidade`/`competencia`
+- Atualização dos exemplos de uso do BNCCBadge em páginas de demonstração
+- Adição de detalhes sobre a variante compacta do BNCCBadge
+- Atualização das fontes do documento para incluir os arquivos modificados
+- **Atualização da seção "Componentes Educacionais" para refletir a estrutura
+  correta das props do BNCCBadge**
 
 ## Sumário
 
@@ -49,7 +48,8 @@
 8. [Boas Práticas de Composição, Acessibilidade e Responsividade](#boas-práticas-de-composição-acessibilidade-e-responsividade)
 9. [Integração com Provider Pattern e Estado Global](#integração-com-provider-pattern-e-estado-global)
 10. [Novo Componente LikeButton](#novo-componente-likebutton)
-11. [Conclusão](#conclusão)
+11. [Componentes Educacionais](#componentes-educacionais)
+12. [Conclusão](#conclusão)
 
 ## Introdução
 
@@ -565,6 +565,74 @@ contextos:
 - [like-button.test.tsx](file://src/components/ui/like-button.test.tsx)
 - [design-system-showcase.tsx](file://src/components/demo/design-system-showcase.tsx#L138-L141)
 
+## Componentes Educacionais
+
+Os componentes educacionais são especializados para representar conceitos
+pedagógicos específicos do sistema VirtuQuest, como competências e habilidades
+da BNCC, níveis da Taxonomia de Bloom e status de planos de aula.
+
+### BNCCBadge
+
+O componente `BNCCBadge` foi atualizado para corrigir as props e melhorar a
+clareza da API. Agora utiliza props específicas para cada tipo de elemento BNCC.
+
+**Interface Atualizada**
+
+```typescript
+interface BNCCBadgeProps {
+  competencia?: string;
+  habilidade?: string;
+  objetoConhecimento?: string;
+  variant?: 'default' | 'outline';
+  showIcon?: boolean;
+  className?: string;
+}
+```
+
+**Mudanças Implementadas**
+
+- Remoção da prop `code` em favor de props específicas (`competencia`,
+  `habilidade`, `objetoConhecimento`)
+- Melhoria na clareza semântica das props
+- Manutenção da compatibilidade com variantes e personalização de classes
+
+**Exemplos de Uso Atualizados**
+
+```tsx
+// Badge com habilidade
+<BNCCBadge habilidade="EF01MA01" />
+
+// Badge com competência em modo outline
+<BNCCBadge competencia="COMP01" variant="outline" />
+
+// Badge com múltiplos elementos
+<BNCCBadge
+  competencia="COMP05"
+  habilidade="EF67LP28"
+/>
+```
+
+**Variante Compacta**
+
+O componente também oferece uma variante compacta para uso em listas e tabelas:
+
+```typescript
+export function BNCCBadgeCompact({
+  codigo,
+  tipo = 'habilidade',
+  className,
+}: BNCCBadgeCompactProps);
+```
+
+Esta variante utiliza estilo monoespaçado e tamanho de texto reduzido para
+economia de espaço.
+
+**Fontes da Seção**
+
+- [bncc-badge.tsx](file://src/components/educational/bncc-badge.tsx#L1-L143)
+- [demo/page.tsx](file://src/app/demo/page.tsx#L97-L100)
+- [design-system-showcase.tsx](file://src/components/demo/design-system-showcase.tsx#L212-L215)
+
 ## Conclusão
 
 A arquitetura de componentes do VirtuQuest combina as melhores práticas modernas
@@ -579,4 +647,6 @@ componentes MainLayout, Header e Sidebar demonstram a aplicação prática desse
 princípios em uma interface educacional completa e responsiva. A adição do
 componente `LikeButton` exemplifica a evolução contínua do design system,
 mantendo consistência com os padrões existentes enquanto adiciona nova
-funcionalidade interativa.
+funcionalidade interativa. As atualizações no componente `BNCCBadge` refletem o
+compromisso com APIs claras e semânticamente corretas, melhorando a experiência
+do desenvolvedor e a manutenibilidade do código.

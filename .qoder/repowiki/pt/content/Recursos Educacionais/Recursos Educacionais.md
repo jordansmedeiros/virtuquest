@@ -3,26 +3,30 @@
 <cite>
 **Arquivos Referenciados neste Documento**  
 - [README.md](file://README.md)
-- [docs/fundamentos/Taxonomia de Bloom e BNCC.md](file://docs/fundamentos/Taxonomia de Bloom e BNCC.md)
-- [docs/fundamentos/Teoria das Competências e Taxonomia de Bloom.md](file://docs/fundamentos/Teoria das Competências e Taxonomia de Bloom.md)
-- [src/components/icons/educational.tsx](file://src/components/icons/educational.tsx)
-- [DESIGN_SYSTEM_README.md](file://DESIGN_SYSTEM_README.md)
-- [src/core/infrastructure/cache/catalog-cache.ts](file://src/core/infrastructure/cache/catalog-cache.ts) - *Implementação do EducationalCatalogCache com suporte a cache LRU*
-- [src/core/infrastructure/n8n/client.ts](file://src/core/infrastructure/n8n/client.ts) - *Integração do cache de catálogos com o N8NClient*
-- [src/hooks/use-static-catalog.ts](file://src/hooks/use-static-catalog.ts) - *Hook para acesso a catálogos estáticos cacheados*
+- [docs/fundamentos/COMPETENCIA_BNCC.md](file://docs\fundamentos\COMPETENCIA_BNCC.md)
+- [docs/fundamentos/COMPETENCIAS_BLOOM_TAXONOMIA.md](file://docs\fundamentos\COMPETENCIAS_BLOOM_TAXONOMIA.md)
+- [docs/fundamentos/VIRTUDES_INTELECTUAIS.md](file://docs\fundamentos\VIRTUDES_INTELECTUAIS.md)
+- [docs/fundamentos/TAXONOMIA_BLOOM_BNCC.md](file://docs\fundamentos\TAXONOMIA_BLOOM_BNCC.md)
+- [src/core/domain/bncc/types.ts](file://src\core\domain\bncc\types.ts)
+- [src/core/domain/bloom/types.ts](file://src\core\domain\bloom\types.ts)
+- [src/core/domain/virtudes/types.ts](file://src\core\domain\virtudes\types.ts)
+- [src/hooks/use-static-catalog.ts](file://src\hooks\use-static-catalog.ts)
+- [src/components/icons/educational.tsx](file://src\components\icons\educational.tsx)
 </cite>
 
 ## Atualização de Sumário
 
 **Alterações Realizadas**
 
-- Atualização da seção sobre implementação da BNCC, Taxonomia de Bloom e
-  Virtudes Intelectuais com base na nova camada de cache
-- Adição de detalhes sobre a integração do cache de catálogos com o cliente N8N
-- Inclusão de informações sobre os hooks React para acesso aos catálogos
-  educacionais
-- Atualização das orientações práticas para professores com base nas melhorias
-  de desempenho e resiliência
+- Atualização da estrutura de referência dos documentos de fundamentos com base
+  na reorganização dos arquivos
+- Implementação completa da camada de domínio pedagógico para BNCC, Taxonomia de
+  Bloom, Perrenoud e Virtudes Intelectuais
+- Adição de detalhes sobre os tipos TypeScript que definem as estruturas de
+  competências, processos cognitivos e virtudes
+- Atualização das orientações práticas com base na nova estrutura de domínio
+- Reorganização da seção de integração entre os três pilares com base na nova
+  arquitetura
 
 ## Sumário
 
@@ -52,14 +56,16 @@ de aprendizagem significativas, utilizando assistência com IA para sugerir
 conteúdos, avaliações e estratégias pedagógicas alinhadas a esses três eixos. A
 análise baseia-se principalmente nos documentos de fundamentos pedagógicos
 disponíveis no repositório, complementada por elementos de interface e estrutura
-de código que refletem a implementação prática desses conceitos. As recentes
-melhorias na infraestrutura de cache garantem acesso eficiente aos catálogos
-educacionais, melhorando o desempenho e a resiliência da aplicação.
+de código que refletem a implementação prática desses conceitos. A implementação
+completa da camada de domínio pedagógico em `src/core/domain` fornece a base
+estrutural para a integração desses frameworks, garantindo consistência e
+precisão na aplicação dos conceitos pedagógicos.
 
 **Fontes da seção**
 
-- [README.md](file://README.md#L0-L44)
-- [src/core/infrastructure/cache/catalog-cache.ts](file://src/core/infrastructure/cache/catalog-cache.ts#L1-L392)
+- [README.md](file://README.md)
+- [docs/fundamentos/COMPETENCIA_BNCC.md](file://docs\fundamentos\COMPETENCIA_BNCC.md)
+- [docs/fundamentos/COMPETENCIAS_BLOOM_TAXONOMIA.md](file://docs\fundamentos\COMPETENCIAS_BLOOM_TAXONOMIA.md)
 
 ## Pilares Pedagógicos do VirtuQuest
 
@@ -86,19 +92,16 @@ visuais, fluxos de trabalho e assistência com IA, permitindo que professores
 planejem aulas que não apenas atendam aos requisitos curriculares, mas também
 promovam o desenvolvimento integral dos estudantes. A integração é evidente na
 interface da aplicação, onde os três eixos são representados visualmente e
-utilizados em conjunto para gerar sugestões pedagógicas. A camada de cache
-implementada garante acesso rápido e eficiente aos catálogos educacionais,
-melhorando a experiência do usuário.
+utilizados em conjunto para gerar sugestões pedagógicas. A implementação da
+camada de domínio em `src/core/domain` garante que esses conceitos sejam
+aplicados de forma consistente e estruturada em toda a plataforma.
 
 **Fontes da seção**
 
-- [README.md](file://README.md#L0-L44)
-- [docs/fundamentos/Taxonomia de Bloom e
-  BNCC.md](file://docs/fundamentos/Taxonomia de Bloom e BNCC.md#L0-L787)
-- [docs/fundamentos/Teoria das Competências e Taxonomia de
-  Bloom.md](file://docs/fundamentos/Teoria das Competências e Taxonomia de
-  Bloom.md#L0-L888)
-- [src/core/infrastructure/cache/catalog-cache.ts](file://src/core/infrastructure/cache/catalog-cache.ts#L199-L390)
+- [README.md](file://README.md)
+- [docs/fundamentos/COMPETENCIA_BNCC.md](file://docs\fundamentos\COMPETENCIA_BNCC.md)
+- [docs/fundamentos/COMPETENCIAS_BLOOM_TAXONOMIA.md](file://docs\fundamentos\COMPETENCIAS_BLOOM_TAXONOMIA.md)
+- [src/core/domain/index.ts](file://src\core\domain\index.ts)
 
 ## Implementação da BNCC na Plataforma
 
@@ -135,22 +138,20 @@ por uma concepção de aprendizagem que prioriza a compreensão profunda sobre a
 memorização factual, alinhando-se com as premissas da psicologia cognitiva
 contemporânea.
 
-A implementação recente do sistema de cache para catálogos educacionais melhora
-significativamente o desempenho do acesso às informações da BNCC. O
-`EducationalCatalogCache` implementado em
-`src/core/infrastructure/cache/catalog-cache.ts` utiliza uma política LRU (Least
-Recently Used) para gerenciar o armazenamento em memória, garantindo acesso
-rápido aos dados mais frequentemente utilizados. O cliente N8N integra-se
-diretamente com esse cache, verificando primeiro se os dados estão disponíveis
-localmente antes de realizar chamadas à API.
+A implementação da camada de domínio em `src/core/domain/bncc/types.ts` define
+estruturas TypeScript que garantem a integridade dos dados da BNCC. A interface
+`Habilidade` inclui propriedades como `codigo`, `descricao`,
+`objetosConhecimento` e campos decompostos como `etapa`, `ano`, `componente` e
+`sequencia`, que facilitam a manipulação e validação dos dados. O hook
+`useBNCCCatalog` permite acesso eficiente a esses dados, com suporte a
+recarregamento e invalidação de cache.
 
 **Fontes da seção**
 
-- [docs/fundamentos/Taxonomia de Bloom e
-  BNCC.md](file://docs/fundamentos/Taxonomia de Bloom e BNCC.md#L0-L787)
-- [src/components/icons/educational.tsx](file://src/components/icons/educational.tsx#L38-L42)
-- [src/core/infrastructure/cache/catalog-cache.ts](file://src/core/infrastructure/cache/catalog-cache.ts#L199-L390)
-- [src/core/infrastructure/n8n/client.ts](file://src/core/infrastructure/n8n/client.ts#L125-L631)
+- [docs/fundamentos/COMPETENCIA_BNCC.md](file://docs\fundamentos\COMPETENCIA_BNCC.md)
+- [src/components/icons/educational.tsx](file://src\components\icons\educational.tsx)
+- [src/core/domain/bncc/types.ts](file://src\core\domain\bncc\types.ts)
+- [src/hooks/use-static-catalog.ts](file://src\hooks\use-static-catalog.ts)
 
 ## Aplicação da Taxonomia de Bloom
 
@@ -190,26 +191,22 @@ permite uma integração mais produtiva com a teoria das competências de
 Perrenoud, onde a mobilização de recursos cognitivos ocorre de forma recursiva e
 situada, não linear e universal.
 
-O acesso ao catálogo da Taxonomia de Bloom é otimizado pelo sistema de cache
-implementado na classe `EducationalCatalogCache`. O método `fetchBloomCatalog()`
-no `N8NClient` verifica primeiro se os dados estão disponíveis no cache antes de
-realizar uma chamada à API, reduzindo significativamente a latência e o consumo
-de recursos. O hook `useBloomCatalog` permite que componentes React acessem
-esses dados de forma eficiente, com suporte a recarregamento e invalidação de
-cache.
+A estrutura de domínio em `src/core/domain/bloom/types.ts` define enums e
+interfaces que representam precisamente os conceitos da Taxonomia de Bloom. O
+enum `ProcessoCognitivo` inclui valores de 1 a 6 para Lembrar, Entender,
+Aplicar, Analisar, Avaliar e Criar. O enum `TipoConhecimento` utiliza as letras
+A, B, C e D para Factual, Conceitual, Procedimental e Metacognitivo. A interface
+`CelulaTaxonomica` representa a interseção entre processo e conhecimento, com
+propriedades como `codigo`, `descricao` e `verbosCaracteristicos`. O hook
+`useBloomCatalog` fornece acesso a esses dados de forma eficiente.
 
 **Fontes da seção**
 
-- [docs/fundamentos/Taxonomia de Bloom e
-  BNCC.md](file://docs/fundamentos/Taxonomia de Bloom e BNCC.md#L0-L787)
-- [docs/fundamentos/Teoria das Competências e Taxonomia de
-  Bloom.md](file://docs/fundamentos/Teoria das Competências e Taxonomia de
-  Bloom.md#L0-L888)
-- [src/components/icons/educational.tsx](file://src/components/icons/educational.tsx#L48-L55)
-- [DESIGN_SYSTEM_README.md](file://DESIGN_SYSTEM_README.md#L58-L64)
-- [src/core/infrastructure/cache/catalog-cache.ts](file://src/core/infrastructure/cache/catalog-cache.ts#L199-L390)
-- [src/core/infrastructure/n8n/client.ts](file://src/core/infrastructure/n8n/client.ts#L125-L631)
-- [src/hooks/use-static-catalog.ts](file://src/hooks/use-static-catalog.ts#L45-L121)
+- [docs/fundamentos/COMPETENCIAS_BLOOM_TAXONOMIA.md](file://docs\fundamentos\COMPETENCIAS_BLOOM_TAXONOMIA.md)
+- [docs/fundamentos/TAXONOMIA_BLOOM_BNCC.md](file://docs\fundamentos\TAXONOMIA_BLOOM_BNCC.md)
+- [src/components/icons/educational.tsx](file://src\components\icons\educational.tsx)
+- [src/core/domain/bloom/types.ts](file://src\core\domain\bloom\types.ts)
+- [src/hooks/use-static-catalog.ts](file://src\hooks\use-static-catalog.ts)
 
 ## Desenvolvimento de Virtudes Intelectuais
 
@@ -222,10 +219,10 @@ autonomia e perseverança.
 
 A plataforma implementa essas virtudes através de um sistema de acompanhamento e
 integração no planejamento de aulas, permitindo que professores identifiquem e
-promovam especificamente cada virtude durante as atividades pedagógicas. Embora
-os componentes específicos para virtudes ainda estejam em desenvolvimento (como
-indicado nos comentários do código), a estrutura da aplicação já prevê sua
-integração completa.
+promovam especificamente cada virtude durante as atividades pedagógicas. A
+implementação da camada de domínio em `src/core/domain/virtudes/types.ts` define
+uma estrutura robusta para as virtudes, incluindo categorias, indicadores
+observáveis e níveis de desenvolvimento.
 
 As virtudes são representadas visualmente com ícones e cores específicas,
 facilitando sua identificação e seleção. Por exemplo, a **curiosidade** é
@@ -248,21 +245,20 @@ pensamento, autoconhecimento e regulamentação cognitiva. Isso cria uma ponte
 natural entre o desenvolvimento cognitivo e o desenvolvimento do caráter,
 promovendo uma educação mais integral.
 
-O acesso ao catálogo de virtudes intelectuais é gerenciado pelo sistema de cache
-`EducationalCatalogCache`, que armazena os dados em memória com TTL (Time To
-Live) configurável. O método `fetchVirtuesCatalog()` no `N8NClient` implementa a
-lógica de cache-first, verificando primeiro se os dados estão disponíveis
-localmente antes de realizar uma chamada à API. O hook `useVirtuesCatalog`
-fornece uma interface React para acessar esses dados de forma reativa.
+A interface `VirtudeIntelectual` em `src/core/domain/virtudes/types.ts` inclui
+propriedades como `nome`, `categoria`, `definicao`, `indicadores` e
+`nivelDesenvolvimento`. A categoria pode ser epistêmica, moral ou prática,
+refletindo diferentes dimensões do caráter intelectual. Os indicadores
+observáveis fornecem comportamentos concretos que evidenciam o desenvolvimento
+da virtude em diferentes níveis. O hook `useVirtuesCatalog` permite acesso a
+esses dados de forma reativa.
 
 **Fontes da seção**
 
-- [README.md](file://README.md#L0-L44)
-- [src/components/icons/educational.tsx](file://src/components/icons/educational.tsx#L57-L60)
-- [DESIGN_SYSTEM_README.md](file://DESIGN_SYSTEM_README.md#L66-L74)
-- [src/core/infrastructure/cache/catalog-cache.ts](file://src/core/infrastructure/cache/catalog-cache.ts#L199-L390)
-- [src/core/infrastructure/n8n/client.ts](file://src/core/infrastructure/n8n/client.ts#L125-L631)
-- [src/hooks/use-static-catalog.ts](file://src/hooks/use-static-catalog.ts#L45-L121)
+- [docs/fundamentos/VIRTUDES_INTELECTUAIS.md](file://docs\fundamentos\VIRTUDES_INTELECTUAIS.md)
+- [src/components/icons/educational.tsx](file://src\components\icons\educational.tsx)
+- [src/core/domain/virtudes/types.ts](file://src\core\domain\virtudes\types.ts)
+- [src/hooks/use-static-catalog.ts](file://src\hooks\use-static-catalog.ts)
 
 ## Integração entre BNCC, Bloom e Virtudes
 
@@ -303,12 +299,9 @@ style D fill:#f9f,stroke:#333,stroke-width:2px
 
 **Fontes do diagrama**
 
-- [README.md](file://README.md#L0-L44)
-- [docs/fundamentos/Taxonomia de Bloom e
-  BNCC.md](file://docs/fundamentos/Taxonomia de Bloom e BNCC.md#L0-L787)
-- [docs/fundamentos/Teoria das Competências e Taxonomia de
-  Bloom.md](file://docs/fundamentos/Teoria das Competências e Taxonomia de
-  Bloom.md#L0-L888)
+- [README.md](file://README.md)
+- [docs/fundamentos/COMPETENCIA_BNCC.md](file://docs\fundamentos\COMPETENCIA_BNCC.md)
+- [docs/fundamentos/COMPETENCIAS_BLOOM_TAXONOMIA.md](file://docs\fundamentos\COMPETENCIAS_BLOOM_TAXONOMIA.md)
 
 Essa integração permite uma abordagem mais rica e contextualizada do ensino,
 onde os objetivos curriculares são alcançados não apenas através da aquisição de
@@ -330,19 +323,15 @@ propondo atividades que alinhem especificamente uma habilidade da BNCC, um níve
 cognitivo de Bloom e uma ou mais virtudes intelectuais a serem desenvolvidas.
 Isso permite um planejamento mais intencional e reflexivo, onde cada aula é
 projetada para desenvolver múltiplas dimensões do aprendizado de forma
-integrada. O sistema de cache integrado garante que essas sugestões sejam
-geradas rapidamente, mesmo com grandes volumes de dados.
+integrada. A estrutura de domínio garante que essas integrações sejam
+consistentes e baseadas em fundamentos pedagógicos sólidos.
 
 **Fontes da seção**
 
-- [README.md](file://README.md#L0-L44)
-- [docs/fundamentos/Taxonomia de Bloom e
-  BNCC.md](file://docs/fundamentos/Taxonomia de Bloom e BNCC.md#L0-L787)
-- [docs/fundamentos/Teoria das Competências e Taxonomia de
-  Bloom.md](file://docs/fundamentos/Teoria das Competências e Taxonomia de
-  Bloom.md#L0-L888)
-- [src/core/infrastructure/cache/catalog-cache.ts](file://src/core/infrastructure/cache/catalog-cache.ts#L199-L390)
-- [src/core/infrastructure/n8n/client.ts](file://src/core/infrastructure/n8n/client.ts#L125-L631)
+- [README.md](file://README.md)
+- [docs/fundamentos/COMPETENCIA_BNCC.md](file://docs\fundamentos\COMPETENCIA_BNCC.md)
+- [docs/fundamentos/COMPETENCIAS_BLOOM_TAXONOMIA.md](file://docs\fundamentos\COMPETENCIAS_BLOOM_TAXONOMIA.md)
+- [src/core/domain/index.ts](file://src\core\domain\index.ts)
 
 ## Orientações Práticas para Professores
 
@@ -403,23 +392,19 @@ práticas:
 - Inclua momentos de reflexão metacognitiva onde os estudantes possam avaliar
   seu próprio desenvolvimento em relação às virtudes intelectuais.
 
-A infraestrutura de cache implementada melhora significativamente a experiência
-do professor ao planejar aulas, garantindo acesso rápido aos catálogos
-educacionais. Os hooks React como `useBNCCCatalog`, `useBloomCatalog` e
-`useVirtuesCatalog` simplificam o acesso a esses dados nos componentes da
-interface. Em caso de necessidade de atualização dos dados, o método
-`invalidate` pode ser utilizado para limpar o cache e forçar uma nova busca.
+A implementação da camada de domínio e os hooks React especializados simplificam
+o acesso aos catálogos educacionais. Os hooks `useBNCCCatalog`,
+`useBloomCatalog` e `useVirtuesCatalog` fornecem interfaces reativas para
+acessar esses dados nos componentes da interface. Em caso de necessidade de
+atualização dos dados, o método `invalidate` pode ser utilizado para limpar o
+cache e forçar uma nova busca.
 
 **Fontes da seção**
 
-- [docs/fundamentos/Taxonomia de Bloom e
-  BNCC.md](file://docs/fundamentos/Taxonomia de Bloom e BNCC.md#L0-L787)
-- [docs/fundamentos/Teoria das Competências e Taxonomia de
-  Bloom.md](file://docs/fundamentos/Teoria das Competências e Taxonomia de
-  Bloom.md#L0-L888)
-- [src/core/infrastructure/cache/catalog-cache.ts](file://src/core/infrastructure/cache/catalog-cache.ts#L199-L390)
-- [src/core/infrastructure/n8n/client.ts](file://src/core/infrastructure/n8n/client.ts#L125-L631)
-- [src/hooks/use-static-catalog.ts](file://src/hooks/use-static-catalog.ts#L45-L121)
+- [docs/fundamentos/COMPETENCIA_BNCC.md](file://docs\fundamentos\COMPETENCIA_BNCC.md)
+- [docs/fundamentos/COMPETENCIAS_BLOOM_TAXONOMIA.md](file://docs\fundamentos\COMPETENCIAS_BLOOM_TAXONOMIA.md)
+- [src/core/domain/index.ts](file://src\core\domain\index.ts)
+- [src/hooks/use-static-catalog.ts](file://src\hooks\use-static-catalog.ts)
 
 ## Conclusão
 
@@ -440,19 +425,13 @@ revela uma base teórica sólida, com alinhamento entre a estrutura da Taxonomia
 de Bloom Revisada e a teoria das competências de Perrenoud, superando tensões
 epistemológicas da versão original da taxonomia.
 
-As melhorias recentes na infraestrutura de cache, implementadas nas classes
-`EducationalCatalogCache` e `N8NClient`, garantem desempenho otimizado e
-resiliência no acesso aos catálogos educacionais. O sistema de cache LRU com TTL
-configurável melhora significativamente a experiência do usuário, reduzindo
-latência e consumo de recursos. Os hooks React especializados facilitam o
-desenvolvimento de componentes que dependem desses dados.
-
-Para os professores, o VirtuQuest oferece uma ferramenta poderosa para planejar
-aulas que promovam uma aprendizagem verdadeiramente significativa, desenvolvendo
-não apenas o que os estudantes sabem, mas como pensam e qual é o seu caráter
-intelectual. As orientações práticas apresentadas neste documento fornecem um
-guia claro para utilizar a plataforma de forma eficaz, alinhando as três
-dimensões do aprendizado de forma integrada e intencional.
+A implementação completa da camada de domínio pedagógico em `src/core/domain`
+garante que esses conceitos sejam aplicados de forma consistente e estruturada
+em toda a plataforma. Os hooks React especializados facilitam o desenvolvimento
+de componentes que dependem desses dados. Para os professores, o VirtuQuest
+oferece uma ferramenta poderosa para planejar aulas que promovam uma
+aprendizagem verdadeiramente significativa, desenvolvendo não apenas o que os
+estudantes sabem, mas como pensam e qual é o seu caráter intelectual.
 
 Essa abordagem integrada representa um avanço em relação a modelos tradicionais
 de planejamento, que frequentemente tratam esses aspectos de forma isolada. Ao
@@ -462,11 +441,7 @@ XXI.
 
 **Fontes da seção**
 
-- [README.md](file://README.md#L0-L44)
-- [docs/fundamentos/Taxonomia de Bloom e
-  BNCC.md](file://docs/fundamentos/Taxonomia de Bloom e BNCC.md#L0-L787)
-- [docs/fundamentos/Teoria das Competências e Taxonomia de
-  Bloom.md](file://docs/fundamentos/Teoria das Competências e Taxonomia de
-  Bloom.md#L0-L888)
-- [src/core/infrastructure/cache/catalog-cache.ts](file://src/core/infrastructure/cache/catalog-cache.ts#L199-L390)
-- [src/core/infrastructure/n8n/client.ts](file://src/core/infrastructure/n8n/client.ts#L125-L631)
+- [README.md](file://README.md)
+- [docs/fundamentos/COMPETENCIA_BNCC.md](file://docs\fundamentos\COMPETENCIA_BNCC.md)
+- [docs/fundamentos/COMPETENCIAS_BLOOM_TAXONOMIA.md](file://docs\fundamentos\COMPETENCIAS_BLOOM_TAXONOMIA.md)
+- [src/core/domain/index.ts](file://src\core\domain\index.ts)

@@ -2,16 +2,28 @@
 
 <cite>
 **Arquivos Referenciados neste Documento**   
-- [client.ts](file://src/core/infrastructure/n8n/client.ts)
-- [types.ts](file://src/core/infrastructure/n8n/types.ts)
-- [endpoints.ts](file://src/core/infrastructure/n8n/endpoints.ts)
-- [errors.ts](file://src/core/infrastructure/n8n/errors.ts)
-- [retry.ts](file://src/core/infrastructure/resilience/retry.ts)
-- [circuit-breaker.ts](file://src/core/infrastructure/resilience/circuit-breaker.ts)
-- [timeout.ts](file://src/core/infrastructure/resilience/timeout.ts)
-- [catalog-cache.ts](file://src/core/infrastructure/cache/catalog-cache.ts)
-- [use-n8n-workflow.ts](file://src/hooks/use-n8n-workflow.ts)
+- [client.ts](file://src/core/infrastructure/n8n/client.ts) - *Atualizado no commit recente*
+- [types.ts](file://src/core/infrastructure/n8n/types.ts) - *Atualizado no commit recente*
+- [endpoints.ts](file://src/core/infrastructure/n8n/endpoints.ts) - *Atualizado no commit recente*
+- [errors.ts](file://src/core/infrastructure/n8n/errors.ts) - *Atualizado no commit recente*
+- [retry.ts](file://src/core/infrastructure/resilience/retry.ts) - *Atualizado no commit recente*
+- [circuit-breaker.ts](file://src/core/infrastructure/resilience/circuit-breaker.ts) - *Atualizado no commit recente*
+- [timeout.ts](file://src/core/infrastructure/resilience/timeout.ts) - *Atualizado no commit recente*
+- [catalog-cache.ts](file://src/core/infrastructure/cache/catalog-cache.ts) - *Adicionado no commit recente*
+- [use-n8n-workflow.ts](file://src/hooks/use-n8n-workflow.ts) - *Atualizado no commit recente*
 </cite>
+
+## Resumo das Atualizações
+
+- Atualização da seção de arquitetura com base na implementação do domínio
+  pedagógico
+- Adição de detalhes sobre os repositórios de domínio BNCC, Bloom, Perrenoud e
+  Virtudes
+- Atualização dos diagramas para refletir a integração com os novos repositórios
+  de domínio
+- Revisão das estratégias de cache para incluir a hidratação paralela dos
+  catálogos
+- Atualização dos exemplos de uso com base nas mudanças na camada de integração
 
 ## Sumário
 
@@ -66,11 +78,6 @@ C --> G
 E --> G
 F --> G
 ```
-
-**Fontes do Diagrama**
-
-- [client.ts](file://src/core/infrastructure/n8n/client.ts#L125-L631)
-- [use-n8n-workflow.ts](file://src/hooks/use-n8n-workflow.ts#L118-L201)
 
 **Fontes da Seção**
 
@@ -249,13 +256,13 @@ feito através da interface `EndpointTypeMap`.
 classDiagram
 class N8NRequest~T~ {
 +data : T
-+metadata? : { requestId, timestamp, userId }
++metadata? : object
 }
 class N8NResponse~T~ {
 +success : boolean
 +data : T
 +error? : N8NError
-+metadata? : { requestId, processingTime, timestamp }
++metadata? : object
 }
 class CreatePlanRequest {
 +professor : string
@@ -302,15 +309,15 @@ etc.).
 ```mermaid
 erDiagram
 ENDPOINTS {
-string usuarios.criar
-string usuarios.autenticar
-string planejamento.criarPlano
-string planejamento.atualizarPlano
-string ia.sugerirConteudo
-string ia.analisarAlinhamento
-string relatorios.progressoBNCC
-string telemetria.registrarEvento
-string catalogos.buscarBNCC
+string usuarios_criar
+string usuarios_autenticar
+string planejamento_criarPlano
+string planejamento_atualizarPlano
+string ia_sugerirConteudo
+string ia_analisarAlinhamento
+string relatorios_progressoBNCC
+string telemetria_registrarEvento
+string catalogos_buscarBNCC
 }
 MODULOS {
 string usuarios

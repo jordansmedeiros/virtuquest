@@ -7,6 +7,8 @@
  * - Perrenoud (Teoria das Competências)
  * - Virtudes Intelectuais
  * - Tipos e Utilitários Compartilhados
+ * - Validadores de Coerência Pedagógica
+ * - Mapeadores de Alinhamento
  *
  * Implementação baseada em Domain-Driven Design:
  * - Modelos imutáveis
@@ -30,5 +32,5 @@ export * from './perrenoud';
 // Agregado Virtudes
 export * from './virtudes';
 
-// Tipos Compartilhados
+// Tipos Compartilhados, Validadores e Mapeadores
 export * from './shared';

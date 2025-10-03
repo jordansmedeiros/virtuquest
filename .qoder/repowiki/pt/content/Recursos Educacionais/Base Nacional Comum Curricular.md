@@ -3,37 +3,34 @@
 <cite>
 **Arquivos Referenciados neste Documento**  
 - [README.md](file://README.md) - *Atualizado no commit recente*
-- [src/core/infrastructure/cache/catalog-cache.ts](file://src\core\infrastructure\cache\catalog-cache.ts) - *Adicionado métodos públicos para cache BNCC*
-- [src/core/infrastructure/n8n/client.ts](file://src\core\infrastructure\n8n\client.ts) - *Integrado cache com N8NClient e exposta API tipada*
-- [docs/fundamentos/A Noção de Competência na BNCC.md](file://docs\fundamentos\A Noção de Competência na BNCC.md)
-- [docs/fundamentos/Taxonomia de Bloom e BNCC.md](file://docs\fundamentos\Taxonomia de Bloom e BNCC.md)
-- [src/styles/globals.css](file://src\styles\globals.css)
-- [tailwind.config.ts](file://tailwind.config.ts)
+- [src/core/domain/bncc/repository.ts](file://src\core\domain\bncc\repository.ts) - *Implementação do repositório BNCC com dados seed*
+- [src/core/domain/bncc/types.ts](file://src\core\domain\bncc\types.ts) - *Definições de tipos para competências e habilidades*
+- [src/core/domain/bncc/decomposer.ts](file://src\core\domain\bncc\decomposer.ts) - *Utilitário de decomposição de códigos BNCC*
+- [src/core/domain/README.md](file://src\core\domain\README.md) - *Documentação do agregado BNCC*
 </cite>
 
 ## Resumo das Atualizações
 
 **Alterações Realizadas**
 
-- Atualizado a seção de Estrutura da BNCC no VirtuQuest para refletir o sistema
-  de cache de catálogos
-- Atualizada a seção de Navegação no Seletor de Habilidades BNCC com base nas
-  melhorias de desempenho
-- Adicionada nova seção sobre Gerenciamento de Cache e Desempenho
-- Atualizados os diagramas para incluir o fluxo de cache
-- Atualizadas as fontes de seção e diagrama para refletir os arquivos
-  modificados
+- Atualizado a seção de Estrutura da BNCC no VirtuQuest com base na
+  implementação do domínio BNCC
+- Adicionada nova seção sobre Decomposição de Códigos BNCC
+- Atualizada a seção de Seleção de Habilidades com base nos métodos de consulta
+  do repositório
+- Atualizados os exemplos práticos com base nos dados seed do repositório
+- Atualizadas as fontes da documentação para refletir os arquivos do domínio
+  BNCC
 
 ## Sumário
 
 1. [Introdução](#introdução)
 2. [Estrutura da BNCC no VirtuQuest](#estrutura-da-bncc-no-virtuquest)
-3. [Seleção de Habilidades por Componente Curricular e Série](#seleção-de-habilidades-por-componente-curricular-e-série)
-4. [Integração com Bloom e Virtudes](#integração-com-bloom-e-virtudes)
-5. [Exemplo Prático de Vinculação de Habilidades](#exemplo-prático-de-vinculação-de-habilidades)
-6. [Navegação no Seletor de Habilidades BNCC](#navegação-no-seletor-de-habilidades-bncc)
-7. [Gerenciamento de Cache e Desempenho](#gerenciamento-de-cache-e-desempenho)
-8. [Diagrama de Relação entre BNCC e Bloom](#diagrama-de-relação-entre-bncc-e-bloom)
+3. [Decomposição de Códigos BNCC](#decomposição-de-códigos-bncc)
+4. [Seleção de Habilidades por Componente Curricular e Série](#seleção-de-habilidades-por-componente-curricular-e-série)
+5. [Integração com Bloom e Virtudes](#integração-com-bloom-e-virtudes)
+6. [Exemplo Prático de Vinculação de Habilidades](#exemplo-prático-de-vinculação-de-habilidades)
+7. [Navegação no Seletor de Habilidades BNCC](#navegação-no-seletor-de-habilidades-bncc)
 
 ## Introdução
 
@@ -49,8 +46,7 @@ dados implícita no código.
 **Fontes da seção**
 
 - [README.md](file://README.md#L0-L44)
-- [docs/fundamentos/A Noção de Competência na BNCC.md](file://docs\fundamentos\A
-  Noção de Competência na BNCC.md#L0-L320)
+- [src/core/domain/README.md](file://src\core\domain\README.md#L43-L118)
 
 ## Estrutura da BNCC no VirtuQuest
 
@@ -70,19 +66,61 @@ demandas complexas da vida cotidiana, do pleno exercício da cidadania e do mund
 do trabalho". As **habilidades** são os componentes mensuráveis dessa
 competência, classificadas em práticas, cognitivas e socioemocionais.
 
-A implementação inclui um sistema de cache de alto desempenho para catálogos
-BNCC, que melhora significativamente o tempo de carregamento e a experiência do
-usuário. O cache é gerenciado pela classe `EducationalCatalogCache` e integrado
-ao cliente N8N, permitindo acesso rápido aos dados da BNCC mesmo em ambientes
-com conectividade limitada.
+A implementação é baseada no agregado BNCC do domínio, que fornece acesso
+imutável ao catálogo completo. O repositório `CatalogoBNCCRepository` é um
+singleton que contém todas as competências gerais, habilidades exemplares e
+objetos de conhecimento. A estrutura hierárquica é mantida através de mapas
+internos que permitem consultas eficientes.
 
 **Fontes da seção**
 
-- [docs/fundamentos/A Noção de Competência na BNCC.md](file://docs\fundamentos\A
-  Noção de Competência na BNCC.md#L0-L320)
-- [README.md](file://README.md#L0-L44)
-- [src/core/infrastructure/cache/catalog-cache.ts](file://src\core\infrastructure\cache\catalog-cache.ts#L236-L390) -
-  _Implementação do cache de catálogos educacionais_
+- [src/core/domain/README.md](file://src\core\domain\README.md#L43-L118)
+- [src/core/domain/bncc/repository.ts](file://src\core\domain\bncc\repository.ts#L25-L404)
+- [src/core/domain/bncc/types.ts](file://src\core\domain\bncc\types.ts#L0-L223)
+
+## Decomposição de Códigos BNCC
+
+O VirtuQuest inclui um utilitário avançado de decomposição de códigos BNCC que
+permite analisar a estrutura dos códigos de habilidades. O código BNCC segue o
+padrão: **ETAPA + ANOS + COMPONENTE + SEQUENCIA** (ex: EF67LP08).
+
+O utilitário `decomposeCodigoHabilidade` extrai automaticamente os componentes
+estruturais do código:
+
+- **Etapa**: EI (Educação Infantil), EF (Ensino Fundamental) ou EM (Ensino
+  Médio)
+- **Anos**: Representação dos anos escolares (ex: '67' para 6º e 7º ano)
+- **Componente curricular**: Sigla do componente (ex: 'LP' para Língua
+  Portuguesa)
+- **Sequência**: Número sequencial da habilidade
+
+Além disso, o sistema inclui validação de formatos através da função
+`validarCodigoBNCC`, que verifica se um código segue o padrão BNCC esperado. O
+utilitário também fornece a função `getComponenteNome` para obter o nome
+completo do componente curricular a partir de sua sigla.
+
+```typescript
+import {
+  decomposeCodigoHabilidade,
+  validarCodigoBNCC,
+  getComponenteNome,
+} from '@/core/domain/bncc';
+
+// Decompor código de habilidade
+const decomp = decomposeCodigoHabilidade('EF67LP08');
+// { etapa: Etapa.EF, anos: [6, 7], componente: 'LP', sequencia: 8 }
+
+// Validar formato do código
+const valido = validarCodigoBNCC('EF67LP08'); // true
+
+// Obter nome completo do componente
+const nome = getComponenteNome('LP'); // 'Língua Portuguesa'
+```
+
+**Fontes da seção**
+
+- [src/core/domain/bncc/decomposer.ts](file://src\core\domain\bncc\decomposer.ts#L0-L209)
+- [src/core/domain/bncc/types.ts](file://src\core\domain\bncc\types.ts#L0-L223)
 
 ## Seleção de Habilidades por Componente Curricular e Série
 
@@ -91,6 +129,14 @@ dois filtros principais: o **componente curricular** (ex: História, Arte) e a
 **série/ano escolar**. O sistema permite que o professor navegue por uma árvore
 de conhecimento que reflete a estrutura oficial da BNCC.
 
+O repositório BNCC fornece métodos especializados para filtrar habilidades:
+
+- `listarHabilidadesPorComponente`: Retorna todas as habilidades de um
+  componente curricular
+- `listarHabilidadesPorAno`: Retorna habilidades de uma etapa e ano específico
+- `buscarHabilidades`: Permite busca avançada com múltiplos critérios (etapa,
+  anos, componente, texto)
+
 Ao selecionar um componente curricular, o professor é apresentado às
 competências específicas daquela área. Ao escolher uma série, o sistema filtra
 as habilidades correspondentes àquela etapa de desenvolvimento. Essa
@@ -98,17 +144,22 @@ estruturação hierárquica (Área -> Competência -> Habilidade) garante que o
 planejamento seja alinhado com as expectativas de aprendizagem adequadas à faixa
 etária e ao conteúdo disciplinar.
 
-O sistema utiliza cache para armazenar os catálogos BNCC, garantindo que a
-seleção de habilidades seja rápida e eficiente, mesmo com grandes volumes de
-dados. Quando um professor acessa o seletor de habilidades, o sistema primeiro
-verifica o cache local antes de fazer uma requisição ao servidor N8N.
+```typescript
+import { catalogoBNCC, Etapa, ComponenteCurricular } from '@/core/domain/bncc';
+
+// Buscar habilidades por filtros
+const habilidades = catalogoBNCC.buscarHabilidades({
+  etapa: Etapa.EF,
+  anos: [6, 7],
+  componente: 'LP',
+  texto: 'efeitos de sentido',
+});
+```
 
 **Fontes da seção**
 
-- [docs/fundamentos/A Noção de Competência na BNCC.md](file://docs\fundamentos\A
-  Noção de Competência na BNCC.md#L0-L320)
-- [docs/fundamentos/Taxonomia de Bloom e
-  BNCC.md](file://docs\fundamentos\Taxonomia de Bloom e BNCC.md#L0-L787)
+- [src/core/domain/bncc/repository.ts](file://src\core\domain\bncc\repository.ts#L25-L404)
+- [src/core/domain/bncc/types.ts](file://src\core\domain\bncc\types.ts#L0-L223)
 
 ## Integração com Bloom e Virtudes
 
@@ -124,16 +175,15 @@ transforma o planejamento de uma simples lista de conteúdos em um processo
 pedagógico holístico, onde o desenvolvimento cognitivo, afetivo e ético do aluno
 são trabalhados em conjunto.
 
-Os catálogos de Bloom e Virtudes também são gerenciados pelo sistema de cache,
-garantindo que as sugestões sejam apresentadas rapidamente após a seleção de uma
-habilidade BNCC. A integração entre os pilares é otimizada para proporcionar uma
-experiência de planejamento fluida e responsiva.
+Os catálogos de Bloom e Virtudes também são implementados como agregados de
+domínio, seguindo a mesma estrutura de repositório imutável. A integração entre
+os pilares é otimizada para proporcionar uma experiência de planejamento fluida
+e responsiva.
 
 **Fontes da seção**
 
-- [README.md](file://README.md#L0-L44)
-- [docs/fundamentos/Taxonomia de Bloom e
-  BNCC.md](file://docs\fundamentos\Taxonomia de Bloom e BNCC.md#L0-L787)
+- [src/core/domain/README.md](file://src\core\domain\README.md#L43-L118)
+- [src/core/domain/bloom/repository.ts](file://src\core\domain\bloom\repository.ts#L0-L175)
 
 ## Exemplo Prático de Vinculação de Habilidades
 
@@ -150,15 +200,14 @@ e **Humildade** (para reconhecer perspectivas diferentes). O professor pode
 então usar essas sugestões para formular objetivos de aprendizagem que vão além
 do conteúdo factual, promovendo um pensamento crítico e reflexivo.
 
-O sistema utiliza o cache para garantir que essa vinculação ocorra
-instantaneamente, sem a necessidade de requisições adicionais ao servidor,
-proporcionando uma experiência de planejamento ágil e eficiente.
+O sistema utiliza o repositório BNCC para acessar rapidamente os dados da
+habilidade e seus metadados, garantindo uma experiência de planejamento ágil e
+eficiente.
 
 **Fontes da seção**
 
-- [docs/fundamentos/Taxonomia de Bloom e
-  BNCC.md](file://docs\fundamentos\Taxonomia de Bloom e BNCC.md#L0-L787)
-- [README.md](file://README.md#L0-L44)
+- [src/core/domain/bncc/repository.ts](file://src\core\domain\bncc\repository.ts#L25-L404)
+- [src/core/domain/bloom/repository.ts](file://src\core\domain\bloom\repository.ts#L0-L175)
 
 ## Navegação no Seletor de Habilidades BNCC
 
@@ -179,128 +228,12 @@ passos abaixo:
 
 A interface é projetada para ser intuitiva, com cores distintas para cada pilar
 (BNCC, Bloom, Virtudes) para facilitar a identificação visual, conforme definido
-nas variáveis de estilo do sistema. O seletor utiliza o sistema de cache para
+nas variáveis de estilo do sistema. O seletor utiliza o repositório BNCC para
 carregar rapidamente as opções de habilidades, garantindo uma navegação suave
 mesmo com grandes volumes de dados curriculares.
 
 **Fontes da seção**
 
+- [src/core/domain/bncc/repository.ts](file://src\core\domain\bncc\repository.ts#L25-L404)
 - [src/styles/globals.css](file://src\styles\globals.css#L0-L103)
 - [tailwind.config.ts](file://tailwind.config.ts#L40-L78)
-- [src/core/infrastructure/n8n/client.ts](file://src\core\infrastructure\n8n\client.ts#L125-L631) -
-  _Cliente N8N com integração de cache_
-
-## Gerenciamento de Cache e Desempenho
-
-O VirtuQuest implementa um sistema avançado de cache para otimizar o desempenho
-do carregamento de catálogos educacionais. A classe `EducationalCatalogCache`
-gerencia separadamente os catálogos BNCC, Bloom e Virtudes, permitindo operações
-de cache granulares e eficientes.
-
-O cache é integrado ao `N8NClient`, que primeiro verifica a presença dos dados
-em cache antes de fazer requisições ao servidor. Quando um catálogo é
-solicitado, o sistema verifica se já existe uma versão em cache válida. Se
-existir, retorna os dados imediatamente; caso contrário, faz a requisição ao
-endpoint N8N e armazena a resposta no cache para uso futuro.
-
-Os métodos públicos de invalidação permitem que o sistema atualize os catálogos
-quando necessário:
-
-- `invalidateBNCCCatalog()`: Invalida apenas o cache BNCC
-- `invalidateBloomCatalog()`: Invalida apenas o cache Bloom
-- `invalidateVirtuesCatalog()`: Invalida apenas o cache de Virtudes
-- `invalidateCatalogs()`: Invalida todos os catálogos
-
-Essa arquitetura melhora significativamente a experiência do usuário, reduzindo
-tempos de carregamento e consumo de largura de banda, especialmente importante
-em ambientes escolares com conectividade limitada.
-
-```mermaid
-flowchart TD
-subgraph CacheSystem [Sistema de Cache]
-A["EducationalCatalogCache"]
-B["CatalogCache BNCC"]
-C["CatalogCache Bloom"]
-D["CatalogCache Virtudes"]
-end
-subgraph N8NIntegration [Integração N8N]
-E["N8NClient"]
-F["Endpoint /webhook/catalogs/bncc"]
-G["Endpoint /webhook/catalogs/bloom"]
-H["Endpoint /webhook/catalogs/virtues"]
-end
-A --> B
-A --> C
-A --> D
-E --> A
-F --> E
-G --> E
-H --> E
-I["Interface do Usuário"] --> E
-style A fill:#15803d,stroke:#166534,color:white
-style B fill:#15803d,stroke:#166534,color:white
-style C fill:#15803d,stroke:#166534,color:white
-style D fill:#15803d,stroke:#166534,color:white
-style E fill:#b45309,stroke:#92400e,color:white
-style F fill:#b45309,stroke:#92400e,color:white
-style G fill:#b45309,stroke:#92400e,color:white
-style H fill:#b45309,stroke:#92400e,color:white
-style I fill:#7c3aed,stroke:#6d28d9,color:white
-click A "src/core/infrastructure/cache/catalog-cache.ts#L236-L390"
-click E "src/core/infrastructure/n8n/client.ts#L125-L631"
-```
-
-**Fontes do diagrama**
-
-- [src/core/infrastructure/cache/catalog-cache.ts](file://src\core\infrastructure\cache\catalog-cache.ts#L236-L390) -
-  _Implementação do EducationalCatalogCache_
-- [src/core/infrastructure/n8n/client.ts](file://src\core\infrastructure\n8n\client.ts#L125-L631) -
-  _Implementação do N8NClient com integração de cache_
-
-**Fontes da seção**
-
-- [src/core/infrastructure/cache/catalog-cache.ts](file://src\core\infrastructure\cache\catalog-cache.ts#L236-L390)
-- [src/core/infrastructure/n8n/client.ts](file://src\core\infrastructure\n8n\client.ts#L483-L581)
-
-## Diagrama de Relação entre BNCC e Bloom
-
-O diagrama abaixo ilustra a relação bidimensional entre as habilidades da BNCC e
-os níveis cognitivos da Taxonomia de Bloom Revisada, conforme analisado nos
-documentos de fundamentos.
-
-```mermaid
-flowchart TD
-subgraph BNCC_Habilidades [Habilidades da BNCC]
-A["EF07HI16: Analisar mecanismos do comércio de escravizados"]
-B["EF07MA17: Resolver e elaborar problemas de proporcionalidade"]
-C["EF09LI08: Analisar qualidade de informações em ambientes virtuais"]
-end
-subgraph Taxonomia_Bloom [Taxonomia de Bloom Revisada]
-D["Analisar (4)"]
-E["Criar (6)"]
-F["Avaliar (5)"]
-end
-A --> D
-B --> E
-C --> F
-style A fill:#15803d,stroke:#166534,color:white
-style B fill:#15803d,stroke:#166534,color:white
-style C fill:#15803d,stroke:#166534,color:white
-style D fill:#b45309,stroke:#92400e,color:white
-style E fill:#b45309,stroke:#92400e,color:white
-style F fill:#b45309,stroke:#92400e,color:white
-click A "docs/fundamentos/Taxonomia de Bloom e BNCC.md#L0-L787"
-click B "docs/fundamentos/Taxonomia de Bloom e BNCC.md#L0-L787"
-click C "docs/fundamentos/Taxonomia de Bloom e BNCC.md#L0-L787"
-```
-
-**Fontes do diagrama**
-
-- [docs/fundamentos/Taxonomia de Bloom e
-  BNCC.md](file://docs\fundamentos\Taxonomia de Bloom e BNCC.md#L0-L787)
-- [src/styles/globals.css](file://src\styles\globals.css#L0-L103)
-
-**Fontes da seção**
-
-- [docs/fundamentos/Taxonomia de Bloom e
-  BNCC.md](file://docs\fundamentos\Taxonomia de Bloom e BNCC.md#L0-L787)

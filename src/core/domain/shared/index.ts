@@ -10,3 +10,9 @@
 
 // Tipos compartilhados
 export * from './types';
+
+// Validadores de coerência
+export * from './validators';
+
+// Mapeadores de alinhamento
+export * from './mappers';
